@@ -1,0 +1,30 @@
+<h3>Listagem de Paginas</h3>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+		<td align="Right" class="criarNovo">
+			<!-- START BLOCK : novo --> Criar novo <a
+			href="?idu={idu}&action=novo"> <img src="{imgnovo}" border="0" /></a>
+			<!-- END BLOCK : novo -->
+		</td>
+	</tr>
+</table>
+<table class="list" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td class="header" width="25px">&nbsp;</td>
+		<!-- <td class="header" width="100px">C�digo</td> -->
+		<td class="header" width="200px">Nome</td>
+		<td class="header" width="200px">URL</td>
+		<td class="header" width="200px">Ordem</td>
+	</tr>
+	<!-- START BLOCK : obj -->
+	<tr>
+		<td class="{corlinha}"><a href="?idu={idu}&action=abrir&id={id}">
+				<img src="{imgedit}" border="0" />
+		</a></td>
+		<!-- <td class="{corlinha}">{id}</td> -->
+		<td class="{corlinha}">{nome}</td>
+		<td class="{corlinha}">{url}</td>
+		<td class="{corlinha}">{ordem}</td>
+	</tr>
+	<!-- END BLOCK : obj -->
+</table>

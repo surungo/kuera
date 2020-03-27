@@ -1,0 +1,258 @@
+.linkSimples {
+	width: 100%;
+	text-align: center;
+}
+
+#mascaraAjax {
+	width: 100%;
+	font: 12px calibra, arial, serif;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-image: url("/diplomados/web-content/images/fundomask.gif");
+	background-repeat: repeat;
+	display: none;
+	z-index: 900;
+}
+
+#msg {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	z-index: 1000;
+	width: 600px;
+	height: 200px;
+	margin-left: -300px;
+	margin-top: -100px;
+	padding: 10px;
+	background-image: url("/diplomados/web-content/images/mensagem.png");
+}
+
+span.checked {
+	background: transparent
+		url(/diplomados/web-content/images/site/checked.png) no-repeat top
+		left;
+}
+
+span.error {
+	background: transparent
+		url(/diplomados/web-content/images/site/error.png) no-repeat top left;
+}
+
+.TitleFrame .btn_submit {
+	border: 0px;
+	width: 87px;
+	height: 27px;
+	color: white;
+	font-weight: bold;
+	background: url('/diplomados/web-content/images/site/bt_menu.png');
+}
+
+.TitleFrame .btn_submit:hover {
+	background-position: bottom;
+}
+
+#formElem .btn_submit {
+	border: 0px;
+	width: 255px;
+	height: 34px;
+	color: white;
+	font-weight: bold;
+	background: url('/diplomados/web-content/images/site/bt_submit.png');
+}
+
+#formElem .btn_submit:hover {
+	background-position: bottom;
+}
+
+#formElem .submit {
+	text-align: center;
+	padding: 10px;
+}
+
+#formElem .mensagem {
+	text-align: center;
+	padding: 10px;
+}
+
+#formElem #mensagem {
+	color: red;
+}
+
+.container {
+	width: 800px; /*largura real*/
+	background-color: #fff;
+	overflow: hidden;
+	margin: auto;
+}
+
+.container .TitleFrame {
+	font: 24px calibra, arial, serif;
+	background-color: #031520;
+	/*background: url("http://www3.pucrs.br/pucrs/diplomados/img/bg_navbar.png") repeat-y scroll center top transparent;*/
+	height: 28px;
+	color: #eee;
+	text-align: left;
+	padding: 5px 5px 5px 35px;
+}
+
+.selector {
+	background-color: #fff !important; /*#3F4D53;*/
+	color: #031520;
+}
+
+.hovering {
+	background-color: #3F4D53;
+	opacity: 0.5;
+}
+/*.container*/
+.TabMenu {
+	position: relative;
+	color: #C3DAEA;
+	z-index: 10;
+	background-color: #0E2837;
+}
+/*.container*/
+.TabMenu span {
+	font: 18px 'Yanone Kaffeesatz', arial, serif;
+	display: inline-block;
+	height: 18px;
+	vertical-align: bottom;
+	text-align: left;
+	margin: 0px;
+	padding: 0px 0px 5px 15px;
+	cursor: hand;
+}
+
+.container .ContentFrame {
+	font: 12px calibra, arial, serif;
+	margin: 0px;
+	padding: 0px;
+	left: 0px;
+	position: relative;
+	overflow: hidden;
+}
+
+.container .ContentFrame .AllTabs {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	left: 0px;
+	overflow: hidden;
+}
+
+.container .ContentFrame .AllTabs .TabContent {
+	margin-top: 15px;
+	margin-left: 15px;
+	margin-bottom: 15px;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	text-align: justify;
+	vertical-align: top;
+	float: left;
+	overflow: hidden;
+	border: 1px #d0e3ea solid;
+	background-color: #e9f4f9;
+}
+
+.container .ContentFrame .AllTabs .TabContent .Content {
+	text-align: justify;
+	vertical-align: top;
+	padding: 10px;
+}
+
+#formElem legend {
+	text-align: left;
+	background-color: white;
+	color: #000;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	width: 100%;
+	padding: 10px;
+	margin: 10px;
+	border-bottom: 1px solid #fff;
+	border-top: 1px solid #d9d9d9;
+}
+
+#formElem p {
+	text-align: left;
+	color: #666;
+	float: left;
+	clear: both;
+	margin: 0px;
+	padding: 15px 5px 5px 5px;
+	background-color: #e9f4f9;
+	width: 100%; /*largura das linhas*/
+}
+
+#formElem p label {
+	width: 250px;
+	float: left;
+	text-align: right;
+	margin-right: 15px;
+	color: #666;
+	font-weight: bold;
+}
+
+#formElem input, #formElem textarea, #formElem select {
+	font: 12px calibra, arial, serif;
+	border: 1px solid #ddd;
+	outline: none;
+	padding: 5px;
+	width: 400px; /*tamanho do campo*/
+}
+
+#formElem input[type=text] {
+	background: #ffffff;
+}
+
+.focus {
+	background-color: #FFFDDF !important;
+}
+
+.idlefocus {
+	background-color: #FFFFFF !important;
+}
+
+.errorfield {
+	background-color: #F5D7DA !important;
+}
+
+.readonly {
+	background-color: #e9f4f9 !important;
+}
+
+.minibox input[type=checkbox] {
+	background-color: #d0e3ea !important;
+}
+
+.minibox input[type=radio] {
+	background-color: #d0e3ea !important;
+}
+
+input[type=checkbox] {
+	width: 14px !important;
+	background-color: #e9f4f9 !important;
+}
+
+input[type=radio] {
+	width: 14px !important;
+	background-color: #e9f4f9 !important;
+}
+
+#formElem textarea {
+	height: 100px;
+}
+
+#formElem .minibox {
+	float: left;
+	text-align: left;
+	margin: 5px;
+	padding: 5px;
+	width: 280px;
+	height: 138px;
+	background-color: #d0e3ea;
+}

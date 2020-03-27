@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+
+/* menu styles */
+#btn_item_menu {
+	border-bottom: 1px solid white;
+	width: 98%;
+	height: 35px;
+	padding-top: 3px;
+	cursor: hand;
+}
+
+.btn_item_menu {
+	font: 26px Tahoma, Arial;
+	color: #EAFFED;
+	cursor: hand;
+	float: left;
+	border: 1px solid black;
+	background-color: #324143;
+	color: white;
+	width: 98%;
+	text-align: center;
+	vertical-align: top;
+}
+
+.btn_item_menu:hover {
+	background: #658064;
+}
+
+.btn_item_menu:active {
+	background: #85a084;
+}

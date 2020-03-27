@@ -1,0 +1,31 @@
+<h3>Editar Entrada</h3>
+<form action="index" name="fr1" id="fr1" method="get">
+	<!-- START BLOCK : obj -->
+	<INPUT id="idu" name="idu" type="hidden" value="{idu}" /> <INPUT
+		id="id" name="id" type="hidden" value="{id}" />
+	<TABLE>
+		<TR>
+			<TD>Produto</TD>
+			<TD><INPUT id="idproduto" name="idproduto" size="80" type="text"
+				value="{produto}"></TD>
+		</TR>
+		<TR>
+			<TD>Quantidade</TD>
+			<TD><INPUT id="quantidade" name="quantidade" size="80"
+				type="text" value="{quantidade}"></TD>
+		</TR>
+		<TR>
+			<TD colspan="2">{dtentrada}</TD>
+		</TR>
+		<TR>
+			<TD colspan="2">{mensagem}</TD>
+		</TR>
+
+		<TR>
+			<TD><INPUT id="action" name="action" type="hidden">
+				{btnsalvar}&nbsp;&nbsp;&nbsp;{btndeletar}</TD>
+			<TD></TD>
+		</TR>
+	</TABLE>
+	<!-- END BLOCK : obj -->
+</form>

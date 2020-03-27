@@ -1,0 +1,56 @@
+<h3>Editar Perfil Pagina</h3>
+<form action="index" name="fr1" id="fr1" method="get">
+	<!-- START BLOCK : obj -->
+	<INPUT id="idu" name="idu" type="hidden" value="{idu}" /> <INPUT
+		id="id" name="id" type="hidden" value="{id}" />
+	<TABLE>
+		<TR>
+			<TD>Nome</TD>
+			<TD><INPUT id="nome" name="nome" size="80" type="text"
+				value="{nome}"></TD>
+		</TR>
+		<TR>
+			<TD colspan="2">{mensagem}</TD>
+		</TR>
+
+		<TR>
+			<TD><INPUT id="action" name="action" type="hidden">
+				{btnsalvar}&nbsp;&nbsp;&nbsp;{btndeletar}</TD>
+			<TD></TD>
+		</TR>
+	</TABLE>
+	<!-- END BLOCK : obj -->
+</form>
+<h5>Listagem de Paginas</h5>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+		<td><select id="pagina" name="pagina" style="width: 600px;">
+				<option></option>
+				<!-- START BLOCK : listAll -->
+				<option value="{id}">{nome}</option>
+				<!-- END BLOCK : listAll -->
+		</select></td>
+		<td align="Right" class="criarNovo">
+			<!-- START BLOCK : novo --> Adicionar Pagina <a
+			href="?idu={idu}&action=adicionar"> <img src="{imgnovo}"
+				border="0" /></a> <!-- END BLOCK : novo -->
+		</td>
+	</tr>
+</table>
+<table class="list" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td class="header" width="25px">&nbsp;</td>
+		<!-- <td class="header" width="100px">C�digo</td> -->
+		<td class="header" width="200px">Nome</td>
+
+	</tr>
+	<!-- START BLOCK : list -->
+	<tr>
+		<td class="{corlinha}"><a href="?idu={idu}&action=abrir&id={id}">
+				<img src="{imgexcluir}" border="0" />
+		</a></td>
+		<!-- <td class="{corlinha}">{id}</td> -->
+		<td class="{corlinha}">{nome}</td>
+	</tr>
+	<!-- END BLOCK : list -->
+</table>

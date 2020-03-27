@@ -1,0 +1,32 @@
+<h3>Listagem de Entradas</h3>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	<tr>
+		<td align="Right" class="criarNovo">
+			<!-- START BLOCK : novo --> Criar novo <a
+			href="?idu={idu}&action=novo"> <img src="{imgnovo}" border="0" /></a>
+			<!-- END BLOCK : novo -->
+		</td>
+	</tr>
+</table>
+<table class="list" cellspacing="0" cellpadding="0" border="0">
+	<tr>
+		<td class="header" width="25px">&nbsp;</td>
+		<!-- <td class="header" width="100px">C�digo</td> -->
+		<td class="header" width="200px">Produto</td>
+		<td class="header" width="200px">Data Entrada</td>
+		<td class="header" width="200px">Data Saida</td>
+		<td class="header" width="200px">Quantidade</td>
+	</tr>
+	<!-- START BLOCK : obj -->
+	<tr>
+		<td class="{corlinha}"><a href="?idu={idu}&action=abrir&id={id}">
+				<img src="{imgedit}" border="0" />
+		</a></td>
+		<!-- <td class="{corlinha}">{id}</td> -->
+		<td class="{corlinha}">{produto}</td>
+		<td class="{corlinha}">{dtentrada}</td>
+		<td class="{corlinha}">{dtsaida}</td>
+		<td class="{corlinha}">{quantidade}</td>
+	</tr>
+	<!-- END BLOCK : obj -->
+</table>

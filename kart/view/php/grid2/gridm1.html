@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		
+		<link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+		<script type="text/javascript" charset="utf8" src="jquery-3.3.1.js"></script>
+		<title>Resultados</title>
+<script>
+var lista = [		
+"LEONARDO SZCZEPANIAK",
+"ANDERSON HOFFMEISTER",
+"DOUGLAS GOULART", 
+"ANDERSON PELLIN",
+"CLOVIS CACHAPUZ",
+"DIEGO ARAUJO",
+"ANDERSON PELLIN",
+"DIEGO ARAUJO",
+"Hoothoot",
+"Pichu",
+"ANDERSON HOFFMEISTER", 
+"LEONARDO SZCZEPANIAK",
+"DOUGLAS GOULART", 
+"DIEGO ARAUJO",
+"Pancham",
+"Starly",
+"DOUGLAS GOULART", 
+"ANDERSON PELLIN",
+"DOUGLAS GOULART", 
+"CLOVIS CACHAPUZ",
+"DIEGO ARAUJO",
+"DOUGLAS GOULART", 
+"ANDERSON PELLIN",
+"DIEGO ARAUJO",
+"CLOVIS CACHAPUZ",
+"DIEGO ARAUJO",
+"DOUGLAS GOULART", 
+"DOUGLAS GOULART", 
+"CLOVIS CACHAPUZ",
+"ANDERSON PELLIN"
+];
+
+
+function txposnum(pos){		
+	switch (pos) {
+ 	case 1:
+		return "st";
+	case 2:
+		return "nd";
+	case 3:
+		return "rd";
+	default:
+		return "th";
+	}
+	return "th";
+}
+
+var velocidade = 70;
+		
+var tempos = {
+	mostraStart: 40,
+	mostraAbrirQuadro: 5,
+	
+	mostratitulo: 5,
+	mostrapausatitulo: 5,
+	mostraposicionatitulo: 5,
+	
+	 
+	mostraPausa: 5 , 
+	mostraTexto1: 5, 
+	mostraTexto2: 5, 
+	pilotoAdicionaCapa: 5, 
+	pilotoAdicionaFoto: 5, 
+	pilotoDeslisaCentro: 5,
+	pilotoRetiraCapa: 5,
+	pilotoRetiraFoto: 5,
+	
+	mostraFinal: 60
+	};
+	
+	for (var prop in tempos) {
+		tempos[prop ] = tempos[prop ] * velocidade; 
+	}
+
+
+
+	var quadrotopfinal = '100px';
+	var quadroleftfinal = '100px';
+	var quadroheightfinal = '500px';
+	var quadrowidthfinal = '1100px';
+	var quadroopacityfinal  = '80%';
+	
+	var textor = '800px';
+	var textol = '110px';
+	
+	var gridleft = '492px';
+	var gridtop = '560px';
+	var gridpadding = '5px';
+	var gridup = "82px";//"58px";
+	var gridupPO = "50px";
+	var escondeGrid = 9;
+			
+	
+	var escalaw =  "0px";
+	var escalah =  "0px";
+	var escalat =  "0px";
+	var escalall = "-50px";
+	var escalalr = "50px";
+	
+	var fotowidth = '640px';
+	var fotoheight = '360px';
+	var fototop = '235px';
+	    
+	    
+	
+	var divpospadding = "4px";
+	var divposfontSize = "12px";
+	var divposwidth = "120px";
+	var divposheight = "55px";
+	
+
+</script>
+
+
+
+<style>
+	body{
+		font-family: 'Audiowide',  Arial, Helvetica, sans-serif;
+		color: white;
+		background-image: url("background.png");
+	}
+	
+	#grid{
+		position: absolute;
+	}
+	
+	.divpos{
+		background-image: url("img/grid.png");
+		background-repeat: no-repeat;
+	   	display:none;
+	   	border: 0px solid white;
+	   	
+	}
+	.spanpos{
+		text-shadow: 1px 1px black;
+		font-size: 12px;
+		display:none;
+		padding: 1px;
+	}
+	
+	.divgd{
+		padding: 3px;
+	}
+	
+	#tela{
+		position: absolute;
+		left:0px;
+		top:0px;
+		width:1280px;
+		height:720px;
+		border: 0px solid black;
+		text-align: center;
+	}
+	
+	.fotos{
+	    position: absolute;
+	    background-size: 100% 100%;
+	    
+	}
+	
+	.texto{
+	    position: absolute;
+	    top: 540px;
+	    width:340px;
+	    font-family: 'Audiowide',  Arial, Helvetica, sans-serif;
+	    font-color: white;
+	    text-shadow: 2px 2px black;
+	    font-size: 18px;
+  	    color: #eee;
+	    border: 2px outset white;
+	    border-radius: 25px;
+	    background-color: rgba(10,23,55,0.5);
+	    padding: 5px;
+	}
+	
+	
+	
+	#l1{
+	    left: 0px;
+	}
+	
+	#r1{
+	    left: 640px;
+	}
+	
+	#lt{
+	    left: -800px;
+	    
+	}
+	
+	#rt{
+	    left: 1800px;
+	}
+	
+	.gp{
+		position: absolute;
+		font-family: 'Audiowide',  Arial, Helvetica, sans-serif;
+		text-shadow: 2px 2px black;
+		font-size: 88px;
+		color: red;
+		font-style: italic;
+		top:153px;
+		display:none;
+		border: 0px solid white;
+		width:640px;
+	    
+	}
+	
+	#gpl{
+		
+		left:0px;
+	
+	}
+	
+	#gpr{
+		left:640px;
+		
+	}
+	
+	
+	#logo{
+		position: absolute;
+		left:180px;
+		top:22px;
+	    width: 360px;
+	}
+	
+	#titulo {
+  		position: absolute;
+		left: 355px;
+		top: 250px;
+		font-size: 36px;
+		font-family: 'Audiowide',  Arial, Helvetica, sans-serif;
+  		text-shadow: 2px 2px black;
+  		color: #eee;
+  		border-radius: 15px 50px 0px 0px; 
+  		padding: 7px;
+	}	
+	
+
+	#patrocinadores{
+		position: absolute;
+		left: 13px;
+		top: 620px;
+		width:98%;
+		
+		
+	}
+	
+	#buffer{
+		position: absolute;
+		left: 0px;
+		top: 0px;	
+	
+	}
+	
+	.capaBurn{
+	  -webkit-filter: grayscale(100%) brightness(30%) contrast(200%) drop-shadow(8px 8px 10px black) saturate(7); /* Safari 6.0 - 9.0 */
+                  filter: grayscale(100%) brightness(30%) contrast(200%) drop-shadow(8px 8px 10px black) saturate(7);
+	}
+	
+	#quadro{
+		position: absolute;
+		top: 700px;
+		left: 620px;
+		width: 0px;
+		height 0px;
+		background-color: rgba(10,23,55,0.5);
+		border-radius: 50px 0px 550px 50px; 
+		
+		
+	}
+	
+</style>
+	</head>
+	<body>
+	
+<div id="tela">	
+<div id="quadro">&nbsp;</div>
+
+	<img id="logo" src="engecarlogo.png">
+	
+	<div id="titulo">GRID DA CATEGORIA MASTER<br>2ª ETAPA - ADEMAR MORO</div>
+
+	<div id="l1" class="fotos"><img id="capal" class="capaBurn" src=""></div>
+	<div id="lt" class="texto">&nbsp;</div>
+	
+	
+    	<div id="r1" class="fotos"><img id="capar" class="capaBurn" src=""></div>
+	<div id="rt" class="texto">&nbsp;</div>
+
+	<img id="patrocinadores" src="patrocinadores.png">
+	
+	
+	<div id="grid" class="grid">
+	
+	</div>
+
+	<div id="gpl" class="gp">
+	
+	</div>
+	<div id="gpr" class="gp">
+	
+	</div>
+
+	<div id="segundos">0000</div>
+	<div id="buffer"> 
+</div>
+
+	
+	<script>
+	
+$(document).ready(function() {
+var n = 0;
+var l = document.getElementById("segundos");
+window.setInterval(function(){
+  l.innerHTML = n;
+  n++;
+},1000);
+	var count = -2;
+	$("#listra").hide();
+	$("#titulo").hide();
+	$("#buffer").hide();
+	$("#r1").hide();
+	$("#l1").hide();
+	
+		
+
+
+        
+function addgridposicao(pos,piloto){
+	pilotoSPLIT = piloto.split(" ");
+	piloto = pilotoSPLIT[0]+"<br><b>"+pilotoSPLIT[1]+"</b>";
+	return "<td id='tdp"+pos+"' class='divgd' rowspan='2'>"+
+		"<div id='divp"+pos+"' class='divpos'>"+
+		"<span id='spanp"+pos+"' class='spanpos'>"+pos+""+txposnum(pos)+"<br>"+piloto+"</span>"+
+		"</div></td>";
+}   
+function addgridmeio(pos){
+	return "<td id='tdf1"+pos+"' class='divmeio'>&nbsp;</td>";
+} 
+function addgridespaco(pos){
+	return "<td id='tde1"+pos+"' class='divespaco'>&nbsp;</td>";
+}      
+		
+$("#grid").html("<table id='tabelagrid' border='0'></table>");
+		
+for(i = 0; i <lista.length; i++){
+	var pos = i+1;
+	urlx = "img/"+encodeURIComponent(lista[i]+".png");
+	$("#buffer").append("<img witdh='32px' src='"+urlx+"'>");
+
+	$("#tabelagrid").append("<tr id='trl"+pos+"' ></tr>");
+	if(pos == 1){
+		$("#trl"+pos).append(addgridespaco(pos));
+		$("#trl"+pos).append(addgridmeio(pos));
+		$("#trl"+pos).append(addgridposicao(pos,lista[i]));
+	}else{
+			if(pos%2==0){
+				$("#trl"+pos).append(addgridposicao(pos,lista[i]));
+				$("#trl"+pos).append(addgridmeio(pos));
+			}	
+			if(pos%2==1){
+				$("#trl"+pos).append(addgridmeio(pos));
+				$("#trl"+pos).append(addgridposicao(pos,lista[i]));
+			}
+		
+	}	
+
+}
+	
+	$("#grid").css({ left: gridleft, top: gridtop, padding: gridpadding});
+	$(".divpos").css({ padding : divpospadding , fontSize : divposfontSize , width  : divposwidth , height : divposheight });
+
+function anima(){
+
+	count +=2;
+	
+	
+	if(count < lista.length){
+	
+		$("#lt").css("left","-800px");
+		$("#rt").css("left","1800px");
+		
+		$("#l1").css({top: "+="+escalat, left: "+="+escalall, height: "-="+escalah, width: "-=" + escalaw});
+		$("#r1").css({top: "+="+escalat, left: "+="+escalalr, height: "-="+escalah, width: "-=" + escalaw});
+		
+		urll1 = "img/"+encodeURIComponent(lista[count +1]+".png");
+	
+		$(".capaBurn").css({width: fotowidth, height : fotoheight });
+		$(".fotos").css({width: fotowidth, height : fotoheight , top : fototop  });
+		
+		$("#capal").attr("src",urll1);
+		$("#l1").css("background-image","url("+urll1+")");
+		$("#l1").css("background-size","100% 100%");
+		
+		urlr1 = "img/"+encodeURIComponent(lista[count ]+".png");
+		
+		$("#capar").attr("src",urlr1);
+		$("#r1").css("background-image","url("+urlr1+")");
+		$("#r1").css("background-size","100% 100%");
+		
+		$("#rt").show();
+		$("#lt").show();
+	
+		$("#lt").html( lista[count +1]);
+		$("#rt").html( lista[count ]);
+		
+		
+		
+		$("#capal").show(tempos["pilotoAdicionaCapa"],
+		function(){
+			$("#gpl").html( count +2 + txposnum(count +2));
+			$("#gpr").html( count +1 + txposnum(count +1));
+		
+			$(".gp").slideDown();
+			$("#l1").fadeIn(tempos["pilotoAdicionaFoto"],
+		function(){
+			$("#capal").fadeOut(tempos["pilotoRetiraCapa"],
+		function(){ 
+			$("#l1")  .animate({top: "-="+escalat, left: "-="+escalall, height: "+="+escalah, width: "+="+escalaw , opacity : 100}, tempos["pilotoDeslisaCentro"],
+		function(){
+			if( count >= escondeGrid  ){
+			 	$("#divp"+(count-escondeGrid )).hide();
+				$("#divp"+(count-(escondeGrid -1))).hide();
+				$("#spanp"+(count-escondeGrid )).hide();
+				$("#spanp"+(count-(escondeGrid -1))).hide();
+				gridup = gridupPO ;
+			}
+			$("#grid").animate({top: "-="+gridup},
+			
+			function(){
+				$("#divp"+(count+1)).show();
+				$("#divp"+(count+2)).show();     
+			});
+			$("#rt")  .animate({              left: textor                                 }, tempos["mostraTexto1"]);
+			$("#lt")  .animate({              left: textol                                 }, tempos["mostraTexto1"],
+		function(){
+			      
+			$("#buffer").animate({              left: '0px'                                   }, tempos["mostraPausa"],
+		function(){
+		        $("#r1").fadeOut(tempos["pilotoRetiraFoto"]); 
+			$("#l1").fadeOut(tempos["pilotoRetiraFoto"],
+		function(){ 
+		        $("#rt").fadeOut(tempos["mostraTexto2"]);
+			$("#lt").fadeOut(tempos["mostraTexto2"],
+		function(){ 
+		        $(".gp").fadeOut("fast",
+		        function(){
+		        $("#gpl").html("");
+			$("#gpr").html("");
+		
+		        }
+		        
+		        );
+			$("#spanp"+(count+1)).show();
+			$("#spanp"+(count+2)).show();    
+			anima();
+			
+		});
+		});
+		});
+		});
+		});
+		});
+		});
+		});
+		
+		$("#capar").show(tempos["pilotoAdicionaCapa"],
+		function(){
+			$("#r1").fadeIn(tempos["pilotoAdicionaFoto"],
+		function(){
+			$("#capar").fadeOut(tempos["pilotoRetiraCapa"],
+		function(){     
+			$("#r1")  .animate({top: "-="+escalat, left: "-="+escalalr, height: "+="+escalah, width: "+="+escalaw , opacity:100}, tempos["pilotoDeslisaCentro"],
+		function(){     
+			  
+			
+		});
+	        });
+		});
+		});
+			
+	
+	}else{
+		count = -2;
+		$("#tela").animate({              left: '0px'                                   }, tempos["mostraFinal"],
+	function(){ 
+		$("#grid").hide();
+		$("#quadro").css({borderRadius : "50px 0px 50px 50px"} );
+		startSeg = 0;
+	});
+	}
+	
+}
+
+
+	$("#patrocinadores").click(function(){
+
+		start();
+	});	
+//background-color: rgba(10,23,55,0.5);
+function start(){
+	$("#tela").animate({              left: '0px'                                   }, tempos["mostraStart"],
+	function(){     
+	$("#quadro").animate({ top: quadrotopfinal , left: quadroleftfinal, height: quadroheightfinal, width: quadrowidthfinal, opacity: quadroopacityfinal  }, tempos["mostraAbrirQuadro"],
+	function(){  
+	$("#titulo").slideDown(tempos["mostratitulo"],
+	function(){  
+	$("#tela").animate({              left: '0px'                                   }, tempos["mostrapausatitulo"],
+	function(){  
+	$("#titulo").animate({ top: '20px', left: '586px', width: '600px',fontSize: '26px', backgroundColor: ' rgba(10,23,55,0.5)'    }, tempos["mostraposicionatitulo"],
+	function(){  
+	   $("#titulo").css({ backgroundColor: ' rgba(10,23,55,0.5)', });
+			anima();
+			
+	});
+	});
+	});
+	});
+	});
+}
+	
+	$("#logo").click(function(){start();});
+
+	start();
+   
+} );
+</script>
+	</body>
+</html>

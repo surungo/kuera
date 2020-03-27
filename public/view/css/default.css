@@ -1,0 +1,137 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: verdana, arial;
+	font-size: 20px;
+	background-color: gray;
+}
+
+.littleTable {
+	font-size: 10px;
+	border: 1px solid white;
+}
+
+.littleTableTh, .littleTableTd {
+	border: 1px solid white;
+	padding: 2px;
+}
+
+tr#headerPage {
+	background-color: black;
+	border: 1px solid white;
+	color: white;
+	font-family: sans-serif;
+	text-align: left;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 10px;
+	clear: both;
+	overflow: inherit;
+}
+
+.nome_sistema {
+	font-size: 28px;
+}
+
+.erro {
+	background-color: black;
+	border: 1px solid white;
+	color: white;
+	padding: 2px;
+}
+
+div.content {
+	margin-left: auto;
+	margin-right: auto;
+	height: 99%;
+}
+
+div.fieldset {
+	text-align: center;
+	width: 10%;
+}
+
+.fieldset label {
+	font-size: 20px;
+}
+
+.fieldset input {
+	font-size: 20px;
+}
+
+#btnlogin {
+	font-size: 20px;
+}
+
+table.list {
+	font-size: 20px;
+	padding: 2px;
+	width: 100%;
+	border: 1px solid black;
+}
+
+.list td.header {
+	background-color: #C2D1D3;
+	border: 1px solid #C2D1D3;
+}
+
+.list td.headerlink {
+	background-color: #C2D1D3;
+	border: 1px solid #C2D1D3;
+	width: 28px;
+}
+
+.list tr.par td {
+	border-right: 1px solid #C2D1D3;
+	padding: 2px;
+}
+
+.list tr.impar td {
+	border-right: 1px solid #C2D1D3;
+	padding: 2px;
+}
+
+.list tr.par {
+	background-color: #f6f6e0;
+}
+
+.list tr.impar {
+	background-color: #e0f6f6;
+}
+
+.listTableOff tr.par {
+	background-color: #f6f6e0;
+}
+
+.listTableOff tr.impar {
+	background-color: #e0f6f6;
+}
+
+.listTable tr.odd {
+	background-color: #f6f6e0;
+}
+
+.listTable tr.even {
+	background-color: #e0f6f6;
+}
+
+.list .trhover {
+	background-color: #888888;
+}
+
+.list td.erro {
+	background-color: #ff3300;
+	padding: 2px;
+}
+
+.azul {
+	color: #1111ff;
+}
+
+.vermelho {
+	color: #ff1111;
+}
+
+.css_select {
+	width: 242px;
+}

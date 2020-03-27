@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+
+		<title>Resultados</title>
+		
+		
+
+<link rel="stylesheet" type="text/css" href="jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="jquery-3.3.1.js"></script>
+<script type="text/javascript" charset="utf8" src="jquery.dataTables.min.js"></script>
+<style>
+	body{
+		font-family: Arial, Helvetica, sans-serif;
+		background-image: url("background.png");
+	}
+	.display{
+		width:33%;
+		padding:1px;
+	}
+	#logo{
+		width: 360px;
+	}
+	#headerc{
+		width: 97%;
+		padding-bottom: 20px;
+	}	
+	#corpo td{
+		width:33%;
+		
+	}
+	h2 {
+  		text-shadow: 2px 2px black;
+  		color: #eee;
+	}
+	#patrocinadores{
+		width:100%;
+		padding-top: 50px;
+		
+	}
+</style>
+	</head>
+	<body>
+	
+<table id="headerc">
+    <tr>
+	<td>
+	<img id="logo" src="engecarlogo.png">
+	</td>
+ 
+	<td align="right">
+		<h2>RESULTADOS DA CATEGORIA MASTER - 1ª ETAPA - ADEMAR MORO</h2>
+	</td>
+    </tr>
+</table>
+<table id="corpo">    
+    <tr>
+	<td>
+    
+    <table id="example1" class="display compact" >
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Kart</th>
+                <th>Best Lap</th>
+            </tr>
+        </thead>
+    </table>
+    
+
+	</td>
+	<td>
+   
+	<table id="example2" class="display compact" >
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Kart</th>
+                <th>Best Lap</th>
+            </tr>
+        </thead>
+    </table>
+
+	</td>
+	<td>
+
+    <table id="example3" class="display compact" >
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Kart</th>
+                <th>Best Lap</th>
+            </tr>
+        </thead>
+    </table>
+
+	</td>
+    </tr>
+</table>
+<table id="patrocinadores">
+    <tr>
+	<td align="center">
+	<img src="patrocinadores.png">
+	</td>
+    </tr>
+</table>
+
+
+	
+	<script>
+	
+$(document).ready(function() {
+   var table1 =  $('#example1').DataTable( {
+        "ajax": "master.txt",
+	"searching": false,
+        "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "pageLength": 10,
+         columnDefs: [
+	    {
+	        targets: 2,
+	        className: 'dt-body-center'
+	    }
+	  ]
+    } );
+    
+   var table2 = $('#example2').DataTable( {
+        "ajax": "master.txt",
+	"searching": false,
+        "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "pageLength": 10,
+         columnDefs: [
+	    {
+	        targets: 2,
+	        className: 'dt-body-center'
+	    }
+	  ]
+    } );
+    table2.page( 'next' ).draw( 'page' );
+    
+    var table3 = $('#example3').DataTable( {
+        "ajax": "master.txt",
+	"searching": false,
+        "paging":   true,
+        "ordering": false,
+        "info":     false,
+        "pageLength": 10,
+         columnDefs: [
+	    {
+	        targets: 2,
+	        className: 'dt-body-center'
+	    }
+	  ]
+    } );
+    table3.page( 'next' ).draw( 'page' );
+    table3.page( 'next' ).draw( 'page' );
+    
+    $(".dataTables_length").click( function(){
+        $(".dataTables_length").hide();
+        $(".dataTables_paginate").hide();
+    });    
+	
+} );
+</script>
+	</body>
+</html>

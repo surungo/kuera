@@ -1,0 +1,44 @@
+<h3>Editar Usuario</h3>
+<form action="index" name="fr1" id="fr1" method="get">
+	<!-- START BLOCK : obj -->
+	<INPUT id="idu" name="idu" type="hidden" value="{idu}" /> <INPUT
+		id="id" name="id" type="hidden" value="{id}" />
+	<TABLE>
+		<TR>
+			<TD>Nome</TD>
+			<TD><INPUT id="nome" name="nome" size="80" type="text"
+				value="{nome}"></TD>
+		</TR>
+		<TR>
+			<TD>Usuario</TD>
+			<TD><INPUT id="usuario" name="usuario" size="80" type="text"
+				value="{usuario}"></TD>
+		</TR>
+		<TR>
+			<TD>Perfil Pagina</TD>
+			<TD><select id="perfilPagina" name="perfilPagina">
+					<option></option>
+					<!-- START BLOCK : selectPerfilPagina -->
+					<option value="{idPerfilPagina}"{selecionadoPerfilPagina} >
+						{nomePerfilPagina}</option>
+					<!-- END BLOCK : selectPerfilPagina -->
+			</select></TD>
+		</TR>
+
+		<TR>
+			<TD>Senha</TD>
+			<TD><INPUT id="senha" name="senha" size="80" type="text"
+				value=""></TD>
+		</TR>
+		<TR>
+			<TD colspan="2">{mensagem}</TD>
+		</TR>
+
+		<TR>
+			<TD><INPUT id="action" name="action" type="hidden">
+				{btnsalvar}&nbsp;&nbsp;&nbsp;{btndeletar}</TD>
+			<TD></TD>
+		</TR>
+	</TABLE>
+	<!-- END BLOCK : obj -->
+</form>
