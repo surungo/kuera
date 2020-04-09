@@ -5,9 +5,8 @@ branches:
   only:
     - master
 deploy:
+  skip_cleanup: true
   provider: script
-  script: 
-  - echo "skipping tests"
-  - node deploy.js
+  script: node deploy.js
   on:
     branch: master
