@@ -1,15 +1,6 @@
-# .travis.yml
-
-dist: trusty
-sudo: required
-
-script:
- - chmod +x deploy.sh
-
-deploy: 
- - provider: script
-   script: ./deploy.sh
-   skip_cleanup: true
-   on:
-     branch: master
+deploy:
+  provider: script
+  script: node deploy.js
+  on:
+    branch: master
      
