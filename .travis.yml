@@ -1,1 +1,14 @@
-language: php
+# .travis.yml
+
+dist: trusty
+sudo: required
+
+script:
+ - chmod +x deploy.sh
+
+deploy: 
+ - provider: script
+   script: ./deploy.sh
+   skip_cleanup: true
+   on:
+     branch: master
