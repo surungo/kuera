@@ -17,6 +17,19 @@ class PessoaDAO extends AbstractDAO {
 			"email",
 			"cpf",
 			"telefone",
+			"rg",
+            "endereco",
+            "numero",
+            "complemento",
+            "bairro",
+            "cidade",
+            "uf",
+            "cep",
+            "tpsanguineo",
+            "nmemergencia",
+            "telefoneemergencia",
+            "cidadeemergencia",
+            "ufemergencia",
 			"tamanhocamisa",
 			"dtvalidaemail",
 			"senha",
@@ -48,6 +61,19 @@ class PessoaDAO extends AbstractDAO {
 			" email = ifnull(?,email) , " .
 			" cpf = ifnull(?,cpf), " .
 			" telefone = ifnull(?,telefone) , " .
+			" rg = ifnull(?,rg) , " .
+            " endereco = ifnull(?,endereco) , " .
+            " numero = ifnull(?,numero) , " .
+            " complemento = ifnull(?,complemento) , " .
+            " bairro = ifnull(?,bairro) , " .
+            " cidade = ifnull(?,cidade) , " .
+            " uf = ifnull(?,uf) , " .
+            " cep = ifnull(?,cep) , " .
+            " tpsanguineo = ifnull(?,tpsanguineo) , " .
+            " nmemergencia = ifnull(?,nmemergencia) , " .
+            " telefoneemergencia = ifnull(?,telefoneemergencia) , " .
+            " cidadeemergencia = ifnull(?,cidadeemergencia) , " .
+            " ufemergencia = ifnull(?,ufemergencia) , " .
 			" tamanhocamisa = ifnull(?,tamanhocamisa), " .
 			" dtvalidaemail = ifnull(?,dtvalidaemail), " .
 			" senha = ifnull(?,senha) " .
@@ -63,14 +89,31 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 8, $bean->getemail () );
 			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
 			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setTexto ( 	11, $bean->gettamanhocamisa () );
-			$this->con->setData ( 	12, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	13, $bean->getsenha () );
-			$this->con->setNumero ( 14, $bean->getid () );
+			$this->con->setTexto ( 	11, $bean->getrg () );
+			$this->con->setTexto ( 	12, $bean->getendereco () );
+			$this->con->setTexto ( 	13, $bean->getnumero () );
+			$this->con->setTexto ( 	14, $bean->getcomplemento () );
+			$this->con->setTexto ( 	15, $bean->getbairro () );
+			$this->con->setTexto ( 	16, $bean->getcidade () );
+			$this->con->setTexto ( 	17, $bean->getuf () );
+			$this->con->setTexto ( 	18, $bean->getcep () );
+			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	23, $bean->getufemergencia () );
+			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	26, $bean->getsenha () );
+			$this->con->setNumero ( 27, $bean->getid () );
 			$this->con->setsql ( $query );
-			Util::echobr ( 0, "PessoaDAO update", $this->con->getsql () );
+		    $dbg=0;
+			Util::echobr ( $dbg, "PessoaDAO updateNotNull", $this->con->getsql () );
 			$this->con->execute ();
 			$this->returnDataBaseBean->setresposta ( $bean );
+			$dbg=0;
+			Util::echobr ( $dbg, 'PessoaDAO updateNotNull $bean',  $bean );
+			
 			$this->returnDataBaseBean->setmensagem ( "<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>" );
 		} catch ( Exception $e ) {
 			throw new Exception ( $e->getMessage () );
@@ -98,6 +141,19 @@ class PessoaDAO extends AbstractDAO {
 			" email = ? , " . 
 			" cpf = ? , " . 
 			" telefone = ? , " . 
+			" rg = ? , " .
+		    " endereco = ? , " .
+		    " numero = ? , " .
+            " complemento = ? , " .
+            " bairro = ? , " .
+            " cidade = ? , " .
+            " uf = ? , " .
+            " cep = ? , " .
+			" tpsanguineo = ? , " .
+            " nmemergencia = ? , " .
+            " telefoneemergencia = ? , " .
+            " cidadeemergencia = ? , " .
+            " ufemergencia = ? , " .
 			" tamanhocamisa = ?, " . 
 			" dtvalidaemail = ?, " . 
 			" senha = ? " . 
@@ -113,10 +169,23 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 8, $bean->getemail () );
 			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
 			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setTexto ( 	11, $bean->gettamanhocamisa () );
-			$this->con->setData ( 	12, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	13, $bean->getsenha () );
-			$this->con->setNumero ( 14, $bean->getid () );
+			$this->con->setTexto ( 	11, $bean->getrg () );
+			$this->con->setTexto ( 	12, $bean->getendereco () );
+			$this->con->setTexto ( 	13, $bean->getnumero () );
+			$this->con->setTexto ( 	14, $bean->getcomplemento () );
+			$this->con->setTexto ( 	15, $bean->getbairro () );
+			$this->con->setTexto ( 	16, $bean->getcidade () );
+			$this->con->setTexto ( 	17, $bean->getuf () );
+			$this->con->setTexto ( 	18, $bean->getcep () );
+			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	23, $bean->getufemergencia () );
+			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	26, $bean->getsenha () );
+			$this->con->setNumero ( 27, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO update", $this->con->getsql () );
 			$this->con->execute ();
@@ -149,6 +218,19 @@ class PessoaDAO extends AbstractDAO {
 			" email, " . 
 			" cpf, " . 
 			" telefone, " . 
+			" rg, " .
+		    " endereco, " .
+		    " numero, " .
+            " complemento, " .
+            " bairro, " .
+            " cidade, " .
+            " uf, " .
+            " cep, " .
+			" tpsanguineo, " .
+            " nmemergencia, " .
+            " telefoneemergencia, " .
+            " cidadeemergencia, " .
+            " ufemergencia, " .
 			" tamanhocamisa, " . 
 			" dtvalidaemail, " . 
 			" senha, " . 
@@ -165,6 +247,19 @@ class PessoaDAO extends AbstractDAO {
 			" ?, " . 			// email,
 			" ?, " . 			// cpf,
 			" ?, " . 			// telefone,
+			" ?, " . 			// rg,
+			" ?, " . 			// endereco,
+			" ?, " . 			// numero,
+			" ?, " . 			// complemento,
+			" ?, " . 			// bairro,
+			" ?, " . 			// cidade,
+			" ?, " . 			// uf,
+			" ?, " . 			// cep,
+			" ?, " . 			// tpsanguineo,
+			" ?, " . 			// nmemergencia,
+			" ?, " . 			// telefoneemergencia,
+			" ?, " . 			// cidadeemergencia,
+			" ?, " . 			// ufemergencia,
 			" ?, " . 			// tamanhocamisa,
 			" ?, " . 			// dtvalidaemail,
 			" ?, " . 			// senha,
@@ -180,10 +275,23 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 8, $bean->getemail () );
 			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
 			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setData ( 	11, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	12, $bean->gettamanhocamisa () );
-			$this->con->setTexto ( 	13, $bean->getsenha () );
-			$this->con->setNumero ( 14, $bean->getid () );
+			$this->con->setTexto ( 	11, $bean->getrg () );
+			$this->con->setTexto ( 	12, $bean->getendereco () );
+			$this->con->setTexto ( 	13, $bean->getnumero () );
+			$this->con->setTexto ( 	14, $bean->getcomplemento () );
+			$this->con->setTexto ( 	15, $bean->getbairro () );
+			$this->con->setTexto ( 	16, $bean->getcidade () );
+			$this->con->setTexto ( 	17, $bean->getuf () );
+			$this->con->setTexto ( 	18, $bean->getcep () );
+			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	23, $bean->getufemergencia () );
+			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	26, $bean->getsenha () );
+			$this->con->setNumero ( 27, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO insert", $this->con->getsql () );
 			$this->con->execute ();
@@ -206,7 +314,20 @@ class PessoaDAO extends AbstractDAO {
 		$this->bean->setemail ( $this->getValorArray ( $array, "email", null ) );
 		$this->bean->setcpf ( $this->getValorArray ( $array, "cpf", null ) );
 		$this->bean->settelefone ( $this->getValorArray ( $array, "telefone", null ) );
-		$this->bean->settamanhocamisa ( $this->getValorArray ( $array, "tamanhocamisa", null ) );
+		$this->bean->setrg ( $this->getValorArray ( $array, "rg", null ) );
+		$this->bean->setendereco ( $this->getValorArray ( $array, "endereco", null ) );
+		$this->bean->setnumero ( $this->getValorArray ( $array, "numero", null ) );
+		$this->bean->setcomplemento ( $this->getValorArray ( $array, "complemento", null ) );
+		$this->bean->setbairro ( $this->getValorArray ( $array, "bairro", null ) );
+		$this->bean->setcidade ( $this->getValorArray ( $array, "cidade", null ) );
+		$this->bean->setuf ( $this->getValorArray ( $array, "uf", null ) );
+		$this->bean->setcep ( $this->getValorArray ( $array, "cep", null ) );
+		$this->bean->settpsanguineo ( $this->getValorArray ( $array, "tpsanguineo", null ) );
+		$this->bean->setnmemergencia ( $this->getValorArray ( $array, "nmemergencia", null ) );
+		$this->bean->settelefoneemergencia ( $this->getValorArray ( $array, "telefoneemergencia", null ) );
+		$this->bean->setcidadeemergencia ( $this->getValorArray ( $array, "cidadeemergencia", null ) );
+		$this->bean->setufemergencia ( $this->getValorArray ( $array, "ufemergencia", null ) );
+        $this->bean->settamanhocamisa ( $this->getValorArray ( $array, "tamanhocamisa", null ) );
 		$this->bean->setdtvalidaemail ( $this->getValorArray ( $array, "dtvalidaemail", null ) );
 		$this->bean->setsenha ( $this->getValorArray ( $array, "senha", null ) );
 		
@@ -259,6 +380,30 @@ class PessoaDAO extends AbstractDAO {
 		}
 		
 		return $this->clt;
+	}
+	
+		public function findId($id) {
+		$this->results = new PessoaBean ();
+		Util::echobr ( 0, "PessoaDAO findId id", $id );
+		
+		try {
+			$query = " SELECT " .
+					$this->camposSelect ()  .
+			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			" where " . $this->idtabelaAlias () . " = ? ";
+			$this->con->setNumero ( 1, $id );
+			$this->con->setsql ( $query );
+			Util::echobr ( 0, "PessoaDAO findById", $this->con->getsql () );
+			$result = $this->con->execute ();
+			
+			if ($array = $result->fetch_assoc ()) {
+				$this->results = $this->getBeans ( $array );
+			}
+		} catch ( Exception $e ) {
+			throw new Exception ( $e->getMessage () );
+		}
+		
+		return $this->results;
 	}
 	
 	public function findById($id) {

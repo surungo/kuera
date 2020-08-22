@@ -41,15 +41,14 @@
 <SCRIPT language="JavaScript" src="<?php echo URLPUBJS;?>/dataTables.buttons.min.js"></SCRIPT>
 <SCRIPT language="JavaScript" src="<?php echo URLPUBJS;?>/buttons.html5.min.js"></SCRIPT>
 
-
 <script>
 var tableGlobal;
 $(document).ready(function() {
-  
-   var table = $('.listTable').DataTable(
+  /*
+   var table = 
+   $('.listTable').DataTable(
    {
-
-	   
+  
      "columnDefs": [ { "targets": 0, "orderable": false } ],
      "order": [[ 1, "asc" ]],
      "stateSave": true ,
@@ -68,12 +67,43 @@ $(document).ready(function() {
                 }
           },
      "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "Todos"]],
-     dom: 'Bfrtip',
-     buttons: [
+     dom: 'Bfrtip'
+
+     ,buttons: [
          'excel'
      ]
+     
    });
-
+   */
+   var table = 
+   $('.listTable').DataTable(
+   {
+  
+     "columnDefs": [ { "targets": 0, "orderable": false } ],
+     "order": [[ 1, "asc" ]],
+     "stateSave": true ,
+     "oLanguage": {
+                "sLengthMenu": "Linhas: _MENU_",
+                "sZeroRecords": "Nenhum item encontrado",
+                "sInfo": " Mostrando _START_ - _END_ de _TOTAL_ itens",
+                "sInfoEmtpy": " Mostrando 0 - 0 de 0 itens",
+                "sInfoFiltered": " ( pesquisado entre _MAX_ itens )",
+                "sSearch": "Pesquisa: ",
+                "oPaginate": {
+                       "sFirst": " < ",
+                       "sLast": " > ",
+                       "sPrevious": "<< ",
+                       "sNext": " >> "
+                }
+          },
+     "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "Todos"]]
+     //,dom: 'Bfrtip'
+     //,buttons: [
+     //   'excel'
+     //]
+     
+   });
+   
    
    tableGlobal = table;
   
@@ -83,6 +113,9 @@ $(document).ready(function() {
 
 </head>
 <body>
+    <?php 
+    Util::echobr ( $dbg, 'Default.php ', 'antes do form' ); 
+    ?>
 	<form name="formDefault" id="formDefault" method="post" action=""
 		target="_top" enctype="multipart/form-data">
 		<input type="hidden" id="keysession" name="keysession" size="32"

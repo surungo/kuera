@@ -56,7 +56,31 @@ class PessoaBusiness {
 		}
 		return $results;
 	}
-	public function findById($id) {
+	public function findId($id) {
+		$results = null;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PessoaDAO ( $con );
+			$results = $objDAO->findId ( $id );
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}	public function findById($id) {
 		$results = null;
 		$con = null;
 		$dsm = new DataSourceManager ();
@@ -118,6 +142,8 @@ class PessoaBusiness {
 			$existeBean = $this->findByCPF($bean->getcpf());
 			if ( Util::getIdObjeto($existeBean) > 0 ) {
 				$bean->setid(Util::getIdObjeto($existeBean));
+				$dbg=0;
+                Util::echobr ( $dbg, 'PessoaBusiness salveNotNull if updateNotNull $bean',  $bean );
 				$results = $objDAO->updateNotNull ( $bean );
 			} else {
 				$results = $objDAO->insert ( $bean );

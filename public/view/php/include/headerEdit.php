@@ -1,4 +1,4 @@
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table class="tableheader" cellspacing="0" cellpadding="0" border="0" width="100%">
 	<tr>
 		<td style="padding-left: 5px;">Editar <?php echo $beanPaginaAtual->getnome(); ?></td>
 	<?php

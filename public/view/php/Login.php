@@ -11,7 +11,8 @@
 </head>
 <body>
 
-	<div id="headerPage">&nbsp;Apps kUERA<?php echo (
+	<div id="headerPage"><? echo $tituloApp;
+	                    ?><?php echo (
 								strrpos($_SERVER['HTTP_HOST'],'127.0.0.1') > -1 ||
 								strrpos($_SERVER['HTTP_HOST'],'localhost') > -1
 					)?" - <small>[Desenvolvimento]</small>":"";
