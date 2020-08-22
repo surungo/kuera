@@ -60,7 +60,7 @@ switch ($choice) {
 		}
 	
 	case Choice::LISTAR :
-		$collection = $pessoaBusiness->findAll();
+		$collection = $pessoaBusiness->findAllValidos();
 		$urlC = LISTAR;
 		break;
 	

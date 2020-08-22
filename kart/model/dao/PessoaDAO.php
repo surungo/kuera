@@ -355,6 +355,28 @@ class PessoaDAO extends AbstractDAO {
 		
 		return $this->clt;
 	}
+
+	public function findAllValidos() {
+		$this->clt = array ();
+		try {
+			$query = " SELECT " . $this->camposSelect () . 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			" where " .
+			" IFNULL(" . $this->getalias () . ".dtvalidade,now()) > NOW() - INTERVAL 1 SECOND " . 
+			" ORDER BY " . $this->ordernome;
+			$this->con->setsql ( $query );
+			// echo $this->con->getsql();
+			$result = $this->con->execute ();
+			
+			while ( $array = $result->fetch_assoc () ) {
+				$this->clt [] = $this->getBeans ( $array );
+			}
+		} catch ( Exception $e ) {
+			throw new Exception ( $e->getMessage () );
+		}
+		
+		return $this->clt;
+	}
 	
 	public function findAllSort($bean) {
 		$this->clt = array ();
