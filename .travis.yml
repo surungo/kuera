@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - node
+branches:
+  only:
+    - master
+deploy:
+  skip_cleanup: false
+  provider: script
+  script: node deploy.js
+  on:
+    branch: master
