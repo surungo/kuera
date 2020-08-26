@@ -21,7 +21,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 								
 					<?php
 					for($i = 0; $i < count ( $cltPosicaoSelecionar ); $i ++) {
-						$beanPosicao = new PosicaoBean ();
+						$beanPosicao = new PontoBean ();
 						$beanPosicao = $cltPosicaoSelecionar [$i];
 						?>
 			    		<option value="<?php echo $beanPosicao->getid();?>"

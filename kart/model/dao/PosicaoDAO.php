@@ -68,7 +68,7 @@ class PosicaoDAO extends AbstractDAO {
 		return $this->returnDataBaseBean;
 	}
 	public function getBeans($array) {
-		$this->bean = new PosicaoBean ();
+		$this->bean = new PosicaoBean();
 		$this->bean->setid ( $this->getValorArray ( $array, "idposicao", null ) );
 		$this->bean->setordem ( $this->getValorArray ( $array, "ordem", null ) );
 		$this->bean->setnome ( $this->getValorArray ( $array, "nome", null ) );

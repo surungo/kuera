@@ -498,6 +498,38 @@ class EtapaDAO extends AbstractDAO {
 		return $this->results;
 	}
 	
+	public function findByEtapaCampeonatoAtivo($bean) {
+	    $this->results = null;
+	    $campeonatoDAO = new CampeonatoDAO ( $this->con );
+	    
+	    try {
+	        $query = " SELECT " . //sql
+	   	        $this->camposSelect () . //sql
+	   	        " FROM " . // 
+	   	        $this->dbprexis . $this->tabelaAlias () . //sql
+	   	        " inner join " . $this->getdbprexis() . $campeonatoDAO->tabelaAlias() . // sql
+	   	        " on " . $this->getalias() . ".idcampeonato =  " . $campeonatoDAO->idtabelaAlias() . // sql
+	   	        
+	   	        " where " .
+	   	        $this->whereAtivo() . //sql
+	   	        " and " . $campeonatoDAO->whereAtivo() . //sql
+	   	        " and " . $this->idtabelaAlias () . " = ? " .  //sql
+	   	        " and " . $this->getalias() . ".idcampeonato = ? ";  //sql
+	   	        
+	   	        $this->con->setNumero ( 1, Util::getIdObjeto($bean) );
+	   	        $this->con->setNumero ( 2, Util::getIdObjeto($bean->getcampeonato()) );
+	   	        $this->con->setsql ( $query );
+	        $result = $this->con->execute ();
+	        while ( $array = $result->fetch_assoc () ) {
+	            $this->results = $this->getBeans ( $array );
+	        }
+	    } catch ( Exception $e ) {
+	        throw new Exception ( $e->getMessage () );
+	    }
+	    
+	    return $this->results;
+	}
+	
 	public function isPassouNrEtapa($bean) {
 		$this->results = false;
 		$bateriaDAO = new BateriaDAO ( $this->con );

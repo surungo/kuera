@@ -23,6 +23,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 			<option value="<?php echo TipoEventoEnum::MILHAO;    ?>" <?php echo ($bean->gettipoevento() == TipoEventoEnum::MILHAO)?"selected":"";?>>Milhao</option>
 			<option value="<?php echo TipoEventoEnum::ARRANCADA; ?>" <?php echo ($bean->gettipoevento() == TipoEventoEnum::ARRANCADA)?"selected":"";?>>Arrancada</option>
 			<option value="<?php echo TipoEventoEnum::ELEICAO;   ?>" <?php echo ($bean->gettipoevento() == TipoEventoEnum::ELEICAO)?"selected":"";?>>Votação</option>
+			<option value="<?php echo TipoEventoEnum::TECHSPEED;   ?>" <?php echo ($bean->gettipoevento() == TipoEventoEnum::TECHSPEED)?"selected":"";?>>Techspeed</option>
 		</select>
 		</TD>
 	</TR>

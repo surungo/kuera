@@ -32,7 +32,7 @@
 		$posicaoChegada = "";
 		$pontuacaoChegada = "";
 		$pontuacaoChegadaBean = new PontuacaoBean ();
-		$posicaoChegadaBean = new PosicaoBean ();
+		$posicaoChegadaBean = new PontoBean ();
 		if ($pilotoBateriaBean->getposicao () != null) {
 			$posicaoChegadaBean = $pilotoBateriaBean->getposicao ();
 			if ($posicaoChegadaBean->getnome () != null) {

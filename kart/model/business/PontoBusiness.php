@@ -1,4 +1,5 @@
 <?php
+/*
 include_once DATASOURCEMANAGER;
 include_once PATHAPP . '/mvc/kart/model/dao/PontoDAO.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PontoBean.php';
@@ -133,4 +134,5 @@ class PontoBusiness {
 		return $results;
 	}
 }
+*/
 ?>

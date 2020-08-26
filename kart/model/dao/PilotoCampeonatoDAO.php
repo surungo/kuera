@@ -82,10 +82,14 @@ class PilotoCampeonatoDAO extends AbstractDAO {
 	}
 	
 	// metodos padr�o
+	/*
 	public function findAllAtivo() {
 		$this->clt = array ();
 		try {
-			$query = " SELECT " . $this->camposSelect () . " FROM " . $this->dbprexis . $this->tabelaAlias () . " " . " where " . $this->whereAtivo () . " ORDER BY " . $this->ordernome;
+			$query = " SELECT " . $this->camposSelect () . 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () . " " . 
+			" where " . $this->whereAtivo () . 
+			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PilotoCampeonatoDAO findAllAtivo", $this->con->getsql () );
 			$result = $this->con->execute ();
@@ -97,6 +101,7 @@ class PilotoCampeonatoDAO extends AbstractDAO {
 		}
 		return $this->clt;
 	}
+	*/
 	public function findByCampeonatoRanking($idcampeonato) {
 		$this->clt = array ();
 		$pilotoDAO = new PilotoDAO ( $this->con );
@@ -301,6 +306,41 @@ class PilotoCampeonatoDAO extends AbstractDAO {
 		
 		return $this->clt;
 	}
+
+	public function findAllAtivo() {
+		$this->clt = array ();
+		$pilotoDAO = new PilotoDAO ( $this->con );
+		$campeonatoDAO = new CampeonatoDAO ( $this->con );
+		
+		try {
+			$query = " SELECT " . 
+			$pilotoDAO->camposSelect () . ", " . 
+			$campeonatoDAO->camposSelect () . ", " . 
+			$this->camposSelect () . 
+			" FROM " . $this->dbprexis . $pilotoDAO->tabelaAlias () . ", " . 
+			$this->dbprexis . $campeonatoDAO->tabelaAlias () . ", " . 
+			$this->dbprexis . $this->tabelaAlias () . " " . 
+			" where " . 
+			$this->whereAtivo() .
+			"   and " . $pilotoDAO->whereAtivo() .
+			"   and " . $campeonatoDAO->whereAtivo() .
+			"   and " . $campeonatoDAO->idtabelaAlias () . " = " . $this->tabelaAlias () . ".idcampeonato " . 
+			"   and " . $pilotoDAO->idtabelaAlias () . " = " . $this->tabelaAlias () . ".idpiloto ";
+			" ORDER BY " . $this->ordernome;
+			
+			$this->con->setsql ( $query );
+			$result = $this->con->execute ();
+			
+			while ( $array = $result->fetch_assoc () ) {
+				$this->clt [] = $this->getBeans ( $array );
+			}
+		} catch ( Exception $e ) {
+			throw new Exception ( $e->getMessage () );
+		}
+		
+		return $this->clt;
+	}
+
 	public function findAllSort($bean) {
 		$this->clt = array ();
 		$pilotoDAO = new PilotoDAO ( $this->con );

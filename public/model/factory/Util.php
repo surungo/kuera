@@ -79,6 +79,11 @@ class Util {
 		Util::echobr($dbg, 'Util strtotimestamp $saida ', $saida);
 		return $saida;
 	}
+	
+	public static function lpad($input, $pad_length, $pad_string) {
+	    return str_pad ( $input, $pad_length, $pad_string,  STR_PAD_LEFT);
+	}
+		
 	public static function strtodate($entrada) {
 		$saida = $entrada;
 		return $saida;

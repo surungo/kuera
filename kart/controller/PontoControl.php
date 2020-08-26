@@ -1,4 +1,5 @@
 <?php
+/*
 include_once PATHPUBFAC . '/Util.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PontoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PontoBusiness.php';
@@ -18,7 +19,6 @@ $bean->setvalor ( (isset ( $_POST ['valor'] )) ? $_POST ['valor'] : null );
 $bean->setdescartavel ( (isset ( $_POST ['descartavel'] )) ? $_POST ['descartavel'] : null );
 $bean->setidcampeonato ( (isset ( $_POST ['idcampeonato'] )) ? $_POST ['idcampeonato'] : null );
 $bean->setsort ( (isset ( $_POST ['clsort'] )) ? $_POST ['clsort'] : null );
-$bean->setativo ( (isset ( $_POST ['ativo'] )) ? $_POST ['ativo'] : null );
 
 $bean->getpostlog ();
 $editar = true;
@@ -58,5 +58,5 @@ $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";
 include ($siteUrl);
-
+*/
 ?>

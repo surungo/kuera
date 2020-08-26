@@ -2,6 +2,8 @@
 include_once PATHPUBFAC . '/Util.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PilotoBateriaBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PilotoBateriaBusiness.php';
+include_once PATHAPP . '/mvc/kart/model/bean/PilotoCampeonatoBean.php';
+include_once PATHAPP . '/mvc/kart/model/business/PilotoCampeonatoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PilotoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PilotoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/BateriaBean.php';
@@ -21,6 +23,8 @@ include_once PATHAPP . '/mvc/kart/model/business/CategoriaInscritoBusiness.php';
 $dbg = 0;
 $bean = new PilotoBateriaBean ();
 $pilotoBateriaBusiness = new PilotoBateriaBusiness ();
+$pilotoCampenonatoBean = new PilotoCampeonatoBean ();
+$pilotoCampeonatoBusiness = new PilotoCampeonatoBusiness ();
 $pilotoBusiness = new PilotoBusiness ();
 $bateriaBusiness = new BateriaBusiness ();
 $posicaoBusiness = new PosicaoBusiness ();
@@ -28,17 +32,22 @@ $posicaoBusiness = new PosicaoBusiness ();
 $selcampeonatobean = new CampeonatoBean ();
 $campeonatoBusiness = new CampeonatoBusiness ();
 $selcampeonatoCollection = $campeonatoBusiness->findAllAtivo();
+
 // campeonato ativo
 $selcampeonatoBean = $campeonatoBusiness->atual ();
 $selcampeonatoBean = (isset ( $_POST ['campeonato'] ) && $_POST ['campeonato'] > 0) ? $campeonatoBusiness->findById ( $_POST ['campeonato'] ) : $selcampeonatoBean;
 $selcampeonato = Util::getIdObjeto ( $selcampeonatoBean );
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $selcampeonato', $selcampeonato );
 
+// etapa
 $seletapabean = new EtapaBean ();
 $seletapaBusiness = new EtapaBusiness ();
 $seletapaCollection = $seletapaBusiness->findByCampeonato ( $selcampeonato );
 $seletapa = (isset ( $_POST ['etapa'] )) ? $_POST ['etapa'] : '';
-$seletapabean = $seletapaBusiness->findById ( $seletapa );
+$seletapabean->setcampeonato($selcampeonato);
+$seletapabean->setid($seletapa);
+$seletapabean = $seletapaBusiness->findByEtapaCampeonatoAtivo($seletapabean);
+$seletapa = Util::getIdObjeto($seletapabean);
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $seletapa', $seletapa );
 
 $selbateriabean = new BateriaBean ();
@@ -46,17 +55,18 @@ $selbateriaBusiness = new BateriaBusiness ();
 $selbateriabean->setetapa ( $seletapabean );
 $selbateriaCollection = $selbateriaBusiness->findBateriaByEtapa ( $selbateriabean );
 $selbateria = (isset ( $_POST ['bateria'] )) ? $_POST ['bateria'] : '';
-$selbateriabean = $selbateriaBusiness->findById ( $selbateria );
+$selbateriabean->setetapa($seletapabean);
+$selbateriabean->setid($selbateria);
+$selbateriabean = $selbateriaBusiness->findByBateriaEtapaAtivo ( $selbateriabean );
+$selbateria = Util::getIdObjeto($selbateriabean);
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $selbateria', $selbateria );
-Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $selbateriabean->categoria', $selbateriabean->getcategoria() );
-
+//Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $selbateriabean->categoria', $selbateriabean->getcategoria() );
+$bean->setbateria($selbateriabean);
 $usuarioCollection = $usuarioBusiness->findAll ();
 $cltPosicaoSelecionar = $posicaoBusiness->findAll ();
 
 $idobj = (isset ( $_POST ['idobj'] )) ? $_POST ['idobj'] : null;
-$dbg = 0;
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $idobj ', $idobj );
-$dbg = 0;
 $bean->setid ( $idobj );
 $bean->setpiloto ( (isset ( $_POST ['piloto'] )) ? $_POST ['piloto'] : null );
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $bean->getpiloto', $bean->getpiloto () );
@@ -84,6 +94,9 @@ $bean->setinformacao ( (isset ( $_POST ['informacao'] )) ? $_POST ['informacao']
 $bean->setobservacao ( (isset ( $_POST ['observacao'] )) ? $_POST ['observacao'] : null );
 
 $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null ;
+
+///filtros campeonato
+$versembateria = (isset ( $_POST ['versembateria'] )) ? $_POST ['versembateria'] : "N";
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $urlC = LISTAR;
@@ -149,7 +162,8 @@ switch ($choice) {
 		$pilotoBateriaBean->setpiloto($pilotoBean);
 		$pilotoBateriaBean->setbateria($bateriaBean);
 		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria pilotoBateriaBean', $pilotoBateriaBean);
-		$pilotoBateriaBean = $pilotoBateriaBusiness->salve($pilotoBateriaBean);
+		
+		$pilotoBateriaBean = $pilotoBateriaBusiness->adicionar($pilotoBateriaBean);
 
 		Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl ', $bean->getpiloto () );
 		$choice = Choice::LISTAR;
@@ -178,7 +192,7 @@ switch ($choice) {
 		break;
 	
 	case Choice::EXCLUIR :
-		if ($pilotoBateriaBusiness->delete ( $bean )) {
+		if ($pilotoBateriaBusiness->remover ( $bean )) {
 			$mensagem = SUCESSO;
 		} else {
 			$mensagem = FALHOU;
@@ -189,8 +203,24 @@ switch ($choice) {
 }
 switch ($choice) {
 	
-	case Choice::LISTAR :
-		$mensagem = "";
+    case Choice::ATUALIZAR :
+	    // reposicionamento do grid
+	    $collection = $pilotoBateriaBusiness->findBateria ( $bean );
+	    for($i = 0; $i < count ( $collection ); $i ++) {
+	        $pilotoBateriaBeanList = $collection [$i];
+	        $idpilotobateria = $pilotoBateriaBeanList->getid ();
+	        $bean = $pilotoBateriaBusiness->findById($idpilotobateria);
+	        $pregridlargada = $pilotoBateriaBeanList->getpregridlargada ();
+	        $newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
+	        if ( $newpregridlargada != $pregridlargada ) {
+	            $bean->setpregridlargada($newpregridlargada);
+	            $pilotoBateriaBusiness->updatepregridlargada($bean);
+	            break;
+	        }
+	    }
+	    
+    case Choice::LISTAR :
+	    $mensagem = "";
 		$urlC = LISTAR;
 		break;
 	
@@ -330,8 +360,23 @@ $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria 
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 
-$cltPilotosSemBateria = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa);
 
+//if($versembateria=='S'){
+$cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
+$maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
+
+//}
+/*
+if($versembateria=='N'){
+   $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa);
+	//$cltPilotosCampeonato = $pilotoCampeonatoBusiness->findPilotoSemBateria( $selcampeonato);
+	Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $cltPilotosCampeonato', "antes" );
+	//$cltPilotosCampeonato = $pilotoCampeonatoBusiness->findPilotoAtivo( $selcampeonato);
+	Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $cltPilotosCampeonato', $cltPilotosCampeonato );
+	
+}
+*/
+Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";

@@ -3,7 +3,7 @@ include_once PATHPUBFAC . '/Util.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PosicaoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PosicaoBusiness.php';
 
-$bean = new PosicaoBean ();
+$bean = new PontoBean ();
 $posicaoBusiness = new PosicaoBusiness ();
 
 $idobj = (isset ( $_POST ['idobj'] )) ? $_POST ['idobj'] : null;

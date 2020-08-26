@@ -1,4 +1,5 @@
 <?php
+/*
 include_once PATHAPP . '/mvc/kart/model/bean/CampeonatoBean.php';
 include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 ?>
@@ -64,3 +65,4 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 		<TD></TD>
 	</TR>
 </TABLE>
+<?php */ ?>

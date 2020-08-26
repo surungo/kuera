@@ -7,11 +7,16 @@ include_once PATHAPP . '/mvc/kart/model/business/PilotoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/CampeonatoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/CampeonatoBusiness.php';
 
+
+$dbg = 0;
+Util::echobr ( $dbg, 'PilotoCampeonatoControl', 1 );
+
 $bean = new PilotoCampeonatoBean ();
 $pilotoCampeonatoBusiness = new PilotoCampeonatoBusiness ();
 $pilotoBusiness = new PilotoBusiness ();
 $campeonatoBusiness = new CampeonatoBusiness ();
 $cltPilotoSelecionar = $pilotoBusiness->findAllAtivo();
+Util::echobr ( $dbg, 'PilotoCampeonatoControl count($cltPilotoSelecionar) ',  count($cltPilotoSelecionar) );
 
 // campeonato ativo
 $selcampeonatoBean = $campeonatoBusiness->atual ();

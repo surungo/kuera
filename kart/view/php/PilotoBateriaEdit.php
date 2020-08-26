@@ -53,7 +53,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 								
 					<?php
 					for($i = 0; $i < count ( $cltPosicaoSelecionar ); $i ++) {
-						$beanPreGridPosicao = new PosicaoBean ();
+						$beanPreGridPosicao = new PontoBean ();
 						$beanPreGridPosicao = $cltPosicaoSelecionar [$i];
 						?>
 			    		<option value="<?php echo $beanPreGridPosicao->getid();?>"
@@ -77,7 +77,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 								
 					<?php
 					for($i = 0; $i < count ( $cltPosicaoSelecionar ); $i ++) {
-						$beanPosicao = new PosicaoBean ();
+						$beanPosicao = new PontoBean ();
 						$beanPosicao = $cltPosicaoSelecionar [$i];
 						?>
 			    		<option value="<?php echo $beanPosicao->getid();?>"
@@ -111,7 +111,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 								
 					<?php
 					for($i = 0; $i < count ( $cltPosicaoSelecionar ); $i ++) {
-						$beanPosicao = new PosicaoBean ();
+						$beanPosicao = new PontoBean ();
 						$beanPosicao = $cltPosicaoSelecionar [$i];
 						?>
 			    		<option value="<?php echo $beanPosicao->getid();?>"
@@ -135,7 +135,7 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 				<option value=""></option>			
 					<?php
 					for($i = 0; $i < count ( $cltPosicaoSelecionar ); $i ++) {
-						$beanposicaooficial = new PosicaoBean ();
+						$beanposicaooficial = new PontoBean ();
 						$beanposicaooficial = $cltPosicaoSelecionar [$i];
 						?>
 			    		<option value="<?php echo $beanposicaooficial->getid();?>"

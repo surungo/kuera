@@ -1,4 +1,5 @@
 <?php
+/*
 include_once PATHPUBPHPINCLUDE . '/headerList.php';
 ?>
 <table class="listTable" cellspacing="0" cellpadding="0" border="0">
@@ -71,3 +72,4 @@ echo $beanCampeonato->getnome ();
 
 
 </table>
+<?php  */ ?>

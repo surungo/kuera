@@ -390,6 +390,7 @@ class EtapaBusiness {
 		}
 		return $results;
 	}
+	
 	public function findById($id) {
 		$results = null;
 		$con = null;
@@ -415,6 +416,33 @@ class EtapaBusiness {
 		}
 		return $results;
 	}
+	
+	public function findByEtapaCampeonatoAtivo($bean) {
+	    $results = null;
+	    $con = null;
+	    $dsm = new DataSourceManager ();
+	    try {
+	        $con = $dsm->getConn (get_class($this));
+	        $objDAO = new EtapaDAO ( $con );
+	        $results = $objDAO->findByEtapaCampeonatoAtivo($bean);
+	    } catch ( Exception $ex ) {
+	        // rollback transaction
+	        $con->rollback ();
+	        $dsm->close ( $con );
+	        throw new Exception ( $ex->getMessage () );
+	    }
+	    try {
+	        if ($con != null) {
+	            // commit transaction
+	            $con->commit ();
+	            $dsm->close ( $con );
+	        }
+	    } catch ( Exception $ex ) {
+	        throw new Exception ( $ex->getMessage () );
+	    }
+	    return $results;
+	}
+	
 	public function isPassouNrEtapa($bean) {
 		$results = false;
 		$con = null;

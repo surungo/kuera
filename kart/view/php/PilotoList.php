@@ -39,7 +39,8 @@ for($i = 0; $i < count ( $collection ); $i ++) {
 		<?php
 		}
 		?>    
-		<td><img border="1" width="60"
+		<td>
+		<img border="1" width="60"
 				src="<?php echo $collection[$i]->getfotourl();?>" /></td>
 			<td>
 			<?php echo $collection[$i]->getnrpiloto();?>

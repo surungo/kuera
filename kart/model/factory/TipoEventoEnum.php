@@ -6,6 +6,7 @@ class TipoEventoEnum {
 	const MILHAO = 4;
 	const ARRANCADA = 5;
 	const ELEICAO = 6;
+	const TECHSPEED = 7;
 	
 	
 }
@@ -16,6 +17,7 @@ TipoEventoEnum::LIGA
 TipoEventoEnum::MILHAO
 TipoEventoEnum::ARRANCADA
 TipoEventoEnum::ELEICAO
+TipoEventoEnum::TECHSPEED
 
 */
 ?>

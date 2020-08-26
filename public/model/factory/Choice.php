@@ -16,6 +16,7 @@ class Choice {
 	const EXCLUIR_TODOS = 105;
 	const LER = 106;
 	const DESATIVAR = 201;
+	const ATUALIZAR = 301;
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
 	const PASSO_3 = 1003;

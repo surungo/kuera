@@ -36,7 +36,7 @@ class PilotoBateriaBusiness {
 			$cltPilotoCampeonato = $pilotoCampeonatoDAO->findByCampeonatoRanking ( $idcampeonato );
 			
 			foreach ( $cltPilotoCampeonato as $k1 => $rankingVO ) {
-				// teste com um s贸 piloto
+				// teste com um s脙鲁 piloto
 				if (true || $rankingVO->getpiloto ()->getid () == 17) {
 					$pesoMedio = 0;
 					$pesoMedidas = 1;
@@ -588,14 +588,14 @@ class PilotoBateriaBusiness {
 		return $results;
 	}
 	
-	public function findPilotoSemBateria($idcampeonato, $idetapa) {
+	public function findPilotoSemBateria($idcampeonato, $idetapa, $idbateria) {
 		$results = Array ();
 		$con = null;
 		$dsm = new DataSourceManager ();
 		try {
 			$con = $dsm->getConn (get_class($this));
 			$objDAO = new PilotoBateriaDAO ( $con );
-			$results = $objDAO->findPilotoSemBateria ( $idcampeonato, $idetapa );
+			$results = $objDAO->findPilotoSemBateria ( $idcampeonato, $idetapa, $idbateria);
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();
@@ -856,6 +856,98 @@ class PilotoBateriaBusiness {
 		return $saida;
 	}
 	
+	public function updatepregridlargada($bean) {
+	    $dbg = 0;
+	    $results = null;
+	    $beanpilotobateria = $bean;
+	    $results = $this->salve($beanpilotobateria);
+	    $this->ajustepregridlargada($beanpilotobateria); 
+	    
+	    return $results;
+	}
+	
+	public function remover($bean) {
+	    $dbg = 0;
+	    $results = null;
+	    $beanpilotobateria = $bean;
+	    $results = $this->delete($bean);
+	    
+	    $this->ajustepregridlargada($beanpilotobateria);
+	    
+	    return $results;
+	}
+	
+	
+	public function adicionar($bean) {
+	    $dbg = 0;
+	    Util::echobr($dbg,'PilotoBateriaBusiness adicionar ', $bean );
+	    $beanpilotobateria = $bean;
+	    $this->ajustepregridlargada($beanpilotobateria);
+	    
+	    $maxpregridlargada = $this->maxpregridlargada($bean);
+	    $bean->setpregridlargada( $maxpregridlargada + 1 );
+	    $bean = $this->salve($bean);
+	    return $bean;
+	}
+	
+	function ajustepregridlargada($beanpilotobateria){
+    	$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+    	$cltpilotobateria = $this->findBateria($beanpilotobateria);
+    	$maxpregridlargada = $this->maxpregridlargada($beanpilotobateria);
+    	$pospregridlargada=1;
+    	for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
+    	    $pilotoBateriaBean = $cltpilotobateria [$i];
+    	    
+    	    if($pospregridlargada == $pilotoBateriaBean->getpregridlargada()){
+    	        $pospregridlargada++;
+    	        continue;
+    	    }
+    	    
+    	    if("" == $pilotoBateriaBean->getpregridlargada() || 0 > $pilotoBateriaBean->getpregridlargada()){
+    	        $maxpregridlargada++;
+    	        $pilotoBateriaBean->setpregridlargada( $maxpregridlargada );
+    	        $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
+    	        continue;
+    	    }
+    	    
+    	    for($out = $pospregridlargada+1; $out <= $maxpregridlargada; $out ++){
+    	        if($out >= $pilotoBateriaBean->getpregridlargada()){
+    	            $pilotoBateriaBean->setpregridlargada( $pospregridlargada );
+    	            $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
+    	            $pospregridlargada++;
+    	            break;
+    	            
+    	        }
+    	    }
+    	}
+	}
+	
+	public function maxpregridlargada($bean) {
+        $results = 0;
+        $con = null;
+        $dsm = new DataSourceManager ();
+        try {
+            $con = $dsm->getConn (get_class($this));
+            $objDAO = new PilotoBateriaDAO ( $con );
+            $results = $objDAO->maxpregridlargada( $bean);
+        } catch ( Exception $ex ) {
+            // rollback transaction
+            $con->rollback ();
+            $dsm->close ( $con );
+            throw new Exception ( $ex->getMessage () );
+        }
+        try {
+            if ($con != null) {
+                // commit transaction
+                $con->commit ();
+                $dsm->close ( $con );
+            }
+        } catch ( Exception $ex ) {
+            throw new Exception ( $ex->getMessage () );
+        }
+        return $results;
+	}
+	      
 	public function salve($bean) {
 		$results = new ReturnDataBaseBean ();
 		$con = null;
@@ -875,9 +967,9 @@ class PilotoBateriaBusiness {
 			
 			if ($bean->getid () == null || $bean->getid () == 0) {
 				
-				// mudança de regra agora piloto pode por causa de duas categorias baterias
+				// mudan锟�0艩4a de regra agora piloto pode por causa de duas categorias baterias
 				/*
-				// piloto s贸 pode participar uma ves na etapa (antes
+				// piloto s脙鲁 pode participar uma ves na etapa (antes
 				$etapaBean = $etapaBusiness->findByBateria ( $bean->getbateria () );
 				if (! $etapaBusiness->isPiloto ( $etapaBean, $bean->getpiloto () )) {
 				*/	
