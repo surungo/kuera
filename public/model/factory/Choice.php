@@ -17,6 +17,16 @@ class Choice {
 	const LER = 106;
 	const DESATIVAR = 201;
 	const ATUALIZAR = 301;
+	
+	const PBA_OCULTAR = 400;
+	const PBA_PILOTOCAMPEONATO = 401;
+	const PBA_INSCRITOCAMPEONATO = 402;
+	const PBA_PILOTO = 403;
+	const PBA_PESSOA = 404;	
+	
+	const PBA_VERTICAL = 450;
+	const PBA_HORIZONTAL = 451;
+	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
 	const PASSO_3 = 1003;
@@ -24,5 +34,7 @@ class Choice {
 	const PASSO_5 = 1005;
 	const PASSO_6 = 1006;
 	const PASSO_7 = 1007;
+	
+	
 }
 ?>

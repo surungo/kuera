@@ -95,8 +95,8 @@ $bean->setobservacao ( (isset ( $_POST ['observacao'] )) ? $_POST ['observacao']
 
 $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null ;
 
-///filtros campeonato
-$versembateria = (isset ( $_POST ['versembateria'] )) ? $_POST ['versembateria'] : "N";
+$consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : null ;
+$visualizacao =   (isset ( $_POST ['visualizacao'] )) ? $_POST ['visualizacao'] : null ;
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $urlC = LISTAR;
@@ -359,24 +359,53 @@ $novo = false;
 $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria > 0;
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
-
-
-//if($versembateria=='S'){
-$cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
 
-//}
-/*
-if($versembateria=='N'){
-   $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa);
-	//$cltPilotosCampeonato = $pilotoCampeonatoBusiness->findPilotoSemBateria( $selcampeonato);
-	Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $cltPilotosCampeonato', "antes" );
-	//$cltPilotosCampeonato = $pilotoCampeonatoBusiness->findPilotoAtivo( $selcampeonato);
-	Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $cltPilotosCampeonato', $cltPilotosCampeonato );
-	
+switch ($choice) {
+    case Choice::PBA_HORIZONTAL :
+        $visualizacao = "Lado a lado";
+        $divLargura = "49%";
+        break;
+    case Choice::PBA_VERTICAL :
+        $visualizacao = "Cima e baixo";
+        $divLargura = "100%";
+        break;
+   
 }
-*/
-Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
+
+$listaOpcoesMostrar = array();
+$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "";
+$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Pilotos do campeonato";
+$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO] = "Inscritos do campeonato";
+$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Pilotos";
+$listaOpcoesMostrar[Choice::PBA_PESSOA] = "Pessoas";
+
+switch ($choice) {
+    case Choice::PBA_OCULTAR :
+        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        $divLargura = "100%";
+        break;
+    case Choice::PBA_PILOTOCAMPEONATO :
+        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        break;
+    case Choice::PBA_INSCRITOCAMPEONATO :
+        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        break;
+    case Choice::PBA_PILOTO :
+        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        break;
+    case Choice::PBA_PESSOA :
+        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        break;
+}
+ 
+
+if($consulta_adicao == $listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO]){
+    $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
+    Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
+}
+
+
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";
