@@ -95,11 +95,13 @@ $bean->setobservacao ( (isset ( $_POST ['observacao'] )) ? $_POST ['observacao']
 
 $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null ;
 
-$consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : null ;
-$visualizacao =   (isset ( $_POST ['visualizacao'] )) ? $_POST ['visualizacao'] : null ;
+$consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : Choice::PBA_OCULTAR ;
+
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $urlC = LISTAR;
+
+$umpresente=0;
 
 switch ($choice) {
 	case Choice::PASSO_1:
@@ -169,6 +171,16 @@ switch ($choice) {
 		$choice = Choice::LISTAR;
 		break;
 	
+	case Choice::AUSENTE :
+	    $pilotoBateriaBusiness->ausente ( $bean );
+	    $choice = Choice::LISTAR;
+	    break;
+	
+	case Choice::PRESENTE :
+	    $pilotoBateriaBusiness->presente( $bean );
+        $choice = Choice::LISTAR;
+        break;
+	        
 	case Choice::VOLTAR :
 		$choice = Choice::LISTAR;
 		break;
@@ -337,7 +349,6 @@ switch ($choice) {
 
 			}	
 			
-			
 			$dbg = 0;
 			Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $saida ', $saida);
 		}
@@ -361,51 +372,41 @@ $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
 
-switch ($choice) {
-    case Choice::PBA_HORIZONTAL :
-        $visualizacao = "Lado a lado";
-        $divLargura = "49%";
-        break;
-    case Choice::PBA_VERTICAL :
-        $visualizacao = "Cima e baixo";
-        $divLargura = "100%";
-        break;
-   
-}
-
 $listaOpcoesMostrar = array();
-$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "";
-$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Pilotos do campeonato";
-$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO] = "Inscritos do campeonato";
-$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Pilotos";
-$listaOpcoesMostrar[Choice::PBA_PESSOA] = "Pessoas";
+$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Ocultar Opções";
+$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Piloto Campeonato";
+$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO] = "Inscrito Campeonato";
+$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Piloto";
+$listaOpcoesMostrar[Choice::PBA_PESSOA] = "Pessoa";
 
+$divLargura = "100%";
 switch ($choice) {
     case Choice::PBA_OCULTAR :
-        $consulta_adicao = $listaOpcoesMostrar[$choice];
-        $divLargura = "100%";
+        $consulta_adicao = Choice::PBA_OCULTAR;
         break;
     case Choice::PBA_PILOTOCAMPEONATO :
-        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        $consulta_adicao = Choice::PBA_PILOTOCAMPEONATO;
         break;
     case Choice::PBA_INSCRITOCAMPEONATO :
-        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        $consulta_adicao = Choice::PBA_INSCRITOCAMPEONATO;
         break;
     case Choice::PBA_PILOTO :
-        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        $consulta_adicao = Choice::PBA_PILOTO;
         break;
     case Choice::PBA_PESSOA :
-        $consulta_adicao = $listaOpcoesMostrar[$choice];
+        $consulta_adicao = Choice::PBA_PESSOA;
         break;
 }
  
 
-if($consulta_adicao == $listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO]){
+if($consulta_adicao == Choice::PBA_PILOTOCAMPEONATO){
     $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
     Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
 }
-
-
+if($selbateria!=null){
+    $cltPilotosBateriaPresentes = $pilotoBateriaBusiness->findBateriaPresente( $bean );
+    $umpresente = count($cltPilotosBateriaPresentes);
+}
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";

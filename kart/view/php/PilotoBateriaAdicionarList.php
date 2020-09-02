@@ -71,7 +71,9 @@ $( document ).ready(function(){
 								$listbateriabean = $selbateriaCollection [$i];
 								?>
 					    <option value="<?php echo $listbateriabean->getid();?>"
-					<?php echo ($listbateriabean->getid()==$selbateria)?"selected":"";?>><?php echo $listbateriabean->getnome();?></option>
+					<?php echo ($listbateriabean->getid()==$selbateria)?"selected":"";?>>
+					<?php echo Util::getNomeObjeto($listbateriabean)." [".$listbateriabean->getdtbateria()."]";?>
+					</option>
 					  <?php
 							}
 							?>
@@ -88,15 +90,12 @@ if ($adicionarPilotoCampeonato) {
 	}
 </style>
 <INPUT id="consulta_adicao" name="consulta_adicao" type="hidden" value="<?php echo $consulta_adicao;?>">
-<INPUT id="visualizacao" name="visualizacao" type="hidden" value="<?php echo $visualizacao;?>">
-<?php if($visualizacao!="Lado a lado") { echo $button->btCustom($idurl,$idobj,"Lado a lado",$target,Choice::PBA_HORIZONTAL); }?>  
-<?php if($visualizacao!="Cima e baixo") { echo $button->btCustom($idurl,$idobj,"Cima e baixo",$target,Choice::PBA_VERTICAL); }?>  
 <div class="options1">Filtros de adição:
-<?php if($consulta_adicao!=$listaOpcoesMostrar[Choice::PBA_OCULTAR]) { echo $button->btCustom($idurl,$idobj,"Ocultar Opções",$target,Choice::PBA_OCULTAR); }?>
-<?php if($consulta_adicao!=$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO]) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO],$target,Choice::PBA_PILOTOCAMPEONATO);?>
-<?php //if($consulta_adicao!=$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO]) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO],$target,Choice::PBA_INSCRITOCAMPEONATO);?>
-<?php //if($consulta_adicao!=$listaOpcoesMostrar[Choice::PBA_PILOTO]) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PILOTO],$target,Choice::PBA_PILOTO);?>
-<?php //if($consulta_adicao!=$listaOpcoesMostrar[Choice::PBA_PESSOA]) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PESSOA],$target,Choice::PBA_PESSOA);?>
+<?php if($consulta_adicao!=Choice::PBA_OCULTAR) { echo $button->btCustom($idurl,$idobj,$listaOpcoesMostrar[Choice::PBA_OCULTAR],$target,Choice::PBA_OCULTAR); }?>
+<?php if($consulta_adicao!=Choice::PBA_PILOTOCAMPEONATO) { echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO],$target,Choice::PBA_PILOTOCAMPEONATO ); }?>
+<?php //if($consulta_adicao!=Choice::PBA_INSCRITOCAMPEONATO) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO],$target,Choice::PBA_INSCRITOCAMPEONATO);?>
+<?php //if($consulta_adicao!=Choice::PBA_PILOTO) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PILOTO],$target,Choice::PBA_PILOTO);?>
+<?php //if($consulta_adicao!=Choice::PBA_PESSOA) echo $button->btCustom($idurl,$idobj,"Mostrar ".$listaOpcoesMostrar[Choice::PBA_PESSOA],$target,Choice::PBA_PESSOA);?>
 </div>
 <?php if(false){?>
 <div class="options1">
@@ -106,9 +105,10 @@ if ($adicionarPilotoCampeonato) {
 </div>
 <?php	
 	}
-	if(count ( $cltPilotos ) > 0){
+	if($consulta_adicao==Choice::PBA_PILOTOCAMPEONATO){
 	   include PATHAPPVER."/".$sistemaCodigo."/view/php/"."PilotoBateriaAdicionarPilotoCampeonatoList.php";
-	}
+    }
+	
 	include PATHAPPVER."/".$sistemaCodigo."/view/php/"."PilotoBateriaAdicionarTableList.php";
 	
 	

@@ -150,6 +150,30 @@ class ButtonClass {
 		" src='".URLAPPVER."/public/view/images/validar.png' " . " style='border: 0px;color:white;background-color: transparent;' " . "/>";
 		return $retorno;
 	}
+	
+	public function btPresente($idobj, $idurl) {
+	    $action = null;
+	    $target = null;
+	    $choice = Choice::PRESENTE;
+	    $retorno = "<input id='validar".$idobj."' " . " name='presente' " . " value='presente' " .
+	   	    " title='$idobj' " . $this->atributos ( $idurl, $idobj, $action, $target, $choice ) .
+	   	    " type='image' " . " class='btn_abrir' " .
+	   	    " src='".URLAPPVER."/public/view/images/red.gif' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
+	    return $retorno;
+	}
+	public function btAusente($idobj, $idurl) {
+	    $action = null;
+	    $target = null;
+	    $choice = Choice::AUSENTE;
+	    $retorno = "<input id='validar".$idobj."' " . " name='ausente' " . " value='ausente' " .
+	   	    " title='$idobj' " . $this->atributos ( $idurl, $idobj, $action, $target, $choice ) .
+	   	    " type='image' " . " class='btn_abrir' " .
+	   	    " src='".URLAPPVER."/public/view/images/green.gif' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
+	    return $retorno;
+	}
+	
+	
+	
 	public function btProximo($idobj, $idurl) {
 		$action = null;
 		$target = null;

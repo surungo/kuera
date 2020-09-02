@@ -374,6 +374,34 @@ class PilotoBateriaBusiness {
 		}
 		return $results;
 	}
+	
+	public function findBateriaPresente($bean) {
+	    if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
+	        return null;
+	        $results = Array ();
+	        $con = null;
+	        $dsm = new DataSourceManager ();
+	        try {
+	            $con = $dsm->getConnection ( $bean );
+	            $objDAO = new PilotoBateriaDAO ( $con );
+	            $results = $objDAO->findBateriaPresente ( $bean );
+	        } catch ( Exception $ex ) {
+	            // rollback transaction
+	            $con->rollback ();
+	            $dsm->close ( $con );
+	            throw new Exception ( $ex->getMessage () );
+	        }
+	        try {
+	            if ($con != null) {
+	                // commit transaction
+	                $con->commit ();
+	                $dsm->close ( $con );
+	            }
+	        } catch ( Exception $ex ) {
+	            throw new Exception ( $ex->getMessage () );
+	        }
+	        return $results;
+	}
 	public function findPilotosEtapa($bean) {
 		$results = Array ();
 		$con = null;
@@ -877,6 +905,22 @@ class PilotoBateriaBusiness {
 	    return $results;
 	}
 	
+	public function presente($bean) {
+	    $dbg = 0;
+	    $bean = $this->findById($bean);
+	    $bean->setpresente ("S");
+	    $retorno = $this->salve($bean);
+	    return $retorno;
+	}
+	
+	public function ausente($bean) {
+	    $dbg = 0;
+	    $bean = $this->findById($bean);
+	    $bean->setpresente ("N");
+	    $retorno = $this->salve($bean);
+	    return $retorno;
+	}
+	
 	
 	public function adicionar($bean) {
 	    $dbg = 0;
@@ -886,8 +930,8 @@ class PilotoBateriaBusiness {
 	    
 	    $maxpregridlargada = $this->maxpregridlargada($bean);
 	    $bean->setpregridlargada( $maxpregridlargada + 1 );
-	    $bean = $this->salve($bean);
-	    return $bean;
+	    $retorno = $this->salve($bean);
+	    return $retorno;
 	}
 	
 	function ajustepregridlargada($beanpilotobateria){
@@ -958,9 +1002,10 @@ class PilotoBateriaBusiness {
 			$objDAO = new PilotoBateriaDAO ( $con );
 			// piloto ausente limpar dados
 			if ($bean->getpresente () == null || $bean->getpresente () == 'N') {
-				//$bean->setgridlargada ( null );
-				//$bean->setposicao ( null );
-				$bean->setkart ( null );
+			    $bean->getposicaooficial ( null );
+			    $bean->setgridlargada ( null );
+			    $bean->setposicao ( null );
+			    $bean->setkart ( null );
 				$bean->setvolta ( null );
 				$bean->setpeso ( null );
 			}

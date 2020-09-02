@@ -1,6 +1,6 @@
 
 <div id="pilotocampeonato" style="float: left; width: <?php echo $divLargura;?>; background-color: silver;">
-<?php echo $consulta_adicao;?><br>
+<?php echo $listaOpcoesMostrar[$consulta_adicao];?><br>
 <?php 
 Util::echobr ( $dbg , 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
 ?>
@@ -83,8 +83,6 @@ Util::echobr ( $dbg , 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
 				$dbg=0;
 				Util::echobr($dbg,'PilotoBateriaAdicionarList idobj', $idobj);
 				echo $button->btImagemIfk($itemFK, $value, $idurl, $idobj, $action, $target, $choice, $imagem, $w, $h);
-				
-	
 				?>
 			</td>     
 			<?php

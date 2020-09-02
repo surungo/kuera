@@ -82,7 +82,7 @@ window.history.forward();
 
 		});
 		$('.btn_abrir').mouseup('click',function(){
-		if($(this).val()=='Excluir'){
+		if($(this).val()=='Excluir' || $(this).val()=='Remover todos' ){
 			if (!confirm('Quer excluir?')){
 		    	return false;
 		    }

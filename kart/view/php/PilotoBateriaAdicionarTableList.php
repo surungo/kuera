@@ -2,34 +2,24 @@
 
 <div id="pilotobateria" style="float: left; width: <?php echo $divLargura;?>;"> 
 Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto($selbateriabean)."[".$selbateriabean->getdtbateria()."]";?>
-<div class="options1">Filtros:</div>
+
+<?php if($umpresente < 1){?>
 <div class="options1">
 	Processos:<?php echo $button->btCustom($idurl,$idobj,"Remover todos",$target,Choice::EXCLUIR_TODOS);?>
 </div>
+<?php }?>
 
 	<table class="listTable" cellspacing="0" cellpadding="0" border="0">
 		<thead>
-			<tr><?php
-	if ($editar == true) {
-		?> 
-		<th class="headerlink">&nbsp;</th> 
-		<?php
-	}
-	$foto = false;
-	if ($foto){
-	?>    
-		 <th class="header">&nbsp;</th>
-	<?php } ?>	 
-				<th class="header">Pos</th>
+			<tr>
+				<th class="headerlink">&nbsp;</th> 
+				<th class="header">Pré Grid</th>
+				<th class="header">Grid</th>
 				<th class="header">NR</th>
 				<th class="header">Piloto</th>
-				<th class="header">Ch</th>
-				
-		 <?php if($seletapa==null || $seletapa==0){?> 
-		 <th class="header">Etapa</th>
-		 <?php } if($selbateria==null || $selbateria==0){?>
-		 <th class="header">Bateria</th>
-		 <?php }?>
+				<th class="header">Peso</th>
+				<th class="header">Peso externo</th>
+		 		<th class="header">Presença</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -50,45 +40,52 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			$corlinha = ($i % 2 == 0) ? "par" : "impar";
 			?>
 		<tr class="<?php echo $corlinha;?>">
-			<?php
-			if ($editar == true) {
-				?> 
 			<td>
+			<?php
+			if ($editar == true && $umpresente < 1 ) {
+				?> 
+			
 				<?php
 				echo $button->btExcluirImagem ( $idpilotobateria, $idurl );
 				?>
-			</td>     
+			    
 			<?php
 			}
-			if ($foto){
-			?>
-			<td><img border="0" width="60"
-					src="<?php echo $pilotoBeanList->getfotoFilePNG("round");?>"></td>
-			<?php } ?>
+            ?>
+            </td> 
 			<td>
 				<?php
-				$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
-				echo "<span style='display:none;'>".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
-        		?>
-			
-				<select id="pregridlargada_<?php echo $idpilotobateria;?>" name="pregridlargada_<?php echo $idpilotobateria;?>"
-					class="btn_select"
-        			<?php
-        			echo $button->atributos ( $idurl, $idobj, $action, $target, Choice::ATUALIZAR );
-        			?>>
-					<?php
-					for($posidpregridlargada = 1; $posidpregridlargada <= $countcolletion; $posidpregridlargada ++) {
-				    ?>
-			    	<option value="<?php echo $posidpregridlargada;?>"
-			    	<?php echo ($idpregridlargada==$posidpregridlargada)?"selected='selected'":""; ?>>
-							<?php echo  $posidpregridlargada;?>
-						</option>
-				<?php
-					}
-					?>
-				</select>
-				
-				
+				$displaypre = ( ($umpresente < 1)?"none":"block" );
+					$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
+					echo "<span style='display:".$displaypre.";'>".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
+    				
+    				if($umpresente < 1){
+            		?>
+    			
+    				<select id="pregridlargada_<?php echo $idpilotobateria;?>" name="pregridlargada_<?php echo $idpilotobateria;?>"
+    					class="btn_select"
+            			<?php
+            			echo $button->atributos ( $idurl, $idobj, $action, $target, Choice::ATUALIZAR );
+            			?>>
+    					<?php
+    					for($posidpregridlargada = 1; $posidpregridlargada <= $countcolletion; $posidpregridlargada ++) {
+    				    ?>
+    			    	<option value="<?php echo $posidpregridlargada;?>"
+    			    	<?php echo ($idpregridlargada==$posidpregridlargada)?"selected='selected'":""; ?>>
+    							<?php echo  Util::lpad( $posidpregridlargada , 3 , "0") ;?>
+    						</option>
+    				<?php
+    					}
+    					?>
+    				</select>
+    				<?php }?>
+    		</td>
+			<td>
+    			<?php
+    			 if ($pilotoBateriaBeanList->getpresente () == 'S') {
+    			     $idgridlargada = gettype ( $pilotoBateriaBeanList->getgridlargada () ) == "object" ? $pilotoBateriaBeanList->getgridlargada ()->getid () : $pilotoBateriaBeanList->getgridlargada ();
+    			     echo  Util::lpad( $idgridlargada , 3 , "0");
+		          }  ?>
 				
 			</td>
 			<td> 
@@ -98,22 +95,23 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				<?php echo $pilotoBeanList->getapelido (); ?>
 			</td>
 			<td>
-				<?php echo  Util::getNomeObjeto($pilotoBateriaBeanList->getposicao());?>
+				<?php echo  $pilotoBeanList->getpeso();?>
 			</td>
-			
-		    <?php if($seletapa==null || $seletapa==0){?>
-			<td align="center"> 
-		      <?php
-				echo $etapaBeanList->getsigla ();
+			<td>
+				<?php echo  $pilotoBeanList->getpeso();?>
+			</td>
+		    <td>
+				<?php
+				
+				if ($pilotoBateriaBeanList->getpresente () == null || $pilotoBateriaBeanList->getpresente () == 'N') {
+				    echo $button->btPresente($pilotoBateriaBeanList->getid (), $idurl );
+				}else{
+				    echo $button->btAusente($pilotoBateriaBeanList->getid (), $idurl );
+				}
+								
 				?>
-		    </td>
-		    <?php } if($selbateria==null || $selbateria==0){?>
-			<td align="center">
-		      <?php
-				echo $bateriaBeanList->getsigla ();
-				?>
-		    </td>
-		    <?php }?>
+				
+			</td>  
 		</tr>
 		<?php
 		}

@@ -858,6 +858,52 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
         
         return $this->clt;
     }
+    
+    public function findBateriaPresente($bean)
+    {
+        $this->clt = array();
+        try {
+            $pilotoDAO = new PilotoDAO($this->con);
+            $bateriaDAO = new BateriaDAO($this->con);
+            $etapaDAO = new EtapaDAO($this->con);
+            
+            if ($bean->getsort() != "") {
+                $this->ordernome = $bean->getsort();
+            } else {
+                $this->ordernome = $pilotoDAO->getalias() . ".nome";
+            }
+            
+            $query = " SELECT " . // sql
+                $this->camposSelect() . ", " . // sql
+                $pilotoDAO->camposSelect() . ", " . // sql
+                $bateriaDAO->camposSelect() . ", " . // sql
+                $etapaDAO->camposSelect() . " " . // sql
+                " FROM " . // sql
+                $this->dbprexis . $this->tabelaAlias() . ", " . // sql
+                $this->getdbprexis() . $pilotoDAO->tabelaAlias() . ", " . // sql
+                $this->getdbprexis() . $bateriaDAO->tabelaAlias() . ", " . // sql
+                $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
+                " WHERE " . "   " . $this->alias . ".idbateria = ? " . // sql
+                " and " . $this->getalias() . ".presente = 'S' " . // sql
+                " and " . $this->getalias() . ".idpiloto =  " . $pilotoDAO->idtabelaAlias() . // sql
+                " and " . $this->getalias() . ".idbateria =  " . $bateriaDAO->idtabelaAlias() . // sql
+                " and " . $bateriaDAO->getalias() . ".idetapa =  " . $etapaDAO->idtabelaAlias() . // sql
+                " ORDER BY " . $this->ordernome . " "; // sql
+                
+                $this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+                $this->con->setsql($query);
+                Util::echobr(0, "PilotoBateriaDAO findBateria", $this->con->getsql());
+                $result = $this->con->execute();
+                while ($array = $result->fetch_assoc()) {
+                    $this->clt[] = $this->getBeans($array);
+                }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        
+        return $this->clt;
+    }
+    
 
     public function findPilotosEtapa($bean)
     {
@@ -1226,7 +1272,7 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
         return $this->result;
     }
 
-    public function findById($id)
+    public function findById($bean)
     {
         $this->results = new PilotoBateriaBean();
         try {
@@ -1234,7 +1280,7 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
             $pilotoDAO = new PilotoDAO($this->con);
             $bateriaDAO = new BateriaDAO($this->con);
             $query = " SELECT " . $this->camposSelect() . ", " . $etapaDAO->camposSelect() . ", " . $pilotoDAO->camposSelect() . ", " . $bateriaDAO->camposSelect() . " FROM " . $this->dbprexis . $this->tabelaAlias() . ", " . $this->getdbprexis() . $etapaDAO->tabelaAlias() . ", " . $this->getdbprexis() . $pilotoDAO->tabelaAlias() . ", " . $this->getdbprexis() . $bateriaDAO->tabelaAlias() . " " . " WHERE " . "   " . $bateriaDAO->getalias() . ".idetapa =  " . $etapaDAO->idtabelaAlias() . " and " . $this->getalias() . ".idpiloto =  " . $pilotoDAO->idtabelaAlias() . " and " . $this->getalias() . ".idbateria =  " . $bateriaDAO->idtabelaAlias() . " and " . $this->idtabelaAlias() . " = ? ";
-            $this->con->setNumero(1, $id);
+            $this->con->setNumero(1, Util::getIdObjeto($bean));
             $this->con->setsql($query);
             $result = $this->con->execute();
             while ($array = $result->fetch_assoc()) {
