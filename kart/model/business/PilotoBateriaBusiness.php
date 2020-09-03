@@ -329,7 +329,7 @@ class PilotoBateriaBusiness {
 		try {
 			$con = $dsm->getConnection ( $bean );
 			$objDAO = new PilotoBateriaDAO ( $con );
-			$results = $objDAO->findPilotoBateria ();
+			$results = $objDAO->findPilotoBateria ($bean);
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();
@@ -695,6 +695,37 @@ class PilotoBateriaBusiness {
 			throw new Exception ( $ex->getMessage () );
 		}
 		return $results;
+	}
+	
+	public function findPilotoCPF( $cpf, $selbateria ) {
+	    if ($cpf == 0 || $cpf == null)
+	        return null;
+	    if (Util::getIdObjeto($selbateria) == 0 )
+            return null;
+     
+        $results = null;
+        $con = null;
+        $dsm = new DataSourceManager ();
+        try {
+            $con = $dsm->getConn (get_class($this));
+            $objDAO = new PilotoBateriaDAO ( $con );
+            $results = $objDAO->findPilotoCPF( $cpf, $selbateria );
+        } catch ( Exception $ex ) {
+            // rollback transaction
+            $con->rollback ();
+            $dsm->close ( $con );
+            throw new Exception ( $ex->getMessage () );
+        }
+        try {
+            if ($con != null) {
+                // commit transaction
+                $con->commit ();
+                $dsm->close ( $con );
+            }
+        } catch ( Exception $ex ) {
+            throw new Exception ( $ex->getMessage () );
+        }
+        return $results;
 	}
 	
 	public function findById($id) {

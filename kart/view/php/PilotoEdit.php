@@ -1,41 +1,46 @@
 <?php
 include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
+$pilotobean=($pilotobean==null)?new PilotoBean():$pilotobean;
 ?>
 <TABLE>
 	<TR>
+		<TD>CPF</TD>
+		<TD><INPUT id="cpf" name="cpf" size="14" type="text" class="btn_change"
+<?php if($consulta_adicao==Choice::PBA_FORM_ADD){		
+    echo $button->atributos( $idurl, $idobj, Choice::ADICIONAR_PILOTO, $target, $choice );
+}?>
+			value="<?php echo $pilotobean->getcpf();?>"></TD>
+	</TR>
+	<TR>
 		<TD>Nome</TD>
 		<TD><INPUT id="nome" name="nome" size="30" type="text"
-			value="<?php echo $bean->getnome();?>"></TD>
+			value="<?php echo $pilotobean->getnome();?>"></TD>
 	</TR>
+<?php if($consulta_adicao!=Choice::PBA_FORM_ADD){?>
 	<TR>
 		<TD>Apelido</TD>
 		<TD><INPUT id="apelido" name="apelido" size="30" type="text"
-			value="<?php echo $bean->getapelido();?>"></TD>
+			value="<?php echo $pilotobean->getapelido();?>"></TD>
 	</TR>
 	<TR>
 		<TD>Nome Join</TD>
 		<TD><INPUT id="nomejoin" name="nomejoin" size="30" type="text"
-			value="<?php echo $bean->getnomejoin();?>"></TD>
+			value="<?php echo $pilotobean->getnomejoin();?>"></TD>
 	</TR>
 	<TR>
 		<TD>Sigla</TD>
 		<TD><INPUT id="sigla" name="sigla" size="30" type="text"
-			value="<?php echo $bean->getsigla();?>"></TD>
-	</TR>
-	<TR>
-		<TD>CPF</TD>
-		<TD><INPUT id="cpf" name="cpf" size="14" type="text"
-			value="<?php echo $bean->getcpf();?>"></TD>
+			value="<?php echo $pilotobean->getsigla();?>"></TD>
 	</TR>
 	<TR>
 		<TD>Telefone</TD>
 		<TD><INPUT id="telefone" name="telefone" size="100" type="text"
-			value="<?php echo $bean->gettelefone();?>"></TD>
+			value="<?php echo $pilotobean->gettelefone();?>"></TD>
 	</TR>
 	<TR>
 		<TD>Email</TD>
 		<TD><INPUT id="email" name="email" size="100" type="text"
-			value="<?php echo $bean->getemail();?>"></TD>
+			value="<?php echo $pilotobean->getemail();?>"></TD>
 	</TR>
 	<script>
 $(document).ready(function() {
@@ -46,48 +51,53 @@ $(document).ready(function() {
 	<TR>
 		<TD>Data de nascimento</TD>
 		<TD><INPUT id="dtnascimento" name="dtnascimento" size="30" type="text"
-			value="<?php echo  Util::timestamptostr('d/m/Y',$bean->getdtnascimento());?>"></TD>
+			value="<?php echo  Util::timestamptostr('d/m/Y',$pilotobean->getdtnascimento());?>"></TD>
 	</TR>
+<?php 
+}
+?>
 	<TR>
 		<TD>Peso</TD>
 		<TD><INPUT id="peso" name="peso" size="30" type="text"
-			value="<?php echo $bean->getpeso();?>"></TD>
+			value="<?php echo $pilotobean->getpeso();?>"></TD>
 	</TR>
+<?php if($consulta_adicao!=Choice::PBA_FORM_ADD){?>
 	<TR>
 		<TD>Facebook</TD>
 		<TD>
     <?php
-				if ($bean->getfacebook () != "") {
+				if ($pilotobean->getfacebook () != "") {
 					$btnFacebook = URLAPP . '/mvc/public/view/images/btn-facebook.png';
-					?><a border="0" href="<?php echo $bean->getfacebook();?>"
+					?><a border="0" href="<?php echo $pilotobean->getfacebook();?>"
 			target="_blank"> <img border="0" width="30px"
 				src="<?php echo $btnFacebook;?>" /></a><?php
 				}
 				?>
     <INPUT id="facebook" name="facebook" size="60" type="text"
-			value="<?php echo $bean->getfacebook();?>">
+			value="<?php echo $pilotobean->getfacebook();?>">
 		</TD>
 	</TR>
 	<TR>
 		<TD>Foto</TD>
 		<TD><img border="1" width="30px"
-			src="<?php echo $bean->getfotourl();?>" /> <input type="file"
+			src="<?php echo $pilotobean->getfotourl();?>" /> <input type="file"
 			name="fotoimg" id="fotoimg" /></TD>
 	</TR>
 	<TR>
 		<TD>Descrição</TD>
-		<TD><textarea name="descricao" id="descricao" rows="4" cols="40"><?php echo $bean->getdescricao();?></textarea>
+		<TD><textarea name="descricao" id="descricao" rows="4" cols="40"><?php echo $pilotobean->getdescricao();?></textarea>
 		</TD>
 	</TR>
 
 	<TR>
 		<TD>Observação</TD>
-		<TD><textarea name="observacao" id="observacao" rows="4" cols="40"><?php echo $bean->getobservacao();?></textarea>
+		<TD><textarea name="observacao" id="observacao" rows="4" cols="40"><?php echo $pilotobean->getobservacao();?></textarea>
 		</TD>
 	</TR>
+<?php }?>	
 	<TR>
 		<TD>Pessoa</TD>
-			<?php $idpessoa = Util::getIdObjeto($bean->getpessoa());?>
+			<?php $idpessoa = Util::getIdObjeto($pilotobean->getpessoa());?>
 			<TD><select id="pessoa" name="pessoa">
 				<option value="" <?php echo ($idpessoa<1)?"selected":"";?>>Sem
 					pessoa</option>
@@ -105,11 +115,12 @@ $(document).ready(function() {
 				   ?>		    
 				</select></TD>
 	</TR>
-	
+<?php if($consulta_adicao!=Choice::PBA_FORM_ADD){?>	
 	<TR>
 		<TD colspan="2"><?php echo isset($mensagem)?$mensagem:''; ?></TD>
 	</TR>
 	<TR>
 		<TD colspan="2"><?php echo $button->btSEV($idobj,$idurl); ?></TD>
 	</TR>
+<?php }?>	
 </TABLE>

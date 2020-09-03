@@ -79,6 +79,7 @@ switch ($choice) {
 		$urlC = EDITAR;
 		break;
 }
+$pilotobean=$bean;
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";

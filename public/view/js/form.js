@@ -101,6 +101,20 @@ window.history.forward();
 		
 	});
 	
+	$('.btn_change').keyup(function(){
+		var length = $(this).val().length;
+		if (length<3){
+	    	return false;
+	    }
+		if($(this).attr('id')=='cpf'){
+			if (length<11){
+		    	return false;
+		    }
+		}
+		carrega_submet( $(this) );
+		
+	});
+	
    $('#btn_menu').click(function (){
 	  
 	   if($('#Menu').is(':visible')){

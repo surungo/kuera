@@ -396,12 +396,16 @@ class ButtonClass {
 	}
 
 	public function btCustom($idurl, $idobj, $action, $target, $choice) {
-		$choice = $choice != null ? $choice : $action;
-
-		$retorno = "<input id='$action' name='$action' " . " value='$action' title='$idobj' " .
-		 $this->atributos ( $idurl, $idobj, $action, $target, $choice ) . " type='button' " .
-		" class='btn_abrir' " . "/>";
-		return $retorno;
+		return $this->btCustomCss($idurl, $idobj, $action, $target, $choice, "");
+	}
+	
+	public function btCustomCss($idurl, $idobj, $action, $target, $choice, $class_css) {
+	    $choice = $choice != null ? $choice : $action;
+	    
+	    $retorno = "<input id='$action' name='$action' " . " value='$action' title='$idobj' " .
+	    $this->atributos ( $idurl, $idobj, $action, $target, $choice ) . " type='button' " .
+	    " class='btn_abrir $class_css' " . "/>";
+	    return $retorno;
 	}
 }
 ?>

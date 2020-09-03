@@ -145,16 +145,43 @@ switch ($choice) {
 	
 	$choice = Choice::LISTAR;
 	break;
-
+	
+	
+	case Choice::ADICIONAR_PILOTO:
+	    $pilotobean = new PilotoBean();
+	    $pilotobean->setcpf((isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null );
+	    $choice = Choice::LISTAR;
+    break;
+	    
+	case Choice::ADICIONAR_INSCRITO:
+	    $dbg = 0;
+	    $inscritoBean = new InscritoBean();
+	    $inscritoBusiness = new InscritoBusiness();
+	    Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idinscrito ', $idobj );
+	    if ($idobj > 0) {
+	        $inscritoBean = $inscritoBusiness->findById ( $idobj );
+	    }
+	    $idpessoa = Util::getIdObjeto($inscritoBean->getpessoa());
+	    $pilotoBean = $pilotoBusiness->findByPessoa($idpessoa);
+	    $idpessoa = Util::getIdObjeto($pilotoBean);
+	    if($idpessoa==0){
+	        $results = $pilotoBusiness->inscritoToPilotoSemAdicionarAoCampeonato($bean);
+	        $pilotoBean = $results->getresposta();
+	    }
+	    
+	    
 	case Choice::ADICIONAR :
 		$dbg = 0;
-		$pilotoBean = new PilotoBean();
-		$pilotoBusiness = new PilotoBusiness();
-		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idpiloto ', $idobj );
-		if ($idobj > 0) {
-			$pilotoBean = $pilotoBusiness->findById ( $idobj );
+		if(Util::getIdObjeto($pilotoBean) < 1 ){
+    		$pilotoBean = new PilotoBean();
+    		$pilotoBusiness = new PilotoBusiness();
+    		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idpiloto ', $idobj );
+    		if ($idobj > 0) {
+    			$pilotoBean = $pilotoBusiness->findById ( $idobj );
+    		}
 		}
-		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idpiloto ', $idpiloto );
+    	
+		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria Util::getIdObjeto($pilotoBean) ', Util::getIdObjeto($pilotoBean) );
 		$idbateria = (isset ( $_POST ['itemFK'] )) ? $_POST ['itemFK'] : null ;
 		$bateriaBean = new BateriaBean();
 		$bateriaBean->setid($idbateria);
@@ -170,7 +197,7 @@ switch ($choice) {
 		Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl ', $bean->getpiloto () );
 		$choice = Choice::LISTAR;
 		break;
-	
+			
 	case Choice::AUSENTE :
 	    $pilotoBateriaBusiness->ausente ( $bean );
 	    $choice = Choice::LISTAR;
@@ -373,40 +400,74 @@ $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
 
 $listaOpcoesMostrar = array();
-$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Ocultar Opções";
+$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Cancelar Adição";
 $listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Piloto Campeonato";
 $listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO] = "Inscrito Campeonato";
-$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Piloto";
+$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Piloto Geral";
 $listaOpcoesMostrar[Choice::PBA_PESSOA] = "Pessoa";
+$listaOpcoesMostrar[Choice::PBA_FORM_ADD] = "Adicionar Novo";
 
 $divLargura = "100%";
 switch ($choice) {
     case Choice::PBA_OCULTAR :
         $consulta_adicao = Choice::PBA_OCULTAR;
         break;
+        
     case Choice::PBA_PILOTOCAMPEONATO :
         $consulta_adicao = Choice::PBA_PILOTOCAMPEONATO;
         break;
+        
     case Choice::PBA_INSCRITOCAMPEONATO :
         $consulta_adicao = Choice::PBA_INSCRITOCAMPEONATO;
         break;
+        
     case Choice::PBA_PILOTO :
         $consulta_adicao = Choice::PBA_PILOTO;
         break;
+        
     case Choice::PBA_PESSOA :
         $consulta_adicao = Choice::PBA_PESSOA;
         break;
+    
+    case Choice::PBA_FORM_ADD :
+        $consulta_adicao = Choice::PBA_FORM_ADD;
+        break;
+        
 }
- 
 
-if($consulta_adicao == Choice::PBA_PILOTOCAMPEONATO){
-    $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
-    Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
-}
 if($selbateria!=null){
     $cltPilotosBateriaPresentes = $pilotoBateriaBusiness->findBateriaPresente( $bean );
     $umpresente = count($cltPilotosBateriaPresentes);
 }
+
+switch ($consulta_adicao) {
+    case Choice::PBA_OCULTAR :
+        break;
+        
+    case Choice::PBA_PILOTOCAMPEONATO :
+        $cltPilotos = $pilotoBateriaBusiness->findPilotoSemBateria( $selcampeonato, $seletapa, $selbateria );
+        Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
+        break;
+        
+    case Choice::PBA_INSCRITOCAMPEONATO :
+        $inscritoBusiness = new InscritoBusiness();
+        $inscritoBean = new InscritoBean();
+        $inscritoBean->setcampeonato ($selcampeonato);
+        $cltInscritos = $inscritoBusiness->findAllSort ( $inscritoBean );
+        Util::echobr ( 0, 'PilotoBateriaAdicionarControl $cltInscritos', $cltInscritos);
+        break;
+        
+    case Choice::PBA_PILOTO :
+        $cltPilotos = $pilotoBusiness->findAllAtivo() ;
+        Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
+        break;
+        
+    case Choice::PBA_PESSOA :
+        break;
+    
+}
+
+
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";

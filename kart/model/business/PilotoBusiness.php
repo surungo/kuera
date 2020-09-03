@@ -244,6 +244,59 @@ class PilotoBusiness {
 		}
 		return $results;
 	}
+	
+	public function inscritoToPilotoSemAdicionarAoCampeonato($bean) {
+	    $results = null;
+	    $results2 = null;
+	    $dbg = 0;
+	    try {
+	        
+	        if ($bean != null) {
+	            $idinscrito = $bean->getid ();
+	            $idpiloto = Util::getIdObjeto ( $bean->getpiloto () );
+	            $idcampeonato = Util::getIdObjeto ( $bean->getcampeonato () );
+	            
+	            Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto  $idinscrito', $idinscrito );
+	            Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto  $idpiloto', $idpiloto );
+	            Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto  $idcampeonato', $idcampeonato );
+	            
+	            if ($idinscrito > 0 && $idcampeonato > 0 && $bean->getpiloto ()->getnome () != '') {
+	                
+	                // adiciona ou atualiza piloto
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto $bean->getpiloto()->getnome()', $bean->getpiloto ()->getnome () );
+	                
+	                $results = $this->salve ( $bean->getpiloto () );
+	                $pilotoBean = new PilotoBean ();
+	                $pilotoBean = $results->getresposta ();
+	                
+	                $idpiloto = $pilotoBean->getid ();
+	                
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after add piloto $results->getmensagem()', $results->getmensagem () );
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after add piloto $idpiloto', $idpiloto );
+	                
+	                // adiciona piloto no inscrito
+	                $inscritoBusiness = new InscritoBusiness ();
+	                $bean = $inscritoBusiness->findById ( $idinscrito );
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after busca inscrito $bean->getid', $bean->getid () );
+	                $idpilotoBusca = Util::getIdObjeto ( $bean->getpiloto () );
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after busca inscrito $idpilotoBusca', $idpilotoBusca );
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after busca inscrito $idpiloto', $idpiloto );
+	                
+	                $bean->setpiloto ( $idpiloto );
+	                
+	                $results3 = $inscritoBusiness->salve ( $bean );
+	                
+	                Util::echobr ( $dbg, 'PilotoBusiness inscritoToPiloto after salve inscrito  $results3->getmensagem()', $results3->getmensagem () );
+	                $results->setmensagem ( "<span class='azul'>Inscrito adicionado como Piloto.</span>" );
+	            }
+	        }
+	    } catch ( Exception $ex ) {
+	        throw new Exception ( $ex->getMessage () );
+	    }
+	    return $results;
+	}
+		
+		
 	public function inscritoToPiloto($bean) {
 		$results = null;
 		$results2 = null;

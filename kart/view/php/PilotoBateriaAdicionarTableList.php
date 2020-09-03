@@ -1,4 +1,4 @@
-
+<?php $mostrarCPF=false;?>
 
 <div id="pilotobateria" style="float: left; width: <?php echo $divLargura;?>;"> 
 Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto($selbateriabean)."[".$selbateriabean->getdtbateria()."]";?>
@@ -15,7 +15,6 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				<th class="headerlink">&nbsp;</th> 
 				<th class="header">Pré Grid</th>
 				<th class="header">Grid</th>
-				<th class="header">NR</th>
 				<th class="header">Piloto</th>
 				<th class="header">Peso</th>
 				<th class="header">Peso externo</th>
@@ -87,9 +86,6 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     			     echo  Util::lpad( $idgridlargada , 3 , "0");
 		          }  ?>
 				
-			</td>
-			<td> 
-				<?php echo $pilotoBeanList->getnrpiloto(); ?>
 			</td>
 			<td> 
 				<?php echo $pilotoBeanList->getapelido (); ?>

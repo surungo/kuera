@@ -11,6 +11,11 @@ class Choice {
 	const RELATORIO = 9;
 	const RELATORIOPAGOS = 10;
 	const RELATORIOTODOS = 11;
+	
+	const ADICIONAR_INSCRITO = 71;
+	const ADICIONAR_PILOTO = 72;
+	const ADICIONAR_PESSOA = 73;
+	
 	const SALVA_U = 103;
 	const SALVA_TODOS = 104;
 	const EXCLUIR_TODOS = 105;
@@ -21,11 +26,14 @@ class Choice {
 	const PRESENTE = 350;
 	const AUSENTE = 351;
 	
+	
+	
+	const PBA_FORM_ADD = 399;
 	const PBA_OCULTAR = 400;
 	const PBA_PILOTOCAMPEONATO = 401;
 	const PBA_INSCRITOCAMPEONATO = 402;
 	const PBA_PILOTO = 403;
-	const PBA_PESSOA = 404;	
+	const PBA_PESSOA = 404;
 	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
