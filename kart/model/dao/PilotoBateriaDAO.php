@@ -35,8 +35,9 @@ class PilotoBateriaDAO extends AbstractDAO
         "tempo",
         "volta",
         "na",
-        "peso",
-        "idpregridlargada",
+    		"peso",
+    		"pesoextra",
+    		"idpregridlargada",
         "idposicaooficial",
         "kartlargada",
         "penalizacao",
@@ -75,15 +76,16 @@ class PilotoBateriaDAO extends AbstractDAO
 " volta = ? , " . // 11
 " na = ? , " . // 12
 " peso = ? , " . // 13
-" idpregridlargada = ? , " . // 14
-" idposicaooficial = ? , " . // 15
-" kartlargada = ? , " . // 16
-" penalizacao = ? , " . // 17
-" cartaoamarelo = ? , " . // 18
-" convidado = ? , " . // 19
-" informacao = ? , " . // 20
-" observacao = ?  " . // 21
-" WHERE " . $this->idtabela() . " =  ? "; // 22
+" pesoextra = ? , " . // 14
+" idpregridlargada = ? , " . // 15
+" idposicaooficial = ? , " . // 16
+" kartlargada = ? , " . // 17
+" penalizacao = ? , " . // 18
+" cartaoamarelo = ? , " . // 19
+" convidado = ? , " . // 20
+" informacao = ? , " . // 21
+" observacao = ?  " . // 22
+" WHERE " . $this->idtabela() . " =  ? "; // 23
             
             $this->con->setTexto(1, $usuarioLoginBean->getusuario());
             $this->con->setData(2, $bean->getdtvalidade());
@@ -98,15 +100,16 @@ class PilotoBateriaDAO extends AbstractDAO
             $this->con->setTexto(11, $bean->getvolta());
             $this->con->setNumero(12, $bean->getna());
             $this->con->setNumero(13, $bean->getpeso());
-            $this->con->setNumero(14, $bean->getpregridlargada());
-            $this->con->setNumero(15, $bean->getposicaooficial());
-            $this->con->setNumero(16, $bean->getkartlargada());
-            $this->con->setTexto(17, $bean->getpenalizacao());
-            $this->con->setNumero(18, $bean->getcartaoamarelo());
-            $this->con->setTexto(19, $bean->getconvidado());
-            $this->con->setTexto(20, $bean->getinformacao());
-            $this->con->setTexto(21, $bean->getobservacao());
-            $this->con->setNumero(22, $bean->getid());
+            $this->con->setNumero(14, $bean->getpesoextra());
+            $this->con->setNumero(15, $bean->getpregridlargada());
+            $this->con->setNumero(16, $bean->getposicaooficial());
+            $this->con->setNumero(17, $bean->getkartlargada());
+            $this->con->setTexto(18, $bean->getpenalizacao());
+            $this->con->setNumero(19, $bean->getcartaoamarelo());
+            $this->con->setTexto(20, $bean->getconvidado());
+            $this->con->setTexto(21, $bean->getinformacao());
+            $this->con->setTexto(22, $bean->getobservacao());
+            $this->con->setNumero(23, $bean->getid());
             
             $this->con->setsql($query);
             Util::echobr($dbg, "PilotoBateriaDAOupdate", $this->con->getsql());
@@ -138,6 +141,7 @@ class PilotoBateriaDAO extends AbstractDAO
 " volta , " . //
 " na , " . //
 " peso , " . //
+" pesoextra , " . //
 " idpregridlargada , " . //
 " idposicaooficial , " . //
 " kartlargada , " . //
@@ -162,6 +166,7 @@ $this->idtabela() . //
 " ? , " . // volta
 " ? , " . // na
 " ? , " . // peso
+" ? , " . // pesoextra
 " ? , " . // idpregridlargada
 " ? , " . // idposicaooficial
 " ? , " . // kartlargada
@@ -185,15 +190,16 @@ $this->idtabela() . //
             $this->con->setTexto(11, $bean->getvolta());
             $this->con->setNumero(12, $bean->getna());
             $this->con->setNumero(13, $bean->getpeso());
-            $this->con->setNumero(14, $bean->getpregridlargada());
-            $this->con->setNumero(15, $bean->getposicaooficial());
-            $this->con->setNumero(16, $bean->getkartlargada());
-            $this->con->setTexto(17, $bean->getpenalizacao());
-            $this->con->setNumero(18, $bean->getcartaoamarelo());
-            $this->con->setTexto(19, $bean->getconvidado());
-            $this->con->setTexto(20, $bean->getinformacao());
-            $this->con->setTexto(21, $bean->getobservacao());
-            $this->con->setNumero(22, $bean->getid());
+            $this->con->setNumero(14, $bean->getpesoextra());
+            $this->con->setNumero(15, $bean->getpregridlargada());
+            $this->con->setNumero(16, $bean->getposicaooficial());
+            $this->con->setNumero(17, $bean->getkartlargada());
+            $this->con->setTexto(18, $bean->getpenalizacao());
+            $this->con->setNumero(19, $bean->getcartaoamarelo());
+            $this->con->setTexto(20, $bean->getconvidado());
+            $this->con->setTexto(21, $bean->getinformacao());
+            $this->con->setTexto(22, $bean->getobservacao());
+            $this->con->setNumero(23, $bean->getid());
             
             $this->con->setsql($query);
             
@@ -223,6 +229,7 @@ $this->idtabela() . //
         $this->bean->setvolta($this->getValorArray($array, "volta", null));
         $this->bean->setna($this->getValorArray($array, "na", null));
         $this->bean->setpeso($this->getValorArray($array, "peso", null));
+        $this->bean->setpesoextra($this->getValorArray($array, "pesoextra", null));
         $this->bean->setpregridlargada($this->getValorArray($array, "idpregridlargada", null));
         $this->bean->setposicaooficial($this->getValorArray($array, "idposicaooficial", null));
         $this->bean->setkartlargada($this->getValorArray($array, "kartlargada", null));

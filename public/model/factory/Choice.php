@@ -15,6 +15,11 @@ class Choice {
 	const ADICIONAR_INSCRITO = 71;
 	const ADICIONAR_PILOTO = 72;
 	const ADICIONAR_PESSOA = 73;
+	const ADICIONAR_NOVO = 74;
+	
+	const ATUALIZAR_PESOEXTRA = 97;
+	const ATUALIZAR_PESO = 98;
+	const ATUALIZAR_CPF = 99;
 	
 	const SALVA_U = 103;
 	const SALVA_TODOS = 104;
@@ -25,8 +30,6 @@ class Choice {
 	
 	const PRESENTE = 350;
 	const AUSENTE = 351;
-	
-	
 	
 	const PBA_FORM_ADD = 399;
 	const PBA_OCULTAR = 400;

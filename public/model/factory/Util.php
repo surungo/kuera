@@ -15,9 +15,10 @@ class Util {
 		return 0;
 	}
 	public static function getIdObjeto($ObjectOrString) {
-		if($ObjectOrString!=null)
-			return gettype ( $ObjectOrString ) == "object" ? $ObjectOrString->getid () : $ObjectOrString;
-		return 0;
+		if($ObjectOrString!=null){
+		    $retorno = gettype ( $ObjectOrString ) == "object" ? $ObjectOrString->getid () : $ObjectOrString;
+		}
+		return ($retorno==null)?0:$retorno;
 	}
 	public static function getNomeObjeto($ObjectOrString) {
 		if($ObjectOrString!=null)
@@ -42,9 +43,13 @@ class Util {
 		return $saida;
 	}
 	public static function strtotimestamp($entrada) {
+		if($entrada==null||$entrada==""){
+			return $entrada;
+		}
 		$dbg = 0;
 		Util::echobr($dbg, 'Util strtotimestamp ', $entrada);
 		$saida = $entrada;
+		
 		$piecesDataHora = explode ( " ", $entrada );
 		$phora = 1;
 		$pdata = 0;

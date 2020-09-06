@@ -97,7 +97,7 @@ if ($adicionarPilotoCampeonato) {
 <?php if($consulta_adicao!=Choice::PBA_INSCRITOCAMPEONATO) { echo $button->btCustom($idurl,$idobj, $textoAcao.$listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO],$target,Choice::PBA_INSCRITOCAMPEONATO); }?>
 <?php if($consulta_adicao!=Choice::PBA_PILOTO) {echo $button->btCustom($idurl,$idobj, $textoAcao.$listaOpcoesMostrar[Choice::PBA_PILOTO],$target,Choice::PBA_PILOTO); }?>
 <?php //if($consulta_adicao!=Choice::PBA_PESSOA) echo $button->btCustom($idurl,$idobj, $textoAcao.$listaOpcoesMostrar[Choice::PBA_PESSOA],$target,Choice::PBA_PESSOA);?>
-<?php //if($consulta_adicao!=Choice::PBA_FORM_ADD) echo $button->btCustom($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_FORM_ADD],$target,Choice::PBA_FORM_ADD);?>
+<?php if($consulta_adicao!=Choice::PBA_FORM_ADD) echo $button->btCustom($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_FORM_ADD],$target,Choice::PBA_FORM_ADD);?>
 </div>
 <?php if(false){?>
 <div class="options1">

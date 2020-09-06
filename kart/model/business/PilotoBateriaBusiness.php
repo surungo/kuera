@@ -728,8 +728,8 @@ class PilotoBateriaBusiness {
         return $results;
 	}
 	
-	public function findById($id) {
-		if ($id == 0 || $id == null)
+	public function findById($bean) {
+		if (UTIL::getIdObjeto($bean) == 0 )
 			return null;
 		$results = null;
 		$con = null;
@@ -737,7 +737,7 @@ class PilotoBateriaBusiness {
 		try {
 			$con = $dsm->getConn (get_class($this));
 			$objDAO = new PilotoBateriaDAO ( $con );
-			$results = $objDAO->findById ( $id );
+			$results = $objDAO->findById ( $bean );
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();
@@ -1038,7 +1038,7 @@ class PilotoBateriaBusiness {
 			    $bean->setposicao ( null );
 			    $bean->setkart ( null );
 				$bean->setvolta ( null );
-				$bean->setpeso ( null );
+				
 			}
 			
 			if ($bean->getid () == null || $bean->getid () == 0) {

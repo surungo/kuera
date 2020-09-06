@@ -1,13 +1,27 @@
 <?php
-include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
+if($consulta_adicao==Choice::PBA_FORM_ADD){
+    ?>
+    <div id="piloto" style="float: left; width: <?php echo $divLargura;?>; background-color: silver; border: 3px inset black; ">
+<?php 
+}else{
+    include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
+}
 $pilotobean=($pilotobean==null)?new PilotoBean():$pilotobean;
 ?>
+<script>
+
+$(document).ready(function() {
+
+	$("#cpf").focus();
+	$("#cpf").mask('999.999.999-99');
+});	
+</script>	
 <TABLE>
 	<TR>
 		<TD>CPF</TD>
 		<TD><INPUT id="cpf" name="cpf" size="14" type="text" class="btn_change"
 <?php if($consulta_adicao==Choice::PBA_FORM_ADD){		
-    echo $button->atributos( $idurl, $idobj, Choice::ADICIONAR_PILOTO, $target, $choice );
+    echo $button->atributos( $idurl, $idobj, Choice::ATUALIZAR_CPF, $target, Choice::ATUALIZAR_CPF );
 }?>
 			value="<?php echo $pilotobean->getcpf();?>"></TD>
 	</TR>
@@ -61,7 +75,13 @@ $(document).ready(function() {
 		<TD><INPUT id="peso" name="peso" size="30" type="text"
 			value="<?php echo $pilotobean->getpeso();?>"></TD>
 	</TR>
+	<TR>
+		<TD>Peso Extra</TD>
+		<TD><INPUT id="pesoextra" name="pesoextra" size="30" type="text"
+			value="<?php echo $pilotobean->getpesoextra();?>"></TD>
+	</TR>
 <?php if($consulta_adicao!=Choice::PBA_FORM_ADD){?>
+
 	<TR>
 		<TD>Facebook</TD>
 		<TD>
@@ -94,7 +114,7 @@ $(document).ready(function() {
 		<TD><textarea name="observacao" id="observacao" rows="4" cols="40"><?php echo $pilotobean->getobservacao();?></textarea>
 		</TD>
 	</TR>
-<?php }?>	
+	
 	<TR>
 		<TD>Pessoa</TD>
 			<?php $idpessoa = Util::getIdObjeto($pilotobean->getpessoa());?>
@@ -115,12 +135,25 @@ $(document).ready(function() {
 				   ?>		    
 				</select></TD>
 	</TR>
-<?php if($consulta_adicao!=Choice::PBA_FORM_ADD){?>	
+<?php }?>
 	<TR>
 		<TD colspan="2"><?php echo isset($mensagem)?$mensagem:''; ?></TD>
 	</TR>
 	<TR>
-		<TD colspan="2"><?php echo $button->btSEV($idobj,$idurl); ?></TD>
+		<TD colspan="2">
+		<?php 
+		if($consulta_adicao!=Choice::PBA_FORM_ADD){
+		    echo $button->btSEV($idobj,$idurl);
+		}else{
+		    echo $button->btCustom($idurl,$idobj, "Adicionar novo piloto",$target,Choice::ADICIONAR_NOVO);
+		  
+		}
+		?>
+		</TD>
 	</TR>
-<?php }?>	
 </TABLE>
+<?php 
+if($consulta_adicao==Choice::PBA_FORM_ADD){
+ ?>
+ </div>
+ <?php }?>

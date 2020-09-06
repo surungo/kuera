@@ -80,7 +80,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     				<?php }?>
     		</td>
 			<td>
-    			<?php
+				<?php
     			 if ($pilotoBateriaBeanList->getpresente () == 'S') {
     			     $idgridlargada = gettype ( $pilotoBateriaBeanList->getgridlargada () ) == "object" ? $pilotoBateriaBeanList->getgridlargada ()->getid () : $pilotoBateriaBeanList->getgridlargada ();
     			     echo  Util::lpad( $idgridlargada , 3 , "0");
@@ -91,10 +91,22 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				<?php echo $pilotoBeanList->getapelido (); ?>
 			</td>
 			<td>
-				<?php echo  $pilotoBeanList->getpeso();?>
+				<span id="span_peso_<?php echo $idpilotobateria;?>">
+					<input id="peso_<?php echo $idpilotobateria;?>" name="peso_<?php echo $idpilotobateria;?>"
+					 type="text" class="btn_change"
+					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESO, $target, Choice::ATUALIZAR_PESO );?>
+					size="3"
+					value="<?php echo  $pilotoBateriaBeanList->getpeso();?>"/>
+					<img id="timer_peso_<?php echo $idpilotobateria;?>" style="display: none;" src='<?php echo URLAPPVER;?>/public/view/images/5sec.gif?<?php echo $idpilotobateria;?>' / >
+					
+				</span>
 			</td>
 			<td>
-				<?php echo  $pilotoBeanList->getpeso();?>
+				<span id="span_pesoextra_<?php echo $idpilotobateria;?>">
+					<input id="input_pesoextra_<?php echo $idpilotobateria;?>"
+					size="3"
+					value="<?php echo  $pilotoBeanList->getpesoextra();?>"/>
+				</span>
 			</td>
 		    <td>
 				<?php

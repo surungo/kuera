@@ -5,11 +5,11 @@ class PessoaBean extends AbstractBean {
 	private $apelido;
 	private $nome;
 	private $peso;
+	private $pesoextra;
 	private $dtnascimento;
 	private $email;
 	private $cpf;
 	private $telefone;
-	
 	private $rg;
 	private $endereco;
 	private $numero;
@@ -23,11 +23,9 @@ class PessoaBean extends AbstractBean {
 	private $telefoneemergencia;
 	private $cidadeemergencia;
 	private $ufemergencia;
-	
 	private $tamanhocamisa;
 	private $dtvalidaemail;
 	private $senha;
-		
 	public function PessoaBean() {
 	}
 	public function getid() {
@@ -54,6 +52,12 @@ class PessoaBean extends AbstractBean {
 	public function setpeso($peso) {
 		$this->peso = $peso;
 	}
+	public function getpesoextra() {
+		return $this->pesoextra;
+	}
+	public function setpesoextra($pesoextra) {
+		$this->pesoextra = $pesoextra;
+	}
 	public function getdtnascimento() {
 		return $this->dtnascimento;
 	}
@@ -74,8 +78,11 @@ class PessoaBean extends AbstractBean {
 		return str_replace ( "-", "", str_replace ( ".", "", $this->cpf ) );
 	}
 	public function getcpf() {
-		$vowels = array(".", "-");
-		return str_replace($vowels, "",$this->cpf);
+		$vowels = array (
+				".",
+				"-" 
+		);
+		return str_replace ( $vowels, "", $this->cpf );
 	}
 	public function gettxcpf() {
 		return $this->cpf;
@@ -92,79 +99,79 @@ class PessoaBean extends AbstractBean {
 	public function getrg() {
 		return $this->rg;
 	}
-	public function setrg( $rg ) {
+	public function setrg($rg) {
 		$this->rg = $rg;
 	}
 	public function getendereco() {
 		return $this->endereco;
 	}
-	public function setendereco( $endereco ) {
+	public function setendereco($endereco) {
 		$this->endereco = $endereco;
 	}
 	public function getnumero() {
 		return $this->numero;
 	}
-	public function setnumero( $numero ) {
+	public function setnumero($numero) {
 		$this->numero = $numero;
 	}
 	public function getcomplemento() {
 		return $this->complemento;
 	}
-	public function setcomplemento( $complemento ) {
+	public function setcomplemento($complemento) {
 		$this->complemento = $complemento;
 	}
 	public function getbairro() {
 		return $this->bairro;
 	}
-	public function setbairro( $bairro ) {
+	public function setbairro($bairro) {
 		$this->bairro = $bairro;
 	}
 	public function getcidade() {
 		return $this->cidade;
 	}
-	public function setcidade( $cidade ) {
+	public function setcidade($cidade) {
 		$this->cidade = $cidade;
 	}
 	public function getuf() {
 		return $this->uf;
 	}
-	public function setuf( $uf ) {
+	public function setuf($uf) {
 		$this->uf = $uf;
 	}
-		public function getcep() {
+	public function getcep() {
 		return $this->cep;
 	}
-	public function setcep( $cep ) {
+	public function setcep($cep) {
 		$this->cep = $cep;
 	}
 	public function gettpsanguineo() {
 		return $this->tpsanguineo;
 	}
-	public function settpsanguineo( $tpsanguineo ) {
+	public function settpsanguineo($tpsanguineo) {
 		$this->tpsanguineo = $tpsanguineo;
 	}
 	public function getnmemergencia() {
 		return $this->nmemergencia;
 	}
-	public function setnmemergencia( $nmemergencia ) {
+	public function setnmemergencia($nmemergencia) {
 		$this->nmemergencia = $nmemergencia;
 	}
 	public function gettelefoneemergencia() {
 		return $this->telefoneemergencia;
 	}
-	public function settelefoneemergencia( $telefoneemergencia ) {
+	public function settelefoneemergencia($telefoneemergencia) {
 		$this->telefoneemergencia = $telefoneemergencia;
 	}
 	public function getcidadeemergencia() {
 		return $this->cidadeemergencia;
 	}
-	public function setcidadeemergencia( $cidadeemergencia ) {
+	public function setcidadeemergencia($cidadeemergencia) {
 		$this->cidadeemergencia = $cidadeemergencia;
 	}
 	public function getufemergencia() {
 		return $this->ufemergencia;
 	}
-	public function setufemergencia( $ufemergencia ) {
+	public function setufemergencia($ufemergencia) {
 		$this->ufemergencia = $ufemergencia;
 	}
 	public function gettamanhocamisa() {
@@ -185,6 +192,5 @@ class PessoaBean extends AbstractBean {
 	public function setsenha($senha) {
 		$this->senha = $senha;
 	}
-
 }
 ?>

@@ -7,6 +7,8 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 			  $('#cpf').mask('999.999.999-99');
 			  $('#telefone').mask('(99) 9999-99999');
 			  $('#celular').mask('(99) 9999-99999');
+			  $('#peso').mask('999');
+			  $('#pesoextra').mask('999');
 			  $('#telefonecomercial').mask('(99) 9999-99999');
 			  $('#dtnascimento').mask('99/99/9999');
 			  $('#dtenvio').mask('99/99/9999');
@@ -76,6 +78,11 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 		<TD>Peso</TD>
 		<TD><INPUT id="peso" name="peso" size="30" type="text"
 			value="<?php echo $bean->getpeso();?>"></TD>
+	</TR>
+	<TR>
+		<TD>Peso extra</TD>
+		<TD><INPUT id="pesoextra" name="pesoextra" size="30" type="text"
+			value="<?php echo $bean->getpesoextra();?>"></TD>
 	</TR>
 	<TR>
 

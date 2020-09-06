@@ -12,6 +12,7 @@ class PilotoBateriaBean extends AbstractBean {
 	private $volta;
 	private $na;
 	private $peso;
+	private $pesoextra;
 	private $pregridlargada;
 	private $posicaooficial;
 	private $kartlargada;
@@ -88,6 +89,12 @@ class PilotoBateriaBean extends AbstractBean {
 	}
 	public function setpeso($peso) {
 		$this->peso = $peso;
+	}
+	public function getpesoextra() {
+		return $this->pesoextra;
+	}
+	public function setpesoextra($pesoextra) {
+		$this->pesoextra = $pesoextra;
 	}
 	public function getpregridlargada() {
 		return $this->pregridlargada;

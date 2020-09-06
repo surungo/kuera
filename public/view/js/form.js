@@ -101,17 +101,41 @@ window.history.forward();
 		
 	});
 	
+	var magicalTimeout=3000;
+  	var timeout;
+
 	$('.btn_change').keyup(function(){
-		var length = $(this).val().length;
-		if (length<3){
-	    	return false;
-	    }
+		var form=$(this);
+		var length = form.val().length;
 		if($(this).attr('id')=='cpf'){
-			if (length<11){
+			clearTimeout(timeout);
+			valorcpf=form.val();
+			length_cpf=(valorcpf.indexOf(".")>-1)?14:11;
+			if (length<length_cpf){
 		    	return false;
 		    }
+			carrega_submet( $(this) );
+		
+		}else{
+		
+			clearTimeout(timeout);
+			id_form = form.attr("id");
+			
+			//image loader
+			src_timer = $("#timer_"+id_form).attr("src");
+			src_timer = src_timer.split("?")[0];
+			src_timer = src_timer+"?"+Math.random();
+			$("#timer_"+id_form).attr("src",src_timer);
+			$("#timer_"+id_form).hide();
+			$("#timer_"+id_form).show();
+			timeout=setTimeout(function(){
+				carrega_submet( form );
+    			},magicalTimeout);
 		}
-		carrega_submet( $(this) );
+		
+		
+		
+		//
 		
 	});
 	

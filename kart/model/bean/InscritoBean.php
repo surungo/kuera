@@ -7,49 +7,37 @@ class InscritoBean extends AbstractBean {
 	private $apelido;
 	private $nome;
 	private $peso;
+	private $pesoextra;
 	private $dtnascimento;
 	private $email;
 	private $cpf;
 	private $telefone;
-	
 	private $celular;
 	private $telefonecomercial;
-	
 	private $valor;
 	private $grupo;
 	private $situacao;
 	private $dtpagamento;
 	private $tamanhocamisa;
-	
 	private $carro;
 	private $nrcarro;
-	
 	private $chefeequipe;
-	
 	private $cep;
 	private $endereco;
 	private $numero;
-	
 	private $complemento;
 	private $bairro;
-	
 	private $nrcba;
 	private $cidade;
 	private $uf;
-	
 	private $evento;
-	
 	private $pessoa;
 	private $dtvalidaemail;
 	private $dtinscricao;
 	private $categoria;
-	
 	private $ipcriacao;
 	private $dtenvio;
-	
 	private $categoriainscrito;
-	
-	
 	public function InscritoBean() {
 	}
 	public function getid() {
@@ -88,6 +76,12 @@ class InscritoBean extends AbstractBean {
 	public function setpeso($peso) {
 		$this->peso = $peso;
 	}
+	public function getpesoextra() {
+		return $this->pesoextra;
+	}
+	public function setpesoextra($pesoextra) {
+		$this->pesoextra = $pesoextra;
+	}
 	public function getdtnascimento() {
 		return $this->dtnascimento;
 	}
@@ -108,8 +102,11 @@ class InscritoBean extends AbstractBean {
 		return str_replace ( "-", "", str_replace ( ".", "", $this->cpf ) );
 	}
 	public function getcpf() {
-		$vowels = array(".", "-");
-		return str_replace($vowels, "",$this->cpf);
+		$vowels = array (
+				".",
+				"-" 
+		);
+		return str_replace ( $vowels, "", $this->cpf );
 	}
 	public function gettxcpf() {
 		return $this->cpf;
@@ -117,45 +114,39 @@ class InscritoBean extends AbstractBean {
 	public function setcpf($cpf) {
 		$this->cpf = $cpf;
 	}
-
 	public function gettelefone() {
 		return $this->telefone;
 	}
-	
 	public function gettelefonelength() {
 		$telefoneF = $this->telefone;
-		$telefoneF = Util::soNumero($telefoneF);
-		$telefoneF = $telefoneF+0;
-		$tamanho = strlen($telefoneF);
+		$telefoneF = Util::soNumero ( $telefoneF );
+		$telefoneF = $telefoneF + 0;
+		$tamanho = strlen ( $telefoneF );
 		return $tamanho;
 	}
-	
-
 	public function gettelefoneFormatI() {
 		$retorno = "";
 		$telefoneF = $this->telefone;
-		$telefoneF = Util::soNumero($telefoneF);
-		$telefoneF = $telefoneF+0;
-		$tamanho = strlen($telefoneF);
+		$telefoneF = Util::soNumero ( $telefoneF );
+		$telefoneF = $telefoneF + 0;
+		$tamanho = strlen ( $telefoneF );
 		// não tem ddd
-	    if($tamanho == 11){
-			$telefoneF = substr_replace($telefoneF, "-", 6, 0);
-			$retorno = '('.substr_replace($telefoneF, ") ", 2, 0);
+		if ($tamanho == 11) {
+			$telefoneF = substr_replace ( $telefoneF, "-", 6, 0 );
+			$retorno = '(' . substr_replace ( $telefoneF, ") ", 2, 0 );
 		}
-		if($tamanho == 10){
-			$telefoneF = substr_replace($telefoneF, "-", 6, 0);
-			if(substr($telefoneF, 2,1)>5){
-				$telefoneF = '('.substr_replace($telefoneF, ") 9", 2, 0);
-			}else{
-				$telefoneF = '('.substr_replace($telefoneF, ") ", 2, 0);
+		if ($tamanho == 10) {
+			$telefoneF = substr_replace ( $telefoneF, "-", 6, 0 );
+			if (substr ( $telefoneF, 2, 1 ) > 5) {
+				$telefoneF = '(' . substr_replace ( $telefoneF, ") 9", 2, 0 );
+			} else {
+				$telefoneF = '(' . substr_replace ( $telefoneF, ") ", 2, 0 );
 			}
 			$retorno = $telefoneF;
 		}
 		
-		
 		return $retorno;
 	}
-	
 	public function settelefone($telefone) {
 		$this->telefone = $telefone;
 	}
@@ -220,158 +211,116 @@ class InscritoBean extends AbstractBean {
 	public function setcategoria($categoria) {
 		$this->categoria = $categoria;
 	}
-	
 	public function getcategoriainscrito() {
 		return $this->categoriainscrito;
 	}
 	public function setcategoriainscrito($categoriainscrito) {
 		$this->categoriainscrito = $categoriainscrito;
 	}
-	
-	public function getcidade(){
-        return $this->cidade;
-    }
-
-    public function setcidade($cidade){
-        $this->cidade = $cidade;
-    }
-
-    public function getuf(){
-        return $this->uf;
-    }
-
-    public function setuf($uf){
-        $this->uf = $uf;
-    }
-	
-
-  public function getendereco(){
-    return $this->endereco;
-  }
-
-  public function setendereco($endereco){
-    $this->endereco = $endereco;
-  }
-
-  public function getnrcba(){
-    return $this->nrcba;
-  }
-  
-  public function getnrcbalpad5(){
-  	$nrcbaN = Util::soNumero($this->nrcba);
-  	if($nrcbaN>99999){
-  		$nrcbaN = "";
-  	}else{
-  		$nrcbaN = str_pad($nrcbaN, 5, "0", STR_PAD_LEFT);
-  	}
-  	return $nrcbaN;
-  	
-  }
-  
-  public function setnrcba($nrcba){
-    $this->nrcba = $nrcba;
-  }
-
-
-  public function getcarro(){
-    return $this->carro;
-  }
-
-  public function setcarro($carro){
-    $this->carro = $carro;
-
-  }
-
-  public function getnrcarro(){
-    return $this->nrcarro;
-  }
-
-  public function setnrcarro($nrcarro){
-    $this->nrcarro = $nrcarro;
-  }
-
-
-  public function getcep(){
-    return $this->cep;
-  }
-
-  public function setcep($cep){
-    $this->cep = $cep;
-  }
-
-  
-
-  public function getcelular(){
-  	return $this->celular;
-  }
-  
-  public function setcelular($celular){
-  	$this->celular = $celular;
-  }
-  
-  public function gettelefonecomercial(){
-  	return $this->telefonecomercial;
-  }
-  
-  public function settelefonecomercial($telefonecomercial){
-  	$this->telefonecomercial = $telefonecomercial;
-  }
-  
-  public function getchefeequipe(){
-  	return $this->chefeequipe;
-  }
-  
-  public function setchefeequipe($chefeequipe){
-  	$this->chefeequipe = $chefeequipe;
-  }
-  
-  public function getnumero(){
-  	return $this->numero;
-  }
-  
-  public function setnumero($numero){
-  	$this->numero = $numero;
-  }
-  
-  public function getcomplemento(){
-  	return $this->complemento;
-  }
-  
-  public function setcomplemento($complemento){
-  	$this->complemento = $complemento;
-  }
-  
-  public function getbairro(){
-  	return $this->bairro;
-  }
-  
-  public function setbairro($bairro){
-  	$this->bairro = $bairro;
-  }
-  
-  public function getevento(){
-  	return $this->evento;
-  }
-  
-  public function setevento($evento){
-  	$this->evento = $evento;
-  }
-  
-  public function getipcriacao(){
-  	return $this->ipcriacao;
-  }
-  
-  public function setipcriacao($ipcriacao){
-  	$this->ipcriacao = $ipcriacao;
-  }
-  
-  public function getdtenvio(){
-  	return $this->dtenvio;
-  }
-  
-  public function setdtenvio($dtenvio){
-  	$this->dtenvio = $dtenvio;
-  }
-  
+	public function getcidade() {
+		return $this->cidade;
+	}
+	public function setcidade($cidade) {
+		$this->cidade = $cidade;
+	}
+	public function getuf() {
+		return $this->uf;
+	}
+	public function setuf($uf) {
+		$this->uf = $uf;
+	}
+	public function getendereco() {
+		return $this->endereco;
+	}
+	public function setendereco($endereco) {
+		$this->endereco = $endereco;
+	}
+	public function getnrcba() {
+		return $this->nrcba;
+	}
+	public function getnrcbalpad5() {
+		$nrcbaN = Util::soNumero ( $this->nrcba );
+		if ($nrcbaN > 99999) {
+			$nrcbaN = "";
+		} else {
+			$nrcbaN = str_pad ( $nrcbaN, 5, "0", STR_PAD_LEFT );
+		}
+		return $nrcbaN;
+	}
+	public function setnrcba($nrcba) {
+		$this->nrcba = $nrcba;
+	}
+	public function getcarro() {
+		return $this->carro;
+	}
+	public function setcarro($carro) {
+		$this->carro = $carro;
+	}
+	public function getnrcarro() {
+		return $this->nrcarro;
+	}
+	public function setnrcarro($nrcarro) {
+		$this->nrcarro = $nrcarro;
+	}
+	public function getcep() {
+		return $this->cep;
+	}
+	public function setcep($cep) {
+		$this->cep = $cep;
+	}
+	public function getcelular() {
+		return $this->celular;
+	}
+	public function setcelular($celular) {
+		$this->celular = $celular;
+	}
+	public function gettelefonecomercial() {
+		return $this->telefonecomercial;
+	}
+	public function settelefonecomercial($telefonecomercial) {
+		$this->telefonecomercial = $telefonecomercial;
+	}
+	public function getchefeequipe() {
+		return $this->chefeequipe;
+	}
+	public function setchefeequipe($chefeequipe) {
+		$this->chefeequipe = $chefeequipe;
+	}
+	public function getnumero() {
+		return $this->numero;
+	}
+	public function setnumero($numero) {
+		$this->numero = $numero;
+	}
+	public function getcomplemento() {
+		return $this->complemento;
+	}
+	public function setcomplemento($complemento) {
+		$this->complemento = $complemento;
+	}
+	public function getbairro() {
+		return $this->bairro;
+	}
+	public function setbairro($bairro) {
+		$this->bairro = $bairro;
+	}
+	public function getevento() {
+		return $this->evento;
+	}
+	public function setevento($evento) {
+		$this->evento = $evento;
+	}
+	public function getipcriacao() {
+		return $this->ipcriacao;
+	}
+	public function setipcriacao($ipcriacao) {
+		$this->ipcriacao = $ipcriacao;
+	}
+	public function getdtenvio() {
+		return $this->dtenvio;
+	}
+	public function setdtenvio($dtenvio) {
+		$this->dtenvio = $dtenvio;
+	}
 }
 ?>

@@ -16,6 +16,7 @@ $bean->setid ( $idobj );
 $bean->setapelido ( (isset ( $_POST ['apelido'] )) ? $_POST ['apelido'] : null );
 $bean->setnome ( (isset ( $_POST ['nome'] )) ? $_POST ['nome'] : null );
 $bean->setpeso ( (isset ( $_POST ['peso'] )) ? $_POST ['peso'] : null );
+$bean->setpesoextra ( (isset ( $_POST ['pesoextra'] )) ? $_POST ['pesoextra'] : null );
 $bean->setdtnascimento ( (isset ( $_POST ['dtnascimento'] ) && $_POST ['dtnascimento'] != "") ? Util::strtotimestamp ( $_POST ['dtnascimento'] ) : "" );
 $bean->setemail ( (isset ( $_POST ['email'] )) ? $_POST ['email'] : null );
 $bean->setcpf ( (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null );

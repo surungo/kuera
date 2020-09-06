@@ -13,6 +13,7 @@ class PessoaDAO extends AbstractDAO {
 			"apelido",
 			"nome",
 			"peso",
+			"pesoextra",
 			"dtnascimento",
 			"email",
 			"cpf",
@@ -48,35 +49,36 @@ class PessoaDAO extends AbstractDAO {
 			if ($usuarioLoginBean != null) {
 				$bean->setmodificador ( $usuarioLoginBean->getusuario () );
 			}
-			$query = " UPDATE " . $this->dbprexis . $this->tabela () .
-			" SET " .
-			" dtmodificacao = now(), " .
-			" modificador = ? , " .
-			" dtvalidade = ? , " .
-			" dtinicio = ? , " .
-			" apelido = ifnull(?,apelido) , " .
-			" nome = ifnull(updateacentos(?),nome) , " .
-			" peso = ifnull(?,peso) , " .
-			" dtnascimento = ifnull(?,dtnascimento) , " .
-			" email = ifnull(?,email) , " .
-			" cpf = ifnull(?,cpf), " .
-			" telefone = ifnull(?,telefone) , " .
-			" rg = ifnull(?,rg) , " .
-            " endereco = ifnull(?,endereco) , " .
-            " numero = ifnull(?,numero) , " .
-            " complemento = ifnull(?,complemento) , " .
-            " bairro = ifnull(?,bairro) , " .
-            " cidade = ifnull(?,cidade) , " .
-            " uf = ifnull(?,uf) , " .
-            " cep = ifnull(?,cep) , " .
-            " tpsanguineo = ifnull(?,tpsanguineo) , " .
-            " nmemergencia = ifnull(?,nmemergencia) , " .
-            " telefoneemergencia = ifnull(?,telefoneemergencia) , " .
-            " cidadeemergencia = ifnull(?,cidadeemergencia) , " .
-            " ufemergencia = ifnull(?,ufemergencia) , " .
-			" tamanhocamisa = ifnull(?,tamanhocamisa), " .
-			" dtvalidaemail = ifnull(?,dtvalidaemail), " .
-			" senha = ifnull(?,senha) " .
+			$query = " UPDATE " . $this->dbprexis . $this->tabela () .//sql 
+			" SET " .//sql 
+			" dtmodificacao = now(), " .//sql 
+			" modificador = ? , " .//sql 
+			" dtvalidade = ? , " .//sql 
+			" dtinicio = ? , " .//sql 
+			" apelido = ifnull(?,apelido) , " .//sql 
+			" nome = ifnull(updateacentos(?),nome) , " .//sql 
+			" peso = ifnull(?,trim(peso)) , " .//sql 
+			" pesoextra = ifnull(?,trim(pesoextra)) , " .//sql 
+			" dtnascimento = ifnull(?,dtnascimento) , " .//sql 
+			" email = ifnull(?,email) , " .//sql 
+			" cpf = ifnull(?,cpf), " .//sql 
+			" telefone = ifnull(?,telefone) , " .//sql 
+			" rg = ifnull(?,rg) , " .//sql 
+            " endereco = ifnull(?,endereco) , " .//sql 
+            " numero = ifnull(?,numero) , " .//sql 
+            " complemento = ifnull(?,complemento) , " .//sql 
+            " bairro = ifnull(?,bairro) , " .//sql 
+            " cidade = ifnull(?,cidade) , " .//sql 
+            " uf = ifnull(?,uf) , " .//sql 
+            " cep = ifnull(?,cep) , " .//sql 
+            " tpsanguineo = ifnull(?,tpsanguineo) , " .//sql 
+            " nmemergencia = ifnull(?,nmemergencia) , " .//sql 
+            " telefoneemergencia = ifnull(?,telefoneemergencia) , " .//sql 
+            " cidadeemergencia = ifnull(?,cidadeemergencia) , " .//sql 
+            " ufemergencia = ifnull(?,ufemergencia) , " .//sql 
+			" tamanhocamisa = ifnull(?,tamanhocamisa), " .//sql 
+			" dtvalidaemail = ifnull(?,dtvalidaemail), " .//sql 
+			" senha = ifnull(?,senha) " .//sql 
 			" WHERE " . $this->idtabela () . " =  ? ";
 				
 			$this->con->setTexto (	 1, $bean->getmodificador () );
@@ -84,28 +86,29 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setData (	 3, $bean->getdtinicio () );
 			$this->con->setTexto (	 4, $bean->getapelido () );
 			$this->con->setTexto (	 5, $bean->getnome () );
-			$this->con->setNumero (	 6, $bean->getpeso () );
-			$this->con->setData (	 7, $bean->getdtnascimento () );
-			$this->con->setTexto (	 8, $bean->getemail () );
-			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
-			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setTexto ( 	11, $bean->getrg () );
-			$this->con->setTexto ( 	12, $bean->getendereco () );
-			$this->con->setTexto ( 	13, $bean->getnumero () );
-			$this->con->setTexto ( 	14, $bean->getcomplemento () );
-			$this->con->setTexto ( 	15, $bean->getbairro () );
-			$this->con->setTexto ( 	16, $bean->getcidade () );
-			$this->con->setTexto ( 	17, $bean->getuf () );
-			$this->con->setTexto ( 	18, $bean->getcep () );
-			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
-			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
-			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
-			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
-			$this->con->setTexto ( 	23, $bean->getufemergencia () );
-			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
-			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	26, $bean->getsenha () );
-			$this->con->setNumero ( 27, $bean->getid () );
+			$this->con->setTexto (	 6, $bean->getpeso () );
+			$this->con->setTexto (	 7, $bean->getpeso () );
+			$this->con->setData (	 8, $bean->getdtnascimento () );
+			$this->con->setTexto (	 9, $bean->getemail () );
+			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	11, $bean->gettelefone () );
+			$this->con->setTexto ( 	12, $bean->getrg () );
+			$this->con->setTexto ( 	13, $bean->getendereco () );
+			$this->con->setTexto ( 	14, $bean->getnumero () );
+			$this->con->setTexto ( 	15, $bean->getcomplemento () );
+			$this->con->setTexto ( 	16, $bean->getbairro () );
+			$this->con->setTexto ( 	17, $bean->getcidade () );
+			$this->con->setTexto ( 	18, $bean->getuf () );
+			$this->con->setTexto ( 	19, $bean->getcep () );
+			$this->con->setTexto ( 	20, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	21, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	22, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	23, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	24, $bean->getufemergencia () );
+			$this->con->setTexto ( 	25, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	26, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	27, $bean->getsenha () );
+			$this->con->setNumero ( 28, $bean->getid () );
 			$this->con->setsql ( $query );
 		    $dbg=0;
 			Util::echobr ( $dbg, "PessoaDAO updateNotNull", $this->con->getsql () );
@@ -128,35 +131,36 @@ class PessoaDAO extends AbstractDAO {
 			if ($usuarioLoginBean != null) {
 				$bean->setmodificador ( $usuarioLoginBean->getusuario () );
 			}
-			$query = " UPDATE " . $this->dbprexis . $this->tabela () . 
-			" SET " . 
-			" dtmodificacao = now(), " . 
-			" modificador = ? , " . 
-			" dtvalidade = ? , " . 
-			" dtinicio = ? , " . 
-			" apelido = ? , " . 
-			" nome = updateacentos(?) , " . 
-			" peso = ? , " . 
-			" dtnascimento = ? , " . 
-			" email = ? , " . 
-			" cpf = ? , " . 
-			" telefone = ? , " . 
-			" rg = ? , " .
-		    " endereco = ? , " .
-		    " numero = ? , " .
-            " complemento = ? , " .
-            " bairro = ? , " .
-            " cidade = ? , " .
-            " uf = ? , " .
-            " cep = ? , " .
-			" tpsanguineo = ? , " .
-            " nmemergencia = ? , " .
-            " telefoneemergencia = ? , " .
-            " cidadeemergencia = ? , " .
-            " ufemergencia = ? , " .
-			" tamanhocamisa = ?, " . 
-			" dtvalidaemail = ?, " . 
-			" senha = ? " . 
+			$query = " UPDATE " . $this->dbprexis . $this->tabela () .//sql 
+			" SET " .//sql 
+			" dtmodificacao = now(), " .//sql 
+			" modificador = ? , " .//sql 
+			" dtvalidade = ? , " .//sql 
+			" dtinicio = ? , " .//sql 
+			" apelido = ? , " .//sql 
+			" nome = trim(?) , " .//sql 
+			" peso = trim(?) , " .//sql
+			" pesoextra = trim(?) , " .//sql
+			" dtnascimento = ? , " .//sql 
+			" email = ? , " .//sql 
+			" cpf = ? , " .//sql 
+			" telefone = ? , " .//sql 
+			" rg = ? , " .//sql 
+		    " endereco = ? , " .//sql 
+		    " numero = ? , " .//sql 
+            " complemento = ? , " .//sql 
+            " bairro = ? , " .//sql 
+            " cidade = ? , " .//sql 
+            " uf = ? , " .//sql 
+            " cep = ? , " .//sql 
+			" tpsanguineo = ? , " .//sql 
+            " nmemergencia = ? , " .//sql 
+            " telefoneemergencia = ? , " .//sql 
+            " cidadeemergencia = ? , " .//sql 
+            " ufemergencia = ? , " .//sql 
+			" tamanhocamisa = ?, " .//sql 
+			" dtvalidaemail = ?, " .//sql 
+			" senha = ? " .//sql 
 			" WHERE " . $this->idtabela () . " =  ? ";
 			
 			$this->con->setTexto (	 1, $bean->getmodificador () );
@@ -164,28 +168,29 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setData (	 3, $bean->getdtinicio () );
 			$this->con->setTexto (	 4, $bean->getapelido () );
 			$this->con->setTexto (	 5, $bean->getnome () );
-			$this->con->setNumero (	 6, $bean->getpeso () );
-			$this->con->setData (	 7, $bean->getdtnascimento () );
-			$this->con->setTexto (	 8, $bean->getemail () );
-			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
-			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setTexto ( 	11, $bean->getrg () );
-			$this->con->setTexto ( 	12, $bean->getendereco () );
-			$this->con->setTexto ( 	13, $bean->getnumero () );
-			$this->con->setTexto ( 	14, $bean->getcomplemento () );
-			$this->con->setTexto ( 	15, $bean->getbairro () );
-			$this->con->setTexto ( 	16, $bean->getcidade () );
-			$this->con->setTexto ( 	17, $bean->getuf () );
-			$this->con->setTexto ( 	18, $bean->getcep () );
-			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
-			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
-			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
-			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
-			$this->con->setTexto ( 	23, $bean->getufemergencia () );
-			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
-			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	26, $bean->getsenha () );
-			$this->con->setNumero ( 27, $bean->getid () );
+			$this->con->setTexto (	 6, $bean->getpeso () );
+			$this->con->setTexto (	 7, $bean->getpesoextra () );
+			$this->con->setData (	 8, $bean->getdtnascimento () );
+			$this->con->setTexto (	 9, $bean->getemail () );
+			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	11, $bean->gettelefone () );
+			$this->con->setTexto ( 	12, $bean->getrg () );
+			$this->con->setTexto ( 	13, $bean->getendereco () );
+			$this->con->setTexto ( 	14, $bean->getnumero () );
+			$this->con->setTexto ( 	15, $bean->getcomplemento () );
+			$this->con->setTexto ( 	16, $bean->getbairro () );
+			$this->con->setTexto ( 	17, $bean->getcidade () );
+			$this->con->setTexto ( 	18, $bean->getuf () );
+			$this->con->setTexto ( 	19, $bean->getcep () );
+			$this->con->setTexto ( 	20, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	21, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	22, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	23, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	24, $bean->getufemergencia () );
+			$this->con->setTexto ( 	25, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	26, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	27, $bean->getsenha () );
+			$this->con->setNumero ( 28, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO update", $this->con->getsql () );
 			$this->con->execute ();
@@ -205,44 +210,46 @@ class PessoaDAO extends AbstractDAO {
 			}
 			$bean->setid ( $this->getid ( $this->dbprexis ) );
 			
-			$query = " insert into " . $this->dbprexis . $this->tabela () . 
-			" ( " . 
-			" dtcriacao, " . 
-			" criador, " . 
-			" dtvalidade, " . 
-			" dtinicio, " . 
-			" apelido, " . 
-			" nome, " . 
-			" peso, " . 
-			" dtnascimento, " . 
-			" email, " . 
-			" cpf, " . 
-			" telefone, " . 
-			" rg, " .
-		    " endereco, " .
-		    " numero, " .
-            " complemento, " .
-            " bairro, " .
-            " cidade, " .
-            " uf, " .
-            " cep, " .
-			" tpsanguineo, " .
-            " nmemergencia, " .
-            " telefoneemergencia, " .
-            " cidadeemergencia, " .
-            " ufemergencia, " .
-			" tamanhocamisa, " . 
-			" dtvalidaemail, " . 
-			" senha, " . 
-			$this->idtabela () . 
-			" )values ( " . 
+			$query = " insert into " . $this->dbprexis . $this->tabela () .//sql 
+			" ( " .//sql 
+			" dtcriacao, " .//sql 
+			" criador, " .//sql 
+			" dtvalidade, " .//sql 
+			" dtinicio, " .//sql 
+			" apelido, " .//sql 
+			" nome, " .//sql 
+			" peso, " .//sql
+			" pesoextra, " .//sql
+			" dtnascimento, " .//sql 
+			" email, " .//sql 
+			" cpf, " .//sql 
+			" telefone, " .//sql 
+			" rg, " .//sql 
+		    " endereco, " .//sql 
+		    " numero, " .//sql 
+            " complemento, " .//sql 
+            " bairro, " .//sql 
+            " cidade, " .//sql 
+            " uf, " .//sql 
+            " cep, " .//sql 
+			" tpsanguineo, " .//sql 
+            " nmemergencia, " .//sql 
+            " telefoneemergencia, " .//sql 
+            " cidadeemergencia, " .//sql 
+            " ufemergencia, " .//sql 
+			" tamanhocamisa, " .//sql 
+			" dtvalidaemail, " .//sql 
+			" senha, " .//sql 
+			$this->idtabela () .//sql 
+			" )values ( " .//sql 
 			" now(), " . 	    // dtcriacao,
 			" ?, " . 			// criador,
 			" ?, " . 			// dtvalidade,
 			" ?, " . 			// dtinicio,
-			" ?, " . 			// apelido,
-			" updateacentos(?), " . 			// nome,
-			" ?, " . 			// peso,
+			" trim(?), " . 			// apelido,
+			" trim(?), " . 			// nome,
+			" trim(?), " . 			// peso,
+			" trim(?), " . 			// pesoextra,
 			" ?, " . 			// dtnascimento,
 			" ?, " . 			// email,
 			" ?, " . 			// cpf,
@@ -270,28 +277,29 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setData (	 3, $bean->getdtinicio () );
 			$this->con->setTexto (	 4, $bean->getapelido () );
 			$this->con->setTexto (	 5, $bean->getnome () );
-			$this->con->setNumero (	 6, $bean->getpeso () );
-			$this->con->setData (	 7, $bean->getdtnascimento () );
-			$this->con->setTexto (	 8, $bean->getemail () );
-			$this->con->setTexto ( 	 9, $bean->getcpfmascara () );
-			$this->con->setTexto ( 	10, $bean->gettelefone () );
-			$this->con->setTexto ( 	11, $bean->getrg () );
-			$this->con->setTexto ( 	12, $bean->getendereco () );
-			$this->con->setTexto ( 	13, $bean->getnumero () );
-			$this->con->setTexto ( 	14, $bean->getcomplemento () );
-			$this->con->setTexto ( 	15, $bean->getbairro () );
-			$this->con->setTexto ( 	16, $bean->getcidade () );
-			$this->con->setTexto ( 	17, $bean->getuf () );
-			$this->con->setTexto ( 	18, $bean->getcep () );
-			$this->con->setTexto ( 	19, $bean->gettpsanguineo () );
-			$this->con->setTexto ( 	20, $bean->getnmemergencia () );
-			$this->con->setTexto ( 	21, $bean->gettelefoneemergencia () );
-			$this->con->setTexto ( 	22, $bean->getcidadeemergencia () );
-			$this->con->setTexto ( 	23, $bean->getufemergencia () );
-			$this->con->setTexto ( 	24, $bean->gettamanhocamisa () );
-			$this->con->setData ( 	25, $bean->getdtvalidaemail () );
-			$this->con->setTexto ( 	26, $bean->getsenha () );
-			$this->con->setNumero ( 27, $bean->getid () );
+			$this->con->setTexto (	 6, $bean->getpeso () );
+			$this->con->setTexto (	 7, $bean->getpesoextra () );
+			$this->con->setData (	 8, $bean->getdtnascimento () );
+			$this->con->setTexto (	 9, $bean->getemail () );
+			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	11, $bean->gettelefone () );
+			$this->con->setTexto ( 	12, $bean->getrg () );
+			$this->con->setTexto ( 	13, $bean->getendereco () );
+			$this->con->setTexto ( 	14, $bean->getnumero () );
+			$this->con->setTexto ( 	15, $bean->getcomplemento () );
+			$this->con->setTexto ( 	16, $bean->getbairro () );
+			$this->con->setTexto ( 	17, $bean->getcidade () );
+			$this->con->setTexto ( 	18, $bean->getuf () );
+			$this->con->setTexto ( 	19, $bean->getcep () );
+			$this->con->setTexto ( 	20, $bean->gettpsanguineo () );
+			$this->con->setTexto ( 	21, $bean->getnmemergencia () );
+			$this->con->setTexto ( 	22, $bean->gettelefoneemergencia () );
+			$this->con->setTexto ( 	23, $bean->getcidadeemergencia () );
+			$this->con->setTexto ( 	24, $bean->getufemergencia () );
+			$this->con->setTexto ( 	25, $bean->gettamanhocamisa () );
+			$this->con->setData ( 	26, $bean->getdtvalidaemail () );
+			$this->con->setTexto ( 	27, $bean->getsenha () );
+			$this->con->setNumero ( 28, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO insert", $this->con->getsql () );
 			$this->con->execute ();
@@ -310,6 +318,7 @@ class PessoaDAO extends AbstractDAO {
 		$this->bean->setapelido ( $this->getValorArray ( $array, "apelido", null ) );
 		$this->bean->setnome ( $this->getValorArray ( $array, "nome", null ) );
 		$this->bean->setpeso ( $this->getValorArray ( $array, "peso", null ) );
+		$this->bean->setpesoextra ( $this->getValorArray ( $array, "pesoextra", null ) );
 		$this->bean->setdtnascimento ( $this->getValorArray ( $array, "dtnascimento", null ) );
 		$this->bean->setemail ( $this->getValorArray ( $array, "email", null ) );
 		$this->bean->setcpf ( $this->getValorArray ( $array, "cpf", null ) );
@@ -339,8 +348,8 @@ class PessoaDAO extends AbstractDAO {
 	public function findAll() {
 		$this->clt = array ();
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			// echo $this->con->getsql();
@@ -359,10 +368,10 @@ class PessoaDAO extends AbstractDAO {
 	public function findAllValidos() {
 		$this->clt = array ();
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
-			" where " .
-			" IFNULL(" . $this->getalias () . ".dtvalidade,now()) > NOW() - INTERVAL 1 SECOND " . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+			" where " .//sql 
+			" IFNULL(" . $this->getalias () . ".dtvalidade,now()) > NOW() - INTERVAL 1 SECOND " .//sql 
 			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			// echo $this->con->getsql();
@@ -384,10 +393,10 @@ class PessoaDAO extends AbstractDAO {
 			if ($bean->getsort () != "") {
 				$this->ordernome = $bean->getsort ();
 			}
-			$query = " SELECT " . 
-			$this->camposSelect () . 
-			" FROM " . 
-			$this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT " .//sql 
+			$this->camposSelect () .//sql 
+			" FROM " .//sql 
+			$this->dbprexis . $this->tabelaAlias () .//sql 
 			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO findAllSort", $this->con->getsql () );
@@ -409,9 +418,9 @@ class PessoaDAO extends AbstractDAO {
 		Util::echobr ( 0, "PessoaDAO findId id", $id );
 		
 		try {
-			$query = " SELECT " .
-					$this->camposSelect ()  .
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT " .//sql 
+					$this->camposSelect ()  .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" where " . $this->idtabelaAlias () . " = ? ";
 			$this->con->setNumero ( 1, $id );
 			$this->con->setsql ( $query );
@@ -433,19 +442,20 @@ class PessoaDAO extends AbstractDAO {
 		Util::echobr ( 0, "PessoaDAO findById id", $id );
 		
 		try {
-			$query = " SELECT " .
-					" updateacentos(".$this->getalias () .".apelido) ".$this->getalias () ."_apelido, ".
-					" updateacentos(".$this->getalias () .".nome) ".$this->getalias () ."_nome, ".
-					" ".$this->getalias () .".peso ".$this->getalias () ."_peso, ".
-					" ".$this->getalias () .".dtnascimento ".$this->getalias () ."_dtnascimento, ".
-					" ".$this->getalias () .".email ".$this->getalias () ."_email, ".
-					" ".$this->getalias () .".cpf ".$this->getalias () ."_cpf, ".
-					" ".$this->getalias () .".telefone ".$this->getalias () ."_telefone, ".
-					" ".$this->getalias () .".tamanhocamisa ".$this->getalias () ."_tamanhocamisa, ".
-					" ".$this->getalias () .".dtvalidaemail ".$this->getalias () ."_dtvalidaemail, ".
-					" ".$this->getalias () .".senha ".$this->getalias () ."_senha, ".
-					" ".$this->getalias () .".idpessoa ".$this->getalias () ."_idpessoa " .
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT " .//sql 
+					" updateacentos(".$this->getalias () .".apelido) ".$this->getalias () ."_apelido, ".//sql 
+					" updateacentos(".$this->getalias () .".nome) ".$this->getalias () ."_nome, ".//sql 
+					" ".$this->getalias () .".peso ".$this->getalias () ."_peso, ".//sql
+					" ".$this->getalias () .".pesoextra ".$this->getalias () ."_pesoextra, ".//sql
+					" ".$this->getalias () .".dtnascimento ".$this->getalias () ."_dtnascimento, ".//sql 
+					" ".$this->getalias () .".email ".$this->getalias () ."_email, ".//sql 
+					" ".$this->getalias () .".cpf ".$this->getalias () ."_cpf, ".//sql 
+					" ".$this->getalias () .".telefone ".$this->getalias () ."_telefone, ".//sql 
+					" ".$this->getalias () .".tamanhocamisa ".$this->getalias () ."_tamanhocamisa, ".//sql 
+					" ".$this->getalias () .".dtvalidaemail ".$this->getalias () ."_dtvalidaemail, ".//sql 
+					" ".$this->getalias () .".senha ".$this->getalias () ."_senha, ".//sql 
+					" ".$this->getalias () .".idpessoa ".$this->getalias () ."_idpessoa " .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" where " . $this->idtabelaAlias () . " = ? ";
 			$this->con->setNumero ( 1, $id );
 			$this->con->setsql ( $query );
@@ -466,10 +476,10 @@ class PessoaDAO extends AbstractDAO {
 		$this->results = new PessoaBean ();
 		
 		try {
-			$query = " SELECT " . 
-			$this->camposSelect () .  
-			" FROM " . $this->dbprexis . $this->tabelaAlias () .
-			" where REPLACE(REPLACE(" . $this->getalias () . ".cpf, '.', ''), '-', '') = REPLACE(REPLACE(?, '.', ''), '-', '') " . 
+			$query = " SELECT " .//sql 
+			$this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+			" where REPLACE(REPLACE(" . $this->getalias () . ".cpf, '.', ''), '-', '') = REPLACE(REPLACE(?, '.', ''), '-', '') " .//sql 
 			" ORDER BY " . $this->ordernome;
 			$this->con->setTexto ( 1, $cpf );
 			$this->con->setsql ( $query );
@@ -491,8 +501,8 @@ class PessoaDAO extends AbstractDAO {
 		try {
 			$usuarioLoginBean = $this->setoperador ();
 			
-			$query = " DELETE " . 
-			" FROM " . $this->dbprexis . $this->tabela () . 
+			$query = " DELETE " .//sql 
+			" FROM " . $this->dbprexis . $this->tabela () .//sql 
 			" WHERE " . $this->idtabela () . " = ? ";
 			
 			$this->con->setNumero ( 1, $bean->getid () );

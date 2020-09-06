@@ -22,6 +22,7 @@ class InscritoDAO extends AbstractDAO {
 			"apelido",
 			"nome",
 			"peso",
+			"pesoextra",
 			"dtnascimento",
 			"email",
 			"cpf",
@@ -64,45 +65,47 @@ class InscritoDAO extends AbstractDAO {
 			if ($usuarioLoginBean != null) {
 				$bean->setmodificador ( $usuarioLoginBean->getusuario () );
 			}
-			$query = " UPDATE " . 
-			$this->dbprexis . $this->tabela () . 
-			" SET " . " dtmodificacao = now(), " . 
+			$query = " UPDATE " .//sql 
+			$this->dbprexis . $this->tabela () .//sql 
+			" SET " . " dtmodificacao = now(), " .//sql 
 			" modificador = ? , " . 			//  1
 			" dtvalidade = ? , " . 				//  2
 			" dtinicio = ? , " .   				//  3
 			" idcampeonato = ? , " . 			//  4 
-			" apelido = ? , " .  //  5
-			" nome = ? , " .     //  6 
-			" peso = ? , " .                    //  7
-			" dtnascimento = ? , " .            //  8
-			" email = ? , " .                   //  9
-			" cpf = ? , " .                     // 10
-			" telefone = ? , " .                // 11
-			" valor = ? , " .                   // 12
-			" grupo = ? , " .                   // 13 
-			" situacao = ? , " .                // 14
-			" dtpagamento = ? , " .             // 15
-			" tamanhocamisa = ?, " .            // 16
-			" dtvalidaemail = ?, " .            // 17
-			" dtinscricao = ?, " .              // 18
-			" idpessoa = ?, " .                 // 19
-			" nrinscrito = ?, " .               // 20
-			" carro = ?, " .     // 21
-			" nrcarro = ?, " .                  // 22
-			" endereco = ?, " .  // 23
-			" nrcba = ?, " .                    // 24
-			" cidade = ?, " .    // 25
-			" uf = ?, " .        // 26
-			" cep = ?, " .                       // 27
-		    	" celular = ?, " .                   // 28
-			" telefonecomercial = ?, " .         // 29
-			" chefeequipe = ?, " . // 30 
-			" complemento = ?, " . // 31
-			" bairro = ?, " .	  // 32
-			" evento = ?, " . 		// 33
-			" ipcriacao = ?, " .               	// 34
-			" dtenvio = ?, " .	                //	 35
-			" numero = ? " .                   //	 36
+			" apelido = trim(?) , " .  //  5
+			" nome = trim(?) , " .     //  6 
+			" peso = trim(?) , " .                    //  7
+			" pesoextra = trim(?) , " .                    //  8
+			" dtnascimento = ? , " .            //  9
+			" email = ? , " .                   // 10
+			" cpf = ? , " .                     // 11
+			" telefone = ? , " .                // 12
+			" valor = ? , " .                   // 13
+			" grupo = ? , " .                   // 14 
+			" situacao = ? , " .                // 15
+			" dtpagamento = ? , " .             // 16
+			" tamanhocamisa = ?, " .            // 17
+			" dtvalidaemail = ?, " .            // 18
+			" dtinscricao = ?, " .              // 19
+			" idpessoa = ?, " .                 // 20
+			" nrinscrito = ?, " .               // 21
+			" carro = ?, " .     // 22
+			" nrcarro = ?, " .                  // 23
+			" endereco = ?, " .  // 24
+			" nrcba = ?, " .                    // 25
+			" cidade = ?, " .    // 26
+			" uf = ?, " .        // 27
+			" cep = ?, " .                       // 28
+		    	" celular = ?, " .                   // 29
+			" telefonecomercial = ?, " .         // 30
+		
+			" chefeequipe = ?, " . // 31
+			" complemento = ?, " . // 32
+			" bairro = ?, " .	  // 33
+			" evento = ?, " . 		// 34
+			" ipcriacao = ?, " .               	// 35
+			" dtenvio = ?, " .	                //	 36
+			" numero = ? " .                   //	 37
 			" WHERE " . $this->idtabela () . " =  ? "; // 38
 			
 			$this->con->setTexto ( 1, $bean->getmodificador () );
@@ -111,37 +114,38 @@ class InscritoDAO extends AbstractDAO {
 			$this->con->setNumero ( 4, Util::getIdObjeto ( $bean->getcampeonato () ) );
 			$this->con->setTexto ( 5, $bean->getapelido () );
 			$this->con->setTexto ( 6, $bean->getnome () );
-			$this->con->setNumero ( 7, $bean->getpeso () );
-			$this->con->setData ( 8, $bean->getdtnascimento () );
-			$this->con->setTexto ( 9, $bean->getemail () );
-			$this->con->setTexto ( 10, $bean->getcpf () );
-			$this->con->setTexto ( 11, $bean->gettelefone () );
-			$this->con->setTexto ( 12, $bean->getvalor () );
-			$this->con->setTexto ( 13, $bean->getgrupo () );
-			$this->con->setTexto ( 14, $bean->getsituacao () );
-			$this->con->setData ( 15, $bean->getdtpagamento () );
-			$this->con->setTexto ( 16, $bean->gettamanhocamisa () );
-			$this->con->setData ( 17, $bean->getdtvalidaemail () );
-			$this->con->setData ( 18, $bean->getdtinscricao () );
-			$this->con->setNumero ( 19, Util::getIdObjeto ( $bean->getpessoa () ) );
-			$this->con->setNumero ( 20, $bean->getnrinscrito () );
-			$this->con->setTexto ( 21, $bean->getcarro () );
-			$this->con->setTexto ( 22, $bean->getnrcarro () );
-			$this->con->setTexto ( 23, $bean->getendereco () );
-			$this->con->setTexto ( 24, $bean->getnrcba () );
-			$this->con->setTexto ( 25, $bean->getcidade () );
-			$this->con->setTexto ( 26, $bean->getuf () );
-			$this->con->setNumero ( 27, $bean->getcep () );
-			$this->con->setTexto ( 28, $bean->getcelular () );
-			$this->con->setTexto ( 29, $bean->gettelefonecomercial () );
-			$this->con->setTexto ( 30, $bean->getchefeequipe () );
-			$this->con->setTexto ( 31, $bean->getcomplemento () );
-			$this->con->setTexto ( 32, $bean->getbairro() );
-			$this->con->setTexto ( 33, $bean->getevento () );
-			$this->con->setTexto ( 34, $bean->getipcriacao () );
-			$this->con->setTexto ( 35, $bean->getdtenvio () );
-			$this->con->setNumero ( 36, $bean->getnumero () );
-			$this->con->setNumero ( 37, $bean->getid () );
+			$this->con->setTexto ( 7, $bean->getpeso () );
+			$this->con->setTexto ( 8, $bean->getpesoextra () );
+			$this->con->setData ( 9, $bean->getdtnascimento () );
+			$this->con->setTexto ( 10, $bean->getemail () );
+			$this->con->setTexto ( 11, $bean->getcpf () );
+			$this->con->setTexto ( 12, $bean->gettelefone () );
+			$this->con->setTexto ( 13, $bean->getvalor () );
+			$this->con->setTexto ( 14, $bean->getgrupo () );
+			$this->con->setTexto ( 15, $bean->getsituacao () );
+			$this->con->setData ( 16, $bean->getdtpagamento () );
+			$this->con->setTexto ( 17, $bean->gettamanhocamisa () );
+			$this->con->setData ( 18, $bean->getdtvalidaemail () );
+			$this->con->setData ( 19, $bean->getdtinscricao () );
+			$this->con->setNumero ( 20, Util::getIdObjeto ( $bean->getpessoa () ) );
+			$this->con->setNumero ( 21, $bean->getnrinscrito () );
+			$this->con->setTexto ( 22, $bean->getcarro () );
+			$this->con->setTexto ( 23, $bean->getnrcarro () );
+			$this->con->setTexto ( 24, $bean->getendereco () );
+			$this->con->setTexto ( 25, $bean->getnrcba () );
+			$this->con->setTexto ( 26, $bean->getcidade () );
+			$this->con->setTexto ( 27, $bean->getuf () );
+			$this->con->setNumero ( 28, $bean->getcep () );
+			$this->con->setTexto ( 29, $bean->getcelular () );
+			$this->con->setTexto ( 30, $bean->gettelefonecomercial () );
+			$this->con->setTexto ( 31, $bean->getchefeequipe () );
+			$this->con->setTexto ( 32, $bean->getcomplemento () );
+			$this->con->setTexto ( 33, $bean->getbairro() );
+			$this->con->setTexto ( 34, $bean->getevento () );
+			$this->con->setTexto ( 35, $bean->getipcriacao () );
+			$this->con->setTexto ( 36, $bean->getdtenvio () );
+			$this->con->setNumero ( 37, $bean->getnumero () );
+			$this->con->setNumero ( 38, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "InscritoDAO update", $this->con->getsql () );
 			$this->con->execute ();
@@ -161,54 +165,56 @@ class InscritoDAO extends AbstractDAO {
 			}
 			$bean->setid ( $this->getid ( $this->dbprexis ) );
 			
-			$query = " insert into " . $this->dbprexis . $this->tabela () . " ( " . 
-					" dtcriacao, " . 
-					" criador, " . 
-					" dtvalidade, " . 
-					" dtinicio, " . 
-					" idcampeonato, " . 
-					" apelido, " . 
-					" nome, " . 
-					" peso, " . 
-					" dtnascimento, " . 
-					" email, " . 
-					" cpf, " . 
-					" telefone, " . 
-					" valor, " . 
-					" grupo, " . 
-					" situacao, " . 
-					" dtpagamento, " . 
-					" tamanhocamisa, " . 
-					" dtvalidaemail, " . 
-					" dtinscricao, " . 
-					" idpessoa, " . 
-					" nrinscrito, " . 
-					" carro, " .
-					" nrcarro, " .
-					" endereco, " .
-					" nrcba, " .
-					" cidade, " .
-					" uf," .
-					" cep," .
-					" celular, " .                    // 28
-					" telefonecomercial, " .          // 29
-					" chefeequipe, " .                // 30
-					" complemento, " .                // 31
-					" bairro, " .            		    // 32
-					" evento, " .                		// 33
-					" ipcriacao, " .                	// 34
-					" dtenvio, " . 	                // 35
-					" numero, " . 	                // 36
-					$this->idtabela () . 
-					" )values ( " . 
+			$query = " insert into " . $this->dbprexis . $this->tabela () . " ( " .//sql 
+					" dtcriacao, " .//sql 
+					" criador, " .//sql 
+					" dtvalidade, " .//sql 
+					" dtinicio, " .//sql 
+					" idcampeonato, " .//sql 
+					" apelido, " .//sql 
+					" nome, " .//sql 
+					" peso, " .//sql 
+					" pesoextra, " .//sql 
+					" dtnascimento, " .//sql 
+					" email, " .//sql 
+					" cpf, " .//sql 
+					" telefone, " .//sql 
+					" valor, " .//sql 
+					" grupo, " .//sql 
+					" situacao, " .//sql 
+					" dtpagamento, " .//sql 
+					" tamanhocamisa, " .//sql 
+					" dtvalidaemail, " .//sql 
+					" dtinscricao, " .//sql 
+					" idpessoa, " .//sql 
+					" nrinscrito, " .//sql 
+					" carro, " .//sql 
+					" nrcarro, " .//sql 
+					" endereco, " .//sql 
+					" nrcba, " .//sql 
+					" cidade, " .//sql 
+					" uf," .//sql 
+					" cep," .//sql 
+					" celular, " .                    // sql
+					" telefonecomercial, " .          // sql
+					" chefeequipe, " .                // sql
+					" complemento, " .                // sql
+					" bairro, " .            		    //sql
+					" evento, " .                		// sql
+					" ipcriacao, " .                	// sql
+					" dtenvio, " . 	                // sql
+					" numero, " . 	                // sql
+					$this->idtabela () .//sql 
+					" )values ( " .//sql 
 			" now(), " . 			// dtcriacao,
 			" ?, " . 			// criador,
 			" ?, " . 			// dtvalidade,
 			" ?, " . 			// dtinicio,
 			" ?, " . 			// idcampeonato,
-			" ?, " . 			// apelido,
-			" ?, " . 			// nome,
-			" ?, " . 			// peso,
+			" trim(?), " . 			// apelido,
+			" trim(?), " . 			// nome,
+			" trim(?), " . 			// peso,
+			" trim(?), " . 			// pesoextra,
 			" ?, " . 			// dtnascimento,
 			" ?, " . 			// email,
 			" ?, " . 			// cpf,
@@ -222,62 +228,63 @@ class InscritoDAO extends AbstractDAO {
 			" ?, " . 			// dtinscricao,
 			" ?, " . 			// idpessoa,
 			" ?, " . 			// nrinscricao,
-			" ?, " . 			// carro, " .
-			" ?, " . 			// nrcarro, " .
-			" ?, " . 			// endereco, " .
-			" ?, " . 			// nrcba, " .
-			" ?, " . 			// cidade, " .
-			" ?, " . 			// uf," .
-			" ?, " . 			// cep," .
-			" ?, " . 			// celular," .
-			" ?, " . 			// telefonecomercial," .
-			" ?, " . 			// chefeequipe," .
-			" ?, " . 			// complemento," .
-			" ?, " . 			// bairro," .
-			" ?, " . 			// evento," .
-			" ?, " . 			// ipcriacao," .
-			" ?, " . 			// dtenvio," .
-			" ?, " . 			// numero," .
+			" ?, " . 			// carro, " .//sql 
+			" ?, " . 			// nrcarro, " .//sql 
+			" ?, " . 			// endereco, " .//sql 
+			" ?, " . 			// nrcba, " .//sql 
+			" ?, " . 			// cidade, " .//sql 
+			" ?, " . 			// uf," .//sql 
+			" ?, " . 			// cep," .//sql 
+			" ?, " . 			// celular," .//sql 
+			" ?, " . 			// telefonecomercial," .//sql 
+			" ?, " . 			// chefeequipe," .//sql 
+			" ?, " . 			// complemento," .//sql 
+			" ?, " . 			// bairro," .//sql 
+			" ?, " . 			// evento," .//sql 
+			" ?, " . 			// ipcriacao," .//sql 
+			" ?, " . 			// dtenvio," .//sql 
+			" ?, " . 			// numero," .//sql 
 					
 			" ? )"; // id;
 			
-			$this->con->setTexto ( 1, $bean->getcriador () );
-			$this->con->setData ( 2, $bean->getdtvalidade () );
-			$this->con->setData ( 3, $bean->getdtinicio () );
+			$this->con->setTexto  ( 1, $bean->getcriador () );
+			$this->con->setData   ( 2, $bean->getdtvalidade () );
+			$this->con->setData   ( 3, $bean->getdtinicio () );
 			$this->con->setNumero ( 4, $bean->getcampeonato () );
-			$this->con->setTexto ( 5, $bean->getapelido () );
-			$this->con->setTexto ( 6, $bean->getnome () );
-			$this->con->setNumero ( 7, $bean->getpeso () );
-			$this->con->setData ( 8, $bean->getdtnascimento () );
-			$this->con->setTexto ( 9, $bean->getemail () );
-			$this->con->setTexto ( 10, $bean->getcpf () );
-			$this->con->setTexto ( 11, $bean->gettelefone () );
-			$this->con->setTexto ( 12, $bean->getvalor () );
-			$this->con->setTexto ( 13, $bean->getgrupo () );
-			$this->con->setTexto ( 14, $bean->getsituacao () );
-			$this->con->setData ( 15, $bean->getdtpagamento () );
-			$this->con->setTexto ( 16, $bean->gettamanhocamisa () );
-			$this->con->setData ( 17, $bean->getdtvalidaemail () );
-			$this->con->setData ( 18, $bean->getdtinscricao () );
-			$this->con->setNumero ( 19, $bean->getpessoa () );
-			$this->con->setNumero ( 20, $bean->getnrinscrito () );
-			$this->con->setTexto ( 21, $bean->getcarro () );
-			$this->con->setTexto ( 22, $bean->getnrcarro () );
-			$this->con->setTexto ( 23, $bean->getendereco () );
-			$this->con->setTexto ( 24, $bean->getnrcba () );
-			$this->con->setTexto ( 25, $bean->getcidade () );
-			$this->con->setTexto ( 26, $bean->getuf () );
-			$this->con->setNumero ( 27, $bean->getcep () );
-			$this->con->setTexto ( 28, $bean->getcelular () );
-			$this->con->setTexto ( 29, $bean->gettelefonecomercial () );
-			$this->con->setTexto ( 30, $bean->getchefeequipe () );
-			$this->con->setTexto ( 31, $bean->getcomplemento () );
-			$this->con->setTexto ( 32, $bean->getbairro() );
-			$this->con->setTexto ( 33, $bean->getevento () );
-			$this->con->setTexto ( 34, $bean->getipcriacao () );
-			$this->con->setTexto ( 35, $bean->getdtenvio () );
-			$this->con->setNumero ( 36, $bean->getnumero () );
-			$this->con->setNumero ( 37, $bean->getid () );
+			$this->con->setTexto  ( 5, $bean->getapelido () );
+			$this->con->setTexto  ( 6, $bean->getnome () );
+			$this->con->setTexto  ( 7, $bean->getpeso () );
+			$this->con->setTexto  ( 8, $bean->getpesoextra () );
+			$this->con->setData   ( 9, $bean->getdtnascimento () );
+			$this->con->setTexto  ( 10, $bean->getemail () );
+			$this->con->setTexto  ( 11, $bean->getcpf () );
+			$this->con->setTexto  ( 12, $bean->gettelefone () );
+			$this->con->setTexto  ( 13, $bean->getvalor () );
+			$this->con->setTexto  ( 14, $bean->getgrupo () );
+			$this->con->setTexto  ( 15, $bean->getsituacao () );
+			$this->con->setData   ( 16, $bean->getdtpagamento () );
+			$this->con->setTexto  ( 17, $bean->gettamanhocamisa () );
+			$this->con->setData   ( 18, $bean->getdtvalidaemail () );
+			$this->con->setData   ( 19, $bean->getdtinscricao () );
+			$this->con->setNumero ( 20, $bean->getpessoa () );
+			$this->con->setNumero ( 21, $bean->getnrinscrito () );
+			$this->con->setTexto  ( 22, $bean->getcarro () );
+			$this->con->setTexto  ( 23, $bean->getnrcarro () );
+			$this->con->setTexto  ( 24, $bean->getendereco () );
+			$this->con->setTexto  ( 25, $bean->getnrcba () );
+			$this->con->setTexto  ( 26, $bean->getcidade () );
+			$this->con->setTexto  ( 27, $bean->getuf () );
+			$this->con->setNumero ( 28, $bean->getcep () );
+			$this->con->setTexto  ( 29, $bean->getcelular () );
+			$this->con->setTexto  ( 30, $bean->gettelefonecomercial () );
+			$this->con->setTexto  ( 31, $bean->getchefeequipe () );
+			$this->con->setTexto  ( 32, $bean->getcomplemento () );
+			$this->con->setTexto  ( 33, $bean->getbairro() );
+			$this->con->setTexto  ( 34, $bean->getevento () );
+			$this->con->setTexto  ( 35, $bean->getipcriacao () );
+			$this->con->setTexto  ( 36, $bean->getdtenvio () );
+			$this->con->setNumero ( 37, $bean->getnumero () );
+			$this->con->setNumero ( 38, $bean->getid () );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "InscritoDAO insert", $this->con->getsql () );
 			$this->con->execute ();
@@ -297,6 +304,7 @@ class InscritoDAO extends AbstractDAO {
 		$this->bean->setapelido ( $this->getValorArray ( $array, "apelido", null ) );
 		$this->bean->setnome ( $this->getValorArray ( $array, "nome", null ) );
 		$this->bean->setpeso ( $this->getValorArray ( $array, "peso", null ) );
+		$this->bean->setpesoextra ( $this->getValorArray ( $array, "pesoextra", null ) );
 		$this->bean->setdtnascimento ( $this->getValorArray ( $array, "dtnascimento", null ) );
 		$this->bean->setemail ( $this->getValorArray ( $array, "email", null ) );
 		$this->bean->setcpf ( $this->getValorArray ( $array, "cpf", null ) );
@@ -339,9 +347,9 @@ class InscritoDAO extends AbstractDAO {
 	public function findAll() {
 		$this->clt = array ();
 		try {
-			$query = " SELECT " . 
-			$this->camposSelect () . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT " .//sql 
+			$this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			// echo $this->con->getsql();
@@ -366,12 +374,12 @@ class InscritoDAO extends AbstractDAO {
 			if ($bean->getsort () != "") {
 				$this->ordernome = $bean->getsort ();
 			}
-			$query = " SELECT " . $pessoaDAO->camposSelect () . ", " . 
-			$grupoDAO->camposSelect () . ", " . $this->camposSelect () . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
-			" left join " . $this->dbprexis . $grupoDAO->tabelaAlias () . 
-			" on " . $grupoDAO->idtabelaAlias () . " = " . $this->getalias () . ".grupo " . 
-			 " left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . " " . 
+			$query = " SELECT " . $pessoaDAO->camposSelect () . ", " .//sql 
+			$grupoDAO->camposSelect () . ", " . $this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+			" left join " . $this->dbprexis . $grupoDAO->tabelaAlias () .//sql 
+			" on " . $grupoDAO->idtabelaAlias () . " = " . $this->getalias () . ".grupo " .//sql 
+			 " left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . " " .//sql 
 			" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa ";
 			
 			if ($campeonato > 0) {
@@ -402,18 +410,18 @@ class InscritoDAO extends AbstractDAO {
 			if ($bean->getsort () != "") {
 				$this->ordernome = $bean->getsort ();
 			}
-			$query = " SELECT " . $this->camposSelect () . ", " . 
-			" CASE " . 
-			" WHEN " . $this->getalias () . ".dtnascimento > param.dtnascimento " . 
-			" THEN 0 " . 
-			" ELSE 1 END AS " . $this->getalias () . "_categoria " . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . " ," . 
-			" ( select ? campeonato, ? situacao, ? dtnascimento, ? peso from dual ) param " . 
-			" where  " . $this->getalias () . ".idcampeonato = param.campeonato  and " . 
-			$this->getalias () . ".situacao = " . 
-			" case param.situacao when  " . "  'Todos' then " . 
-			$this->getalias () . ".situacao else " . "   param.situacao end " . 
-			" ORDER BY " . $this->getalias () . "_categoria , inscrito.peso , " . 
+			$query = " SELECT " . $this->camposSelect () . ", " .//sql 
+			" CASE " .//sql 
+			" WHEN " . $this->getalias () . ".dtnascimento > param.dtnascimento " .//sql 
+			" THEN 0 " .//sql 
+			" ELSE 1 END AS " . $this->getalias () . "_categoria " .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () . " ," .//sql 
+			" ( select ? campeonato, ? situacao, ? dtnascimento, ? peso from dual ) param " .//sql 
+			" where  " . $this->getalias () . ".idcampeonato = param.campeonato  and " .//sql 
+			$this->getalias () . ".situacao = " .//sql 
+			" case param.situacao when  " . "  'Todos' then " .//sql 
+			$this->getalias () . ".situacao else " . "   param.situacao end " .//sql 
+			" ORDER BY " . $this->getalias () . "_categoria , inscrito.peso , " .//sql 
 			$this->getalias () . ".dtnascimento desc ";
 			
 			$this->con->setNumero ( 1, Util::getIdObjeto ( $bean->getcampeonato () ) );
@@ -442,32 +450,32 @@ class InscritoDAO extends AbstractDAO {
 		/*$pessoaDAO = new PessoaDAO ( $this->con );
 		$pessoaCampeonatoDAO = new PessoaCampeonatoDAO ( $this->con );
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
-			" FROM " . $this->dbprexis . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis .//sql 
 			$this->tabelaAlias () . " " . " where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
 				$this->con->setNumero ( 1, $campeonato );
 			}
-			$query .= $this->whereAtivo () . 
-			" and IFNULL(" . $this->getalias () . ".cpf,'') != '' " . 
-			" and  " . $this->getalias () . ".situacao = 'Pago' " . 
-			" and exists ( " . 
-			"	select 1 " . 
-			"	from " . $this->dbprexis . $pessoaDAO->tabelaAlias () . " " . 
-			" 	where " . 
-				$pessoaDAO->getalias () . ".cpf =  " . $this->getalias () . ".cpf ".
-			" 	or " . 
-				$pessoaDAO->getalias () . ".idpessoa =  " . $this->getalias () . ".idpessoa " . 
-			" ) " . 
-			" and not exists ( " . 
-			"	select 1 " . 
-			"	from " . $this->dbprexis . $pessoaCampeonatoDAO->tabelaAlias () . " " . 
-			" 	where " . 
-				$this->getalias () . ".idpessoa =  " . $pessoaCampeonatoDAO->getalias () . ".idpessoa ". 
-			" 	and " . 
-				$this->getalias () . ".idcampeonato =  " . $pessoaCampeonatoDAO->getalias () . ".idcampeonato " .
-			 " ) " . 
+			$query .= $this->whereAtivo () .//sql 
+			" and IFNULL(" . $this->getalias () . ".cpf,'') != '' " .//sql 
+			" and  " . $this->getalias () . ".situacao = 'Pago' " .//sql 
+			" and exists ( " .//sql 
+			"	select 1 " .//sql 
+			"	from " . $this->dbprexis . $pessoaDAO->tabelaAlias () . " " .//sql 
+			" 	where " .//sql 
+				$pessoaDAO->getalias () . ".cpf =  " . $this->getalias () . ".cpf ".//sql 
+			" 	or " .//sql 
+				$pessoaDAO->getalias () . ".idpessoa =  " . $this->getalias () . ".idpessoa " .//sql 
+			" ) " .//sql 
+			" and not exists ( " .//sql 
+			"	select 1 " .//sql 
+			"	from " . $this->dbprexis . $pessoaCampeonatoDAO->tabelaAlias () . " " .//sql 
+			" 	where " .//sql 
+				$this->getalias () . ".idpessoa =  " . $pessoaCampeonatoDAO->getalias () . ".idpessoa ".//sql 
+			" 	and " .//sql 
+				$this->getalias () . ".idcampeonato =  " . $pessoaCampeonatoDAO->getalias () . ".idcampeonato " .//sql 
+			 " ) " .//sql 
 			" ORDER BY " . $this->ordernome;
 			
 			
@@ -522,11 +530,11 @@ class InscritoDAO extends AbstractDAO {
 		$pessoaDAO = new PessoaDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . " " . 
-			" where " . $this->whereAtivo () . " and " . 
-			$this->getalias () . ".idcampeonato = ? " . " and  " . 
-			$this->getalias () . ".situacao = 'Pago' " . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () . " " .//sql 
+			" where " . $this->whereAtivo () . " and " .//sql 
+			$this->getalias () . ".idcampeonato = ? " . " and  " .//sql 
+			$this->getalias () . ".situacao = 'Pago' " .//sql 
 			" order by " . $this->getalias () . "_peso, " . $this->getalias () . "_dtnascimento desc ";
 			$this->con->setNumero ( 1, Util::getIdObjeto ( $campeonato ) );
 			
@@ -553,17 +561,17 @@ class InscritoDAO extends AbstractDAO {
 	    $categoria = new CategoriaDAO($this->con);
 	    
 	    try {
-	        $query = " SELECT " . 
-	   	    $categoriainscrito->camposSelect () ." , ".
-	   	    $categoria->camposSelect () ." , ".
-   	        $this->camposSelect () .
-   	        " FROM " . $this->dbprexis . $this->tabelaAlias () . " " .
-   	        " inner join " .$this->dbprexis . $categoriainscrito->tabelaAlias () . " " .
-   	        " on " . $categoriainscrito->getalias () . ".idinscrito  = " . $this->idtabelaAlias () .
-   	        " inner join " .$this->dbprexis . $categoria->tabelaAlias () . " " .
-   	        " on " . $categoria->idtabelaAlias () . " = " . $categoriainscrito->getalias () . ".idcategoria " .
+	        $query = " SELECT " .//sql 
+	   	    $categoriainscrito->camposSelect () ." , ".//sql 
+	   	    $categoria->camposSelect () ." , ".//sql 
+   	        $this->camposSelect () .//sql 
+   	        " FROM " . $this->dbprexis . $this->tabelaAlias () . " " .//sql 
+   	        " inner join " .$this->dbprexis . $categoriainscrito->tabelaAlias () . " " .//sql 
+   	        " on " . $categoriainscrito->getalias () . ".idinscrito  = " . $this->idtabelaAlias () .//sql 
+   	        " inner join " .$this->dbprexis . $categoria->tabelaAlias () . " " .//sql 
+   	        " on " . $categoria->idtabelaAlias () . " = " . $categoriainscrito->getalias () . ".idcategoria " .//sql 
    	        
-	        " where " . $this->whereAtivo () . " and " .
+	        " where " . $this->whereAtivo () . " and " .//sql 
 	        $this->getalias () . ".idcampeonato = ? " ; 
 	        if( $inscrito->getsituacao()=='Pago'){
 	            $query .= " and  " .$this->getalias () . ".situacao = 'Pago' " ;
@@ -644,16 +652,16 @@ class InscritoDAO extends AbstractDAO {
 		/*$pessoaDAO = new PessoaDAO ( $this->con );
 		$pessoaCampeonatoDAO = new PessoaCampeonatoDAO ( $this->con );
 		try {
-			$query = " SELECT " . 
+			$query = " SELECT " .//sql 
 
 			$pessoaDAO->camposSelect () . ", " . $this->camposSelect () . " FROM " . $this->dbprexis . $this->tabelaAlias () . ", " . $this->dbprexis . $pessoaDAO->tabelaAlias () . " " . " where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
 				$this->con->setNumero ( 1, $campeonato );
 			}
-			$query .= $this->whereAtivo () . " and " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa ".
-  		//" and IFNULL(".$this->getalias(). ".cpf,'') != '' ".
-  		//" and  " . $this->getalias(). ".situacao = 'Pago' ".
+			$query .= $this->whereAtivo () . " and " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa ".//sql 
+  		//" and IFNULL(".$this->getalias(). ".cpf,'') != '' ".//sql 
+  		//" and  " . $this->getalias(). ".situacao = 'Pago' ".//sql 
   		" and exists ( " . "	select 1 " . "	from " . $this->dbprexis . $pessoaCampeonatoDAO->tabelaAlias () . " " . " where " . $this->getalias () . ".idpessoa =  " . $pessoaCampeonatoDAO->getalias () . ".idpessoa and " . $this->getalias () . ".idcampeonato =  " . $pessoaCampeonatoDAO->getalias () . ".idcampeonato " . " ) " . " ORDER BY " . $this->ordernome;
 			Util::echobr ( 0, "InscritoDAO findInscritoPessoa $ query", $query );
 			Util::echobr ( 0, "InscritoDAO findInscritoPessoa $ bean->getcampeonato()", $campeonato );
@@ -759,21 +767,21 @@ class InscritoDAO extends AbstractDAO {
 	    $pilotoCampeonatoDAO = new PilotoCampeonatoDAO ( $this->con );
 		$this->clt = array ();
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
 			" FROM " . $this->dbprexis . $this->tabelaAlias () . " " . " where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
 				$this->con->setNumero ( 1, $campeonato );
 			}
-			$query .= $this->whereAtivo () . 
-			" and  " . $this->getalias () . ".situacao != 'Pago' " . 
-			" and not exists ( " . 
-			"	select 1 " . 
-			"	from " . $this->dbprexis . $pilotoCampeonatoDAO->tabelaAlias () . " " . 
-			" 	where " . $this->getalias () . ".idpessoa =  " . 
-			  $pilotoCampeonatoDAO->getalias () . ".idpiloto and " . 
-			$this->getalias () . ".idcampeonato =  " . 
-			  $pilotoCampeonatoDAO->getalias () . ".idcampeonato " . " ) " . 
+			$query .= $this->whereAtivo () .//sql 
+			" and  " . $this->getalias () . ".situacao != 'Pago' " .//sql 
+			" and not exists ( " .//sql 
+			"	select 1 " .//sql 
+			"	from " . $this->dbprexis . $pilotoCampeonatoDAO->tabelaAlias () . " " .//sql 
+			" 	where " . $this->getalias () . ".idpessoa =  " .//sql 
+			  $pilotoCampeonatoDAO->getalias () . ".idpiloto and " .//sql 
+			$this->getalias () . ".idcampeonato =  " .//sql 
+			  $pilotoCampeonatoDAO->getalias () . ".idcampeonato " . " ) " .//sql 
 			" ORDER BY " . $this->ordernome;
 			
 			Util::echobr ( 0, "InscritoDAO findNaoPagosNaoPiloto $ query", $query );
@@ -798,12 +806,12 @@ class InscritoDAO extends AbstractDAO {
 		$pessoaDAO = new PessoaDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . 
-				$this->camposSelect () . ", " . 
-				$pessoaDAO->camposSelect () . 
-				" FROM " . $this->dbprexis . $this->tabelaAlias () . 
-				" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . 
-				" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . 
+			$query = " SELECT " .//sql 
+				$this->camposSelect () . ", " .//sql 
+				$pessoaDAO->camposSelect () .//sql 
+				" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+				" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .//sql 
+				" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () .//sql 
 				".idpessoa " . " where " . $this->idtabelaAlias () . " = ? ";
 			$this->con->setNumero ( 1, Util::getIdObjeto($inscrito) );
 			$this->con->setsql ( $query );
@@ -825,14 +833,14 @@ class InscritoDAO extends AbstractDAO {
 		$pessoaDAO = new PessoaDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . $this->camposSelect () . ", " . 
-				$pessoaDAO->camposSelect () . 
-				" FROM " . $this->dbprexis . $this->tabelaAlias () . 
-				" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . 
-				" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " . 
-				" where " . $this->whereAtivo () . 
-				" and " . $this->getalias () . ".idcampeonato = ? " . 
-				" and " . $this->getalias () . ".cpf = cpfClean( ? ) " . 
+			$query = " SELECT " . $this->camposSelect () . ", " .//sql 
+				$pessoaDAO->camposSelect () .//sql 
+				" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+				" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .//sql 
+				" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " .//sql 
+				" where " . $this->whereAtivo () .//sql 
+				" and " . $this->getalias () . ".idcampeonato = ? " .//sql 
+				" and " . $this->getalias () . ".cpf = cpfClean( ? ) " .//sql 
 				" order by " . $this->getalias () . ".dtcriacao desc";
 			$this->con->setNumero ( 1, Util::getIdObjeto ( $campeonato ) );
 			$this->con->setTexto ( 2, $cpf );
@@ -857,19 +865,19 @@ class InscritoDAO extends AbstractDAO {
 		$campeonatoDAO = new CampeonatoDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . 
-					" IFNULL( " .$this->getalias () . ".dtmodificacao,". $this->getalias () . ".dtcriacao ), ".
-					$this->camposSelect () . ", " .
-					$pessoaDAO->camposSelect () . 
-					" FROM " . $this->dbprexis . $this->tabelaAlias () .
-					" inner join " . $this->dbprexis . $campeonatoDAO->tabelaAlias () .
-					" on " . $campeonatoDAO->idtabelaAlias () . " = " . $this->getalias () . ".idcampeonato " .
-					" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .
-					" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " .
-					" where " . $this->whereAtivo () .
-					" and " . $campeonatoDAO->getalias () . ".tipoevento  = " . TipoEventoEnum::ARRANCADA . 
-					" and " . $this->getalias () . ".cpf = ? " .
-					" order by IFNULL( " .$this->getalias () . ".dtmodificacao,". 
+			$query = " SELECT " .//sql 
+					" IFNULL( " .$this->getalias () . ".dtmodificacao,". $this->getalias () . ".dtcriacao ), ".//sql 
+					$this->camposSelect () . ", " .//sql 
+					$pessoaDAO->camposSelect () .//sql 
+					" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
+					" inner join " . $this->dbprexis . $campeonatoDAO->tabelaAlias () .//sql 
+					" on " . $campeonatoDAO->idtabelaAlias () . " = " . $this->getalias () . ".idcampeonato " .//sql 
+					" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .//sql 
+					" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " .//sql 
+					" where " . $this->whereAtivo () .//sql 
+					" and " . $campeonatoDAO->getalias () . ".tipoevento  = " . TipoEventoEnum::ARRANCADA .//sql 
+					" and " . $this->getalias () . ".cpf = ? " .//sql 
+					" order by IFNULL( " .$this->getalias () . ".dtmodificacao,".//sql 
 						$this->getalias () . ".dtcriacao ) desc";
 			$this->con->setTexto ( 1, $cpf );
 			$this->con->setsql ( $query );
@@ -893,14 +901,14 @@ class InscritoDAO extends AbstractDAO {
 		$pessoaDAO = new PessoaDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . 
-			$this->camposSelect () . ", " . 
-			$pessoaDAO->camposSelect () . 
-			" FROM " . 
-			$this->dbprexis . $this->tabelaAlias () . 
-			" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . 
-			" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " . 
-			" where " . $this->getalias () . ".cpf = ? " . 
+			$query = " SELECT " .//sql 
+			$this->camposSelect () . ", " .//sql 
+			$pessoaDAO->camposSelect () .//sql 
+			" FROM " .//sql 
+			$this->dbprexis . $this->tabelaAlias () .//sql 
+			" left join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .//sql 
+			" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " .//sql 
+			" where " . $this->getalias () . ".cpf = ? " .//sql 
 			" order by " . $this->getalias () . ".dtcriacao desc";
 			$this->con->setTexto ( 1, $cpf );
 			$this->con->setsql ( $query );
@@ -922,13 +930,13 @@ class InscritoDAO extends AbstractDAO {
 		$pessoaDAO = new PessoaDAO ( $this->con );
 		
 		try {
-			$query = " SELECT " . 
-			$this->camposSelect () . ", " . 
-			$pessoaDAO->camposSelect () . 
-			" FROM " . 
-			$this->dbprexis . $this->tabelaAlias () . 
-			" inner join " . $this->dbprexis . $pessoaDAO->tabelaAlias () . 
-			" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " . 
+			$query = " SELECT " .//sql 
+			$this->camposSelect () . ", " .//sql 
+			$pessoaDAO->camposSelect () .//sql 
+			" FROM " .//sql 
+			$this->dbprexis . $this->tabelaAlias () .//sql 
+			" inner join " . $this->dbprexis . $pessoaDAO->tabelaAlias () .//sql 
+			" on " . $pessoaDAO->idtabelaAlias () . " = " . $this->getalias () . ".idpessoa " .//sql 
 			" where " . $this->getalias () . ".idpessoa = ? ";
 			$this->con->setNumero ( 1, Util::getIdObjeto($pessoa) );
 			$this->con->setsql ( $query );
@@ -1064,14 +1072,14 @@ class InscritoDAO extends AbstractDAO {
 		$situacaoPG = $parametroBusiness->findByCodigo ( ParametroEmun::INSCRICAO_SITUACAO_PG );
 		
 		try {
-			$query = " SELECT count(*) total " . 
-			" FROM " . $this->dbprexis . $this->tabelaAlias () . 
+			$query = " SELECT count(*) total " .//sql 
+			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
 				$this->con->setNumero ( 1, $campeonato );
 			}
-			$query .= $this->whereAtivo () . 
+			$query .= $this->whereAtivo () .//sql 
 			" and  " . $this->getalias () . ".situacao = '" . $situacaoPG . "' ";
 			
 			$this->con->setsql ( $query );
@@ -1188,8 +1196,8 @@ class InscritoDAO extends AbstractDAO {
 	public function inscritosFatorGrupo($idcampeonato) {
 		$this->results = array ();
 		try {
-			$query = $query = " SELECT " . $this->camposSelect () .
-               //", ".               " (".$this->getalias().".peso+".$this->getalias().".idade/10) fator ".
+			$query = $query = " SELECT " . $this->camposSelect () .//sql 
+               //", ".               " (".$this->getalias().".peso+".$this->getalias().".idade/10) fator ".//sql 
 		  		" FROM ( " .  " select " . "   interna.idcampeonato, " . "   interna.apelido, " . "   interna.nome, " . "   interna.peso, " . "   interna.dtnascimento, " . "   interna.email, " . "   interna.cpf, " . "   interna.telefone, " . "   interna.valor, " . "   interna.grupo, " . "   interna.situacao, " . "   interna.dtpagamento, " . "   interna.tamanhocamisa, " . "   interna.idinscrito, " . "   interna.criador, " . "   interna.dtcriacao, " . "   interna.modificador, " . "   interna.dtmodificacao, " . "   interna.dtvalidade, " . "   interna.dtinicio, " . "   (YEAR( CURDATE( ) ) - YEAR( interna.dtnascimento ) ) - " . "		( RIGHT( CURDATE( ) , 5 ) < RIGHT( interna.dtnascimento , 5 ) ) idade " . "		 FROM " . $this->dbprexis . $this->tabela . " interna " . " )  " . $this->getalias () . " where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
@@ -1240,7 +1248,7 @@ class InscritoDAO extends AbstractDAO {
 	public function inscritosPorParametroIdCampeonato($campeonato, $parametrosarray) {
 		$this->results = array ();
 		
-		$rangesPesos = " CASE " . " WHEN  (idade > " . $parametrosarray ['GPESADOIDADE'] . " and peso > " . $parametrosarray ['GPESADOPESOOPCIONAL'] . ") or " . " peso > " . $parametrosarray ['GPESADOPESO'] . " " . " THEN 'Mais de " . $parametrosarray ['GPESADOPESO'] . "Kg ou " . "mais de " . $parametrosarray ['GPESADOPESOOPCIONAL'] . "kg e com mas de " . $parametrosarray ['GPESADOIDADE'] . " anos' " . 
+		$rangesPesos = " CASE " . " WHEN  (idade > " . $parametrosarray ['GPESADOIDADE'] . " and peso > " . $parametrosarray ['GPESADOPESOOPCIONAL'] . ") or " . " peso > " . $parametrosarray ['GPESADOPESO'] . " " . " THEN 'Mais de " . $parametrosarray ['GPESADOPESO'] . "Kg ou " . "mais de " . $parametrosarray ['GPESADOPESOOPCIONAL'] . "kg e com mas de " . $parametrosarray ['GPESADOIDADE'] . " anos' " .//sql 
 
 		" WHEN  ";
 		if ($parametrosarray ['GMEDIOIDADE '] != 0) {
@@ -1457,15 +1465,15 @@ class InscritoDAO extends AbstractDAO {
 		$parametroBusiness = new ParametroBusiness ();
 		$situacaoLE = $parametroBusiness->findByCodigo ( ParametroEmun::INSCRICAO_SITUACAO_LE );
 		try {
-			$query = " SELECT " . $this->camposSelect () . 
+			$query = " SELECT " . $this->camposSelect () .//sql 
 			" FROM " . $this->dbprexis . $this->tabelaAlias () . " where ";
 			if ($campeonato > 0) {
 				$query .= $this->getalias () . ".idcampeonato = ? and ";
 				$this->con->setNumero ( 1, $campeonato );
 			}
-			$query .= $this->getalias () . ".situacao !=  '" . $situacaoLE . "' " .
-                " and IFNULL(" . $this->getalias () . ".dtvalidade,now()) > NOW() - INTERVAL 1 SECOND " . 
-                " and IFNULL(" . $this->getalias () . ".dtinicio,now()) < NOW() + INTERVAL 1 SECOND " .
+			$query .= $this->getalias () . ".situacao !=  '" . $situacaoLE . "' " .//sql 
+                " and IFNULL(" . $this->getalias () . ".dtvalidade,now()) > NOW() - INTERVAL 1 SECOND " .//sql 
+                " and IFNULL(" . $this->getalias () . ".dtinicio,now()) < NOW() + INTERVAL 1 SECOND " .//sql 
                 " ORDER BY " . $this->getalias () . ".nrinscrito ";
 
 			$this->con->setsql ( $query );
@@ -1557,28 +1565,28 @@ class InscritoDAO extends AbstractDAO {
 		$this->results = null;
 		try {
 			$query = 
-			" select min(u.nr) nr " . 
-			"	from  " . 
-			"		( " . 
-			"		select count(*)+1 nr " .
-			"		from " . 
-			"			kart_inscrito total " . 
-			"		where " . 
-			"			total.idcampeonato = ? " . 
-			"			and total.nrinscrito > 0 " . 
-			"		union " . 
-			"		select min( xc.rank) nr " . 
-			"		from " . 
-			"		(	SELECT t.*, " . 
-			"				   @rownum := @rownum + 1 AS rank " . 
-			"			  FROM kart_inscrito t, " . 
-			"				   (SELECT @rownum := 0) r " . 
-			"			where " . 
-			"				t.idcampeonato = ? " . 
-			"			and t.nrinscrito > 0 " . 
-			"			order by t.nrinscrito) xc " . 
-			"		where " . 
-			"			xc.nrinscrito != xc.rank " . 
+			" select min(u.nr) nr " .//sql 
+			"	from  " .//sql 
+			"		( " .//sql 
+			"		select count(*)+1 nr " .//sql 
+			"		from " .//sql 
+			"			kart_inscrito total " .//sql 
+			"		where " .//sql 
+			"			total.idcampeonato = ? " .//sql 
+			"			and total.nrinscrito > 0 " .//sql 
+			"		union " .//sql 
+			"		select min( xc.rank) nr " .//sql 
+			"		from " .//sql 
+			"		(	SELECT t.*, " .//sql 
+			"				   @rownum := @rownum + 1 AS rank " .//sql 
+			"			  FROM kart_inscrito t, " .//sql 
+			"				   (SELECT @rownum := 0) r " .//sql 
+			"			where " .//sql 
+			"				t.idcampeonato = ? " .//sql 
+			"			and t.nrinscrito > 0 " .//sql 
+			"			order by t.nrinscrito) xc " .//sql 
+			"		where " .//sql 
+			"			xc.nrinscrito != xc.rank " .//sql 
 			"		) u ";
 			
 			$this->con->setNumero ( 1, $campeoanto );
@@ -1636,13 +1644,13 @@ class InscritoDAO extends AbstractDAO {
 	public function updateAguardandoPagamento($bean) {
 		$this->results = new InscritoBean ();
 		try {
-			$query = " UPDATE " . $this->dbprexis . $this->tabela () .
-			 " SET " . 
-			 " dtmodificacao = now(), " . 
-			 " situacao  = 'Aguardando pagamento', " . 
-			 " modificador = 'desenv',  " . 
-			" dtenvio = now()  " . 
-			" WHERE " . 
+			$query = " UPDATE " . $this->dbprexis . $this->tabela () .//sql 
+			 " SET " .//sql 
+			 " dtmodificacao = now(), " .//sql 
+			 " situacao  = 'Aguardando pagamento', " .//sql 
+			 " modificador = 'desenv',  " .//sql 
+			" dtenvio = now()  " .//sql 
+			" WHERE " .//sql 
 			$this->idtabela () . " =  ? ";
 				
 			$this->con->setNumero ( 1, Util::getIdObjeto( $bean ) );
@@ -1667,12 +1675,12 @@ class InscritoDAO extends AbstractDAO {
 			if ($usuarioLoginBean != null) {
 				$bean->setmodificador ( $usuarioLoginBean->getusuario () );
 			}
-			$query = " UPDATE " . 
-			$this->dbprexis . $this->tabela () .
-			 " SET " . 
-			 " dtmodificacao = now(), " . 
-			 " modificador = ? ,  " . 
-			" dtativo = now()  " .
+			$query = " UPDATE " .//sql 
+			$this->dbprexis . $this->tabela () .//sql 
+			 " SET " .//sql 
+			 " dtmodificacao = now(), " .//sql 
+			 " modificador = ? ,  " .//sql 
+			" dtativo = now()  " .//sql 
 			" WHERE " . $this->idtabela () . " =  ? ";
 				
 			$this->con->setNumero ( 1, Util::getIdObjeto($bean) );

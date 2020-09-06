@@ -19,6 +19,7 @@ $bean->setcpf ( (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null );
 $bean->settelefone ( (isset ( $_POST ['telefone'] )) ? $_POST ['telefone'] : null );
 $bean->setemail ( (isset ( $_POST ['email'] )) ? $_POST ['email'] : null );
 $bean->setpeso ( (isset ( $_POST ['peso'] )) ? $_POST ['peso'] : null );
+$bean->setpesoextra ( (isset ( $_POST ['pesoextra'] )) ? $_POST ['pesoextra'] : null );
 $bean->setfacebook ( (isset ( $_POST ['facebook'] )) ? $_POST ['facebook'] : null );
 $bean->setfoto ( (isset ( $_POST ['foto'] )) ? $_POST ['foto'] : null );
 $bean->setdtnascimento ( (isset ( $_POST ['dtnascimento'] ) && $_POST ['dtnascimento'] != "") ? Util::strtotimestamp ( $_POST ['dtnascimento'] ) : "" );

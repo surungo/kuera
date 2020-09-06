@@ -158,7 +158,7 @@ class ButtonClass {
 	    $retorno = "<input id='validar".$idobj."' " . " name='presente' " . " value='presente' " .
 	   	    " title='$idobj' " . $this->atributos ( $idurl, $idobj, $action, $target, $choice ) .
 	   	    " type='image' " . " class='btn_abrir' " .
-	   	    " src='".URLAPPVER."/public/view/images/red.gif' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
+	   	    " src='".URLAPPVER."/public/view/images/red.png' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
 	    return $retorno;
 	}
 	public function btAusente($idobj, $idurl) {
@@ -168,7 +168,7 @@ class ButtonClass {
 	    $retorno = "<input id='validar".$idobj."' " . " name='ausente' " . " value='ausente' " .
 	   	    " title='$idobj' " . $this->atributos ( $idurl, $idobj, $action, $target, $choice ) .
 	   	    " type='image' " . " class='btn_abrir' " .
-	   	    " src='".URLAPPVER."/public/view/images/green.gif' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
+	   	    " src='".URLAPPVER."/public/view/images/green.png' " . " style='width: 52px; border: 0px;color:white;background-color: transparent;' " . "/>";
 	    return $retorno;
 	}
 	

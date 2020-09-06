@@ -4,6 +4,8 @@ include_once PATHAPP . '/mvc/kart/model/bean/PilotoBateriaBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PilotoBateriaBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PilotoCampeonatoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PilotoCampeonatoBusiness.php';
+include_once PATHAPP . '/mvc/kart/model/bean/PessoaBean.php';
+include_once PATHAPP . '/mvc/kart/model/business/PessoaBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PilotoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PilotoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/BateriaBean.php';
@@ -26,8 +28,10 @@ $pilotoBateriaBusiness = new PilotoBateriaBusiness ();
 $pilotoCampenonatoBean = new PilotoCampeonatoBean ();
 $pilotoCampeonatoBusiness = new PilotoCampeonatoBusiness ();
 $pilotoBusiness = new PilotoBusiness ();
+$pilotobean = new PilotoBean();
 $bateriaBusiness = new BateriaBusiness ();
 $posicaoBusiness = new PosicaoBusiness ();
+$pessoabusiness = new PessoaBusiness();
 
 $selcampeonatobean = new CampeonatoBean ();
 $campeonatoBusiness = new CampeonatoBusiness ();
@@ -103,6 +107,70 @@ $urlC = LISTAR;
 
 $umpresente=0;
 
+
+switch ($choice) {
+	case Choice::ATUALIZAR_PESO:
+		$pesoidobj  = (isset ( $_POST ["peso_$idobj"] )) ? $_POST ["peso_$idobj"] : null ;
+		$pilotoBateriaBean = $pilotoBateriaBusiness->findById($idobj);
+		$pilotobean = $pilotoBateriaBean->getpiloto();
+		$pilotobean->setpeso ( $pesoidobj );
+		$pilotoBateriaBean->setpeso ( $pesoidobj );
+		$pilotoBateriaBean->setpiloto($pilotobean);
+		$pilotoBateriaBusiness->salve($pilotoBateriaBean);
+		$pilotoBusiness->salve($pilotobean);
+		break;
+	
+    case Choice::ADICIONAR_NOVO:
+        $campovazio=false;
+        $nome = (isset ( $_POST ['nome'] )) ? $_POST ['nome'] : null ;
+        $cpf = (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null ;
+        $peso = (isset ( $_POST ['peso'] )) ? $_POST ['peso'] : null ;
+        
+        if($cpf==null || $cpf==""){
+            $mensagem="<span class='vermelho'>Preencha CPF.</span>";
+            $campovazio=true;
+        }
+        if(!$campovazio &&($nome==null || $nome=="")){
+            $mensagem="<span class='vermelho'>Preencha Nome.</span>";
+            $campovazio=true;
+        }
+        if(!$campovazio &&($peso==null || $peso=="")){
+            $mensagem="<span class='vermelho'>Preencha Peso.</span>";
+            $campovazio=true;
+        }
+        
+        $pilotobean = new PilotoBean();
+        $pilotobean->setnome ( $nome );
+        $pilotobean->setcpf ( $cpf );
+        $pilotobean->setpeso ( $peso );
+        
+        if(!$campovazio){
+            $pilotobean = $pilotoBusiness->findByCPF($cpf);
+            $pessoabean = $pessoabusiness->findByCPF($cpf);
+            $pilotobean->setpessoa($pessoabean);
+            if(Util::getIdObjeto($pessoabean) < 1 ){
+                $pessoabean->setnome ( $nome );
+                $pessoabean->setcpf ( $cpf );
+                $pessoabean->setpeso ( $peso );
+                $results = $pessoabusiness->salve($pessoabean);
+                $pessoabean = $results->getresposta();
+            }
+            if(Util::getIdObjeto($pilotobean) < 1 ){
+                $pilotobean = new PilotoBean();
+                $pilotobean->setnome ( $nome );
+                $pilotobean->setcpf ( $cpf );
+                $pilotobean->setpeso ( $peso );
+                $pilotobean->setpessoa ( $pessoabean );
+                $results = $pilotoBusiness->salve($pilotobean);
+                $pilotobean = $results->getresposta();
+            }
+            $idobj=Util::getIdObjeto($pilotobean);
+            $consulta_adicao = Choice::PBA_OCULTAR; 
+            $choice = Choice::ADICIONAR;
+        }
+        break;
+}
+
 switch ($choice) {
 	case Choice::PASSO_1:
 		//if(count($collection)>0){
@@ -147,9 +215,18 @@ switch ($choice) {
 	break;
 	
 	
-	case Choice::ADICIONAR_PILOTO:
+	case Choice::ATUALIZAR_CPF:
+	    $cpf = (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null; 
+	    $pessoabean = new PessoaBean();
+	    $pessoabean = $pessoabusiness->findByCPF($cpf);
 	    $pilotobean = new PilotoBean();
-	    $pilotobean->setcpf((isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null );
+	    if(Util::getIdObjeto($pessoabean)>0){
+	        $pilotobean->setnome(Util::getNomeObjeto($pessoabean));
+	        $pilotobean->setpeso($pessoabean->getpeso());
+	        $pilotobean->setpessoa($pessoabean);
+	    }
+	       
+	    $pilotobean->setcpf( $cpf );
 	    $choice = Choice::LISTAR;
     break;
 	    
@@ -182,14 +259,14 @@ switch ($choice) {
 		}
     	
 		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria Util::getIdObjeto($pilotoBean) ', Util::getIdObjeto($pilotoBean) );
-		$idbateria = (isset ( $_POST ['itemFK'] )) ? $_POST ['itemFK'] : null ;
-		$bateriaBean = new BateriaBean();
-		$bateriaBean->setid($idbateria);
-
+		
 		$pilotoBateriaBusiness = new PilotoBateriaBusiness();
 		$pilotoBateriaBean = new PilotoBateriaBean();
 		$pilotoBateriaBean->setpiloto($pilotoBean);
-		$pilotoBateriaBean->setbateria($bateriaBean);
+		$pilotoBateriaBean->setpeso($pilotoBean->getpeso());
+		$pilotoBateriaBean->setpesoextra($pilotoBean->getpesoextra());
+		
+		$pilotoBateriaBean->setbateria($selbateriabean);
 		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria pilotoBateriaBean', $pilotoBateriaBean);
 		
 		$pilotoBateriaBean = $pilotoBateriaBusiness->adicionar($pilotoBateriaBean);
@@ -464,7 +541,11 @@ switch ($consulta_adicao) {
         
     case Choice::PBA_PESSOA :
         break;
-    
+        
+//     case Choice::PBA_FORM_ADD :
+//         $cltPessoaCollection = $pessoabusiness->findAllValidos();
+//         break;
+        
 }
 
 

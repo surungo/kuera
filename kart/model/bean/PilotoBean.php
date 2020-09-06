@@ -9,6 +9,7 @@ class PilotoBean extends AbstractBean {
 	private $telefone;
 	private $email;
 	private $peso;
+	private $pesoextra;
 	private $facebook;
 	private $foto;
 	private $fotoimg;
@@ -77,7 +78,18 @@ class PilotoBean extends AbstractBean {
 	public function setpeso($peso) {
 		$this->peso = $peso;
 	}
-	public function getfacebook() {
+	
+	public function getpesoextra()
+    {
+        return $this->pesoextra==null?0:$this->pesoextra;
+    }
+
+    public function setpesoextra($pesoextra)
+    {
+        $this->pesoextra = $pesoextra;
+    }
+
+    public function getfacebook() {
 		return $this->facebook;
 	}
 	public function setfacebook($facebook) {

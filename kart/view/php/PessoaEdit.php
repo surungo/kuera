@@ -32,6 +32,11 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 			value="<?php echo $bean->getpeso();?>"></TD>
 	</TR>
 	<TR>
+		<TD>Peso extra</TD>
+		<TD><INPUT id="pesoextra" name="pesoextra" size="30" type="text"
+			value="<?php echo $bean->getpesoextra();?>"></TD>
+	</TR>
+	<TR>
 
 		<TD>Data Nascimento</TD>
 		<TD><INPUT id="dtnascimento" name="dtnascimento" size="30" type="text"

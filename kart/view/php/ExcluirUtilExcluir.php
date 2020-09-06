@@ -1,7 +1,7 @@
 <?php
-
-class Util {
-	public function Util() {
+//classe duplicada
+class ExcluirUtilExcluir {
+	public function ExcluirUtilExcluir() {
 	}
 	public function getPost($nomeparametro) {
 		return (isset ( $_POST [$nomeparametro] )) ? mysql_real_escape_string($_POST [$nomeparametro]) : null;
