@@ -102,7 +102,7 @@ $bean->setobservacao ( (isset ( $_POST ['observacao'] )) ? $_POST ['observacao']
 $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null ;
 
 $consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : Choice::PBA_OCULTAR ;
-
+$compacto =   (isset ( $_POST ['compacto'] )) ? $_POST ['compacto'] : true ;
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $urlC = LISTAR;

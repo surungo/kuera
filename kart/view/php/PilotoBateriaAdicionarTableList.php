@@ -15,7 +15,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 	<table class="listTable" cellspacing="0" cellpadding="0" border="0">
 		<thead>
 			<tr>
-				<th class="headerlink">&nbsp;</th> 
+				<th class="headerlink">&nbsp;</th>
 				<th class="header">Pré Grid</th>
 				<th class="header">Grid</th>
 				<th class="header">Piloto</th>
@@ -45,19 +45,12 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			?>
 		<tr class="<?php echo $corlinha;?>">
 			<td>
-			<?php
-			if ($editar == true && $umpresente < 1 ) {
-				?> 
-			
 				<?php
 				echo $button->btExcluirImagem ( $idpilotobateria, $idurl );
 				?>
 			    
-			<?php
-			}
-            ?>
-            </td> 
-			<td>
+			</td>
+            <td>
 				<?php
 				$displaypre = ( ($umpresente < 1)?"none":"block" );
 					$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
@@ -84,7 +77,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     				</select>
     				<?php }?>
     		</td>
-			<td>
+    		<td>
 				<?php
 				
     			 if ($pilotoBateriaBeanList->getpresente () == 'S') {
@@ -104,7 +97,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 					<input id="peso_<?php echo $idpilotobateria;?>" name="peso_<?php echo $idpilotobateria;?>"
 					 type="text" class="btn_change"
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESO, $target, Choice::ATUALIZAR_PESO );?>
-					size="3"
+					size="1"
 					value="<?php echo  $pilotoBateriaBeanList->getpeso();?>"/>
 					<img id="timer_peso_<?php echo $idpilotobateria;?>" style="display: none;" src='<?php echo URLAPPVER;?>/public/view/images/5sec.gif?<?php echo $idpilotobateria;?>' / >
 					
@@ -113,7 +106,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			<td>
 				<span id="span_pesoextra_<?php echo $idpilotobateria;?>">
 					<input id="input_pesoextra_<?php echo $idpilotobateria;?>"
-					size="3"
+					size="1"
 					value="<?php echo  $pilotoBeanList->getpesoextra();?>"/>
 				</span>
 			</td>
@@ -190,4 +183,24 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 	?>
   </tbody>
 	</table>
+		<script>
+	$(document).ready(function() {
+		<?php
+		if ($editar == true && $umpresente < 1 ) {
+		?> 
+		tableGlobal.columns( [0,1,3,6] ).visible( true );
+		tableGlobal.columns( [2,4,5,7,8] ).visible( false );
+			
+		<?php
+		}else{
+		?>
+		tableGlobal.columns( [2,3,4,5,6,7,8] ).visible( true );
+		tableGlobal.columns( [0,1] ).visible( false );
+		<?php
+		}
+		?>
+		tableGlobal.columns.adjust().draw();
+	});
+	</script>
+	
 </div>
