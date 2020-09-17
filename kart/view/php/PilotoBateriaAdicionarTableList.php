@@ -5,7 +5,10 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 
 <?php if($umpresente < 1){?>
 <div class="options1">
-	Processos:<?php echo $button->btCustom($idurl,$idobj,"Remover todos",$target,Choice::EXCLUIR_TODOS);?>
+	Processos:
+	<?php echo $button->btCustomCss($idurl,$idobj,"Sorteio pré grid",$target,Choice::SORTEIO_PREGRID,"certeza");?>
+	&nbsp;
+	<?php echo $button->btCustom($idurl,$idobj,"Remover todos",$target,Choice::EXCLUIR_TODOS);?>
 </div>
 <?php }?>
 
@@ -19,6 +22,8 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				<th class="header">Peso</th>
 				<th class="header">Peso externo</th>
 		 		<th class="header">Presença</th>
+		 		<th class="header">Posicao Kart</th>
+		 		<th class="header">Numero kart</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -81,10 +86,14 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     		</td>
 			<td>
 				<?php
+				
     			 if ($pilotoBateriaBeanList->getpresente () == 'S') {
     			     $idgridlargada = gettype ( $pilotoBateriaBeanList->getgridlargada () ) == "object" ? $pilotoBateriaBeanList->getgridlargada ()->getid () : $pilotoBateriaBeanList->getgridlargada ();
     			     echo  Util::lpad( $idgridlargada , 3 , "0");
-		          }  ?>
+		          } else {
+		          	
+		          	echo "<span style='display:none;'>9".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
+				}?>
 				
 			</td>
 			<td> 
@@ -119,7 +128,61 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 								
 				?>
 				
-			</td>  
+			</td>
+			<td>
+				<?php
+				$displaypre = ( ($umpresente < 1)?"none":"block" );
+					$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
+					echo "<span style='display:".$displaypre.";'>".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
+    				
+    				if($umpresente < 1){
+            		?>
+    			
+    				<select id="pregridlargada_<?php echo $idpilotobateria;?>" name="pregridlargada_<?php echo $idpilotobateria;?>"
+    					class="btn_select"
+            			<?php
+            			echo $button->atributos ( $idurl, $idobj, $action, $target, Choice::ATUALIZAR );
+            			?>>
+    					<?php
+    					for($posidpregridlargada = 1; $posidpregridlargada <= $countcolletion; $posidpregridlargada ++) {
+    				    ?>
+    			    	<option value="<?php echo $posidpregridlargada;?>"
+    			    	<?php echo ($idpregridlargada==$posidpregridlargada)?"selected='selected'":""; ?>>
+    							<?php echo  Util::lpad( $posidpregridlargada , 3 , "0") ;?>
+    						</option>
+    				<?php
+    					}
+    					?>
+    				</select>
+    				<?php }?>
+    		</td>
+    		<td>
+				<?php
+				$displaypre = ( ($umpresente < 1)?"none":"block" );
+					$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
+					echo "<span style='display:".$displaypre.";'>".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
+    				
+    				if($umpresente < 1){
+            		?>
+    			
+    				<select id="pregridlargada_<?php echo $idpilotobateria;?>" name="pregridlargada_<?php echo $idpilotobateria;?>"
+    					class="btn_select"
+            			<?php
+            			echo $button->atributos ( $idurl, $idobj, $action, $target, Choice::ATUALIZAR );
+            			?>>
+    					<?php
+    					for($posidpregridlargada = 1; $posidpregridlargada <= $countcolletion; $posidpregridlargada ++) {
+    				    ?>
+    			    	<option value="<?php echo $posidpregridlargada;?>"
+    			    	<?php echo ($idpregridlargada==$posidpregridlargada)?"selected='selected'":""; ?>>
+    							<?php echo  Util::lpad( $posidpregridlargada , 3 , "0") ;?>
+    						</option>
+    				<?php
+    					}
+    					?>
+    				</select>
+    				<?php }?>
+    		</td>  
 		</tr>
 		<?php
 		}

@@ -38,6 +38,10 @@ class Choice {
 	const PBA_PILOTO = 403;
 	const PBA_PESSOA = 404;
 	
+	const SORTEIO_PREGRID = 503;
+	const SORTEIO_GRID = 504;
+	const SORTEIO_KART = 505;
+	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
 	const PASSO_3 = 1003;

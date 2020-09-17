@@ -915,6 +915,20 @@ class PilotoBateriaBusiness {
 		return $saida;
 	}
 	
+	public function sorteioPreGrid($bean) {
+		$dbg = 0;
+		$results = null;
+		$beanpilotobateria = $bean;
+		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$cltpilotobateria = $this->findBateria($beanpilotobateria);
+		shuffle($cltpilotobateria);
+		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
+			$cltpilotobateria[$i]->setpregridlargada( $i + 1 );
+			$this->salve($cltpilotobateria[$i]);
+		}
+		return $cltpilotobateria;
+	}
+	
 	public function updatepregridlargada($bean) {
 	    $dbg = 0;
 	    $results = null;
@@ -924,6 +938,7 @@ class PilotoBateriaBusiness {
 	    
 	    return $results;
 	}
+	
 	
 	public function remover($bean) {
 	    $dbg = 0;
@@ -939,16 +954,20 @@ class PilotoBateriaBusiness {
 	public function presente($bean) {
 	    $dbg = 0;
 	    $bean = $this->findById($bean);
+	    $bean->setgridlargada($bean->getpregridlargada());
 	    $bean->setpresente ("S");
 	    $retorno = $this->salve($bean);
+	    $this->ajustegridlargada($bean);
 	    return $retorno;
 	}
 	
 	public function ausente($bean) {
 	    $dbg = 0;
 	    $bean = $this->findById($bean);
+	    $bean->setgridlargada(null);
 	    $bean->setpresente ("N");
 	    $retorno = $this->salve($bean);
+	    $this->ajustegridlargada($bean);
 	    return $retorno;
 	}
 	
@@ -973,19 +992,19 @@ class PilotoBateriaBusiness {
     	for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
     	    $pilotoBateriaBean = $cltpilotobateria [$i];
     	    
-    	    if($pospregridlargada == $pilotoBateriaBean->getpregridlargada()){
+    	    if($pospregridlargada == $pilotoBateriaBean->getgridlargada()){
     	        $pospregridlargada++;
     	        continue;
     	    }
     	    
-    	    if("" == $pilotoBateriaBean->getpregridlargada() || 0 > $pilotoBateriaBean->getpregridlargada()){
+    	    if("" == $pilotoBateriaBean->getgridlargada() || 0 > $pilotoBateriaBean->getgridlargada()){
     	        $maxpregridlargada++;
     	        $pilotoBateriaBean->setpregridlargada( $maxpregridlargada );
     	        $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
     	        continue;
     	    }
     	    
-    	    for($out = $pospregridlargada+1; $out <= $maxpregridlargada; $out ++){
+    	    for($out = $pospregridlargada; $out <= $maxpregridlargada+1; $out ++){
     	        if($out >= $pilotoBateriaBean->getpregridlargada()){
     	            $pilotoBateriaBean->setpregridlargada( $pospregridlargada );
     	            $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
@@ -1022,6 +1041,60 @@ class PilotoBateriaBusiness {
         }
         return $results;
 	}
+	
+	
+	public function updategridlargada($bean) {
+		$dbg = 0;
+		$results = null;
+		$beanpilotobateria = $bean;
+		$results = $this->salve($beanpilotobateria);
+		$this->ajustegridlargada($beanpilotobateria);
+		
+		return $results;
+	}
+	
+	function ajustegridlargada($beanpilotobateria){
+		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$cltpilotobateria = $this->findBateria($beanpilotobateria);
+		
+		$posgridlargada=1;
+		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
+			$pilotoBateriaBean = $cltpilotobateria [$i];
+			if("S" == $pilotoBateriaBean->getpresente()){
+				$pilotoBateriaBean->setgridlargada($posgridlargada);
+				$pilotoBateriaBean = $this->salve($pilotoBateriaBean);
+				$posgridlargada++;
+			}
+		}
+	}
+	
+	public function maxgridlargada($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->maxgridlargada( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
+	
+	
 	      
 	public function salve($bean) {
 		$results = new ReturnDataBaseBean ();

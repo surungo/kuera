@@ -77,25 +77,27 @@ Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $bean->getpiloto', $bean->ge
 
 $bean->setbateria ( (isset ( $_POST ['bateria'] )) ? $_POST ['bateria'] : null );
 
+
+/*
 $bean->setgridlargada ( (isset ( $_POST ['gridlargada'] )) ? $_POST ['gridlargada'] : null );
 Util::echobr ( $dbg, 'PilotoBateriaAdicionarControl $bean->getgridlargada', $bean->getgridlargada () );
 
 $bean->setpresente ( (isset ( $_POST ['presente'] )) ? $_POST ['presente'] : null );
 $bean->setposicao ( (isset ( $_POST ['posicao'] )) ? $_POST ['posicao'] : null );
 $bean->setkart ( (isset ( $_POST ['kart'] )) ? $_POST ['kart'] : null );
+$bean->setposicaokart ( (isset ( $_POST ['posicaokart'] )) ? $_POST ['posicaokart'] : null );
 $bean->setvolta ( (isset ( $_POST ['volta'] )) ? $_POST ['volta'] : null );
 $bean->setna ( (isset ( $_POST ['na'] )) ? $_POST ['na'] : null );
 $bean->setpeso ( (isset ( $_POST ['peso'] )) ? $_POST ['peso'] : null );
 $bean->setpregridlargada ( (isset ( $_POST ['pregridlargada'] )) ? $_POST ['pregridlargada'] : null );
 $bean->setposicaooficial ( (isset ( $_POST ['posicaooficial'] )) ? $_POST ['posicaooficial'] : null );
 $bean->setkartlargada ( (isset ( $_POST ['kartlargada'] )) ? $_POST ['kartlargada'] : null );
-
 $bean->setpenalizacao ( (isset ( $_POST ['penalizacao'] )) ? $_POST ['penalizacao'] : null );
 $bean->setcartaoamarelo ( (isset ( $_POST ['cartaoamarelo'] )) ? $_POST ['cartaoamarelo'] : null );
 $bean->setconvidado ( (isset ( $_POST ['convidado'] )) ? $_POST ['convidado'] : null );
-
 $bean->setinformacao ( (isset ( $_POST ['informacao'] )) ? $_POST ['informacao'] : null );
 $bean->setobservacao ( (isset ( $_POST ['observacao'] )) ? $_POST ['observacao'] : null );
+*/
 
 $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null ;
 
@@ -107,7 +109,7 @@ $urlC = LISTAR;
 
 $umpresente=0;
 
-
+// PRIMEIRA ESCOLHA
 switch ($choice) {
 	case Choice::ATUALIZAR_PESO:
 		$pesoidobj  = (isset ( $_POST ["peso_$idobj"] )) ? $_POST ["peso_$idobj"] : null ;
@@ -118,6 +120,7 @@ switch ($choice) {
 		$pilotoBateriaBean->setpiloto($pilotobean);
 		$pilotoBateriaBusiness->salve($pilotoBateriaBean);
 		$pilotoBusiness->salve($pilotobean);
+		$choice = Choice::LISTAR;
 		break;
 	
     case Choice::ADICIONAR_NOVO:
@@ -169,6 +172,12 @@ switch ($choice) {
             $choice = Choice::ADICIONAR;
         }
         break;
+        
+    case Choice::SORTEIO_PREGRID :
+		$collection = $pilotoBateriaBusiness->sorteioPreGrid($bean);
+		$choice = Choice::LISTAR;
+		break;
+    		
 }
 
 switch ($choice) {
@@ -317,7 +326,10 @@ switch ($choice) {
 		break;
 
 }
+
+// SEGUNDA ESCOLHA
 switch ($choice) {
+		
 	
     case Choice::ATUALIZAR :
 	    // reposicionamento do grid
@@ -326,7 +338,7 @@ switch ($choice) {
 	        $pilotoBateriaBeanList = $collection [$i];
 	        $idpilotobateria = $pilotoBateriaBeanList->getid ();
 	        $bean = $pilotoBateriaBusiness->findById($idpilotobateria);
-	        $pregridlargada = $pilotoBateriaBeanList->getpregridlargada ();
+	        $pregridlargada = $pilotoBateriaBeanList->getgridlargada ();
 	        $newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
 	        if ( $newpregridlargada != $pregridlargada ) {
 	            $bean->setpregridlargada($newpregridlargada);
@@ -335,11 +347,6 @@ switch ($choice) {
 	        }
 	    }
 	    
-    case Choice::LISTAR :
-	    $mensagem = "";
-		$urlC = LISTAR;
-		break;
-	
 	case Choice::VALIDAR:
 		$entrada = isset ( $_POST ['entrada'] ) ? $_POST ['entrada'] : null ;
 		if($entrada != null && $entrada != ''){
@@ -350,7 +357,7 @@ switch ($choice) {
 		}
 	
 		
-		$urlC = EDITAR;
+		$urlC = LISTAR;
 		break;
 	
 	case Choice::LER:
@@ -460,7 +467,7 @@ switch ($choice) {
 		//$idobj = $retorno->getresposta ();
 		//$mensagem = $retorno->getmensagem ();
 		$mensagem = "salvo";
-		$urlC = EDITAR;
+		$urlC = LISTAR;
 		break;
 	case Choice::ABRIR :
 		$urlC = EDITAR;
@@ -468,12 +475,20 @@ switch ($choice) {
 }
 
 
+switch ($choice){
+	case Choice::LISTAR :
+		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+		$urlC = LISTAR;
+		break;
+	
+}	
+
 $bean->getpostlog ();
 $editar = true;
 $novo = false;
 $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria > 0;
 
-$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
 
 $listaOpcoesMostrar = array();

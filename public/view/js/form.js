@@ -87,6 +87,11 @@ window.history.forward();
 		    	return false;
 		    }
 		}
+		if($(this).hasClass('certeza')){
+			if (!confirm('Tem certeza?')){
+		    	return false;
+		    }
+		}
 		carrega_submet( $(this) );
 		
 	});
@@ -94,6 +99,11 @@ window.history.forward();
 	$('.btn_select').change(function(){
 		if($(this).val()=='Excluir'){
 			if (!confirm('Quer excluir?')){
+		    	return false;
+		    }
+		}
+		if($(this).hasClass('certeza')){
+			if (!confirm('Tem certeza?')){
 		    	return false;
 		    }
 		}

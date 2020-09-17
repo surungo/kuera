@@ -7,6 +7,7 @@ class PilotoBateriaBean extends AbstractBean {
 	private $gridlargada;
 	private $presente;
 	private $posicao;
+	private $posicaokart;
 	private $kart;
 	private $tempo;
 	private $volta;
@@ -60,6 +61,15 @@ class PilotoBateriaBean extends AbstractBean {
 	public function setposicao($posicao) {
 		$this->posicao = $posicao;
 	}
+		
+	public function getposicaokart() {
+		return $this->posicaokart;
+	}
+
+	public function setposicaokart($posicaokart) {
+		$this->posicaokart = $posicaokart;
+	}
+
 	public function getkart() {
 		return $this->kart;
 	}
