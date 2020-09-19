@@ -267,7 +267,35 @@ $this->idtabela() . //
         }
         return $this->clt;
     }
-
+    
+    
+    public function mutiplica10pregridlargada($bean)
+    {
+    	$dbg = 0;
+    	$retorno = false;
+    	try {
+    		$query = " update " . $this->dbprexis . $this->tabela() . 
+    		" set idpregridlargada = (idpregridlargada*10)+1 " . 
+    		" where  idbateria = ? ";
+    		
+    		$this->con->clearlistparametros();
+    		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+    		
+    		$this->con->setsql($query);
+    		Util::echobr($dbg, "PilotoBateriaDAO mutiplica10pregridlargada", $this->con->getsql());
+    		$result = $this->con->execute();
+    		
+    		if ($array = $result->fetch_assoc()) {
+    			$retorno = true;
+    		}
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	
+    	return $retorno;
+    }
+    
+    
     public function atualizaPosicoes($bean)
     {
         $dbg = 0;
@@ -279,7 +307,7 @@ $this->idtabela() . //
             Util::echobr($dbg, "PilotoBateriaDAO atualizaPosicoes", $this->con->getsql());
             $result = $this->con->execute();
             
-            $query = " update " . $this->dbprexis . $this->tabela() . " set idgridlargada = ( select @rownum := @rownum + 1) " . " where  idbateria = ? " . " order by observacao desc;  ";
+            $query = " update " . $this->dbprexis . $this->tabela() . " set idpregridlargada = ( select @rownum := @rownum + 1) " . " where  idbateria = ? " . " order by observacao desc;  ";
             
             $this->con->clearlistparametros();
             $this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
@@ -909,7 +937,7 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
                 
                 $this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
                 $this->con->setsql($query);
-                Util::echobr(0, "PilotoBateriaDAO findBateria", $this->con->getsql());
+                Util::echobr(0, "PilotoBateriaDAO findBateriaPresente", $this->con->getsql());
                 $result = $this->con->execute();
                 while ($array = $result->fetch_assoc()) {
                     $this->clt[] = $this->getBeans($array);
@@ -921,7 +949,6 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
         return $this->clt;
     }
     
-
     public function findPilotosEtapa($bean)
     {
         $this->clt = array();
@@ -1438,18 +1465,75 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
         return $this->results;
     }
 
-    public function ausentarTodosBateria($bateria)
+    
+    public function limparSorteioKartBateria($bean)
+    {
+    	$dbg = 0;
+    	$this->results = new PilotoBateriaBean();
+    	try {
+    		$usuarioLoginBean = $this->setoperador();
+    		$query = " UPDATE " .
+      		$this->dbprexis . $this->tabela() .
+      		" SET " .
+      		" posicaokart = null  " .
+      		" WHERE  idbateria = ? ";
+      		
+      		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+      		
+      		$this->con->setsql($query);
+      		Util::echobr($dbg, "limparSorteioKartBateria", $this->con->getsql());
+      		$this->con->execute();
+      		
+      		$this->returnDataBaseBean->setmensagem("<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>");
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	return $this->returnDataBaseBean;
+    }
+    
+    public function todosPresenteBateria($bean)
+    {
+    	$dbg = 0;
+    	$this->results = new PilotoBateriaBean();
+    	try {
+    		$usuarioLoginBean = $this->setoperador();
+    		$query = " UPDATE " .
+      		$this->dbprexis . $this->tabela() .
+      		" SET " .
+      		" presente = 'S',  " .
+      		" idgridlargada = idpregridlargada  " .
+      		" WHERE  idbateria = ? ";
+      		
+      		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+      		
+      		$this->con->setsql($query);
+      		Util::echobr($dbg, "todosPresenteBateria", $this->con->getsql());
+      		$this->con->execute();
+      		
+      		$this->returnDataBaseBean->setmensagem("<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>");
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	return $this->returnDataBaseBean;
+    }
+    
+    public function todosAusenteBateria($bean)
     {
         $dbg = 0;
         $this->results = new PilotoBateriaBean();
         try {
             $usuarioLoginBean = $this->setoperador();
-            $query = " UPDATE " . $this->dbprexis . $this->tabela() . " SET " . " presente = 'N'  " . " WHERE  idbateria = ? ";
+            $query = " UPDATE " . 
+            $this->dbprexis . $this->tabela() . 
+            " SET " . 
+            " presente = 'N',  " .
+            " idgridlargada = null  " .
+            " WHERE  idbateria = ? ";
             
-            $this->con->setNumero(1, Util::getIdObjeto($bateria));
+            $this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
             
             $this->con->setsql($query);
-            Util::echobr($dbg, "ausentarTodosBateria", $this->con->getsql());
+            Util::echobr($dbg, "todosAusenteBateria", $this->con->getsql());
             $this->con->execute();
             
             $this->returnDataBaseBean->setmensagem("<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>");

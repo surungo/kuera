@@ -80,7 +80,7 @@ if(count ( $cltInscritos ) < 1 ){
     				}
     			?>
     			</td>
-    		</tr>
+    		</
     		<?php 
     			}
 	   }

@@ -17,6 +17,7 @@ class Choice {
 	const ADICIONAR_PESSOA = 73;
 	const ADICIONAR_NOVO = 74;
 	
+	const ATUALIZAR_KART = 96;
 	const ATUALIZAR_PESOEXTRA = 97;
 	const ATUALIZAR_PESO = 98;
 	const ATUALIZAR_CPF = 99;
@@ -30,6 +31,8 @@ class Choice {
 	
 	const PRESENTE = 350;
 	const AUSENTE = 351;
+	const PRESENTE_TODOS = 352;
+	const AUSENTE_TODOS = 353;
 	
 	const PBA_FORM_ADD = 399;
 	const PBA_OCULTAR = 400;
@@ -37,10 +40,17 @@ class Choice {
 	const PBA_INSCRITOCAMPEONATO = 402;
 	const PBA_PILOTO = 403;
 	const PBA_PESSOA = 404;
+	const PBA_AJUSTEDEPESOS = 405;
+	const PBA_AJUSTEDEKART = 406;
+	const PBA_CHAMADA = 407;
+	const PBA_AJUSTEPREGRID = 408;
+	
+	const AJUSTAPREGRID = 501;
 	
 	const SORTEIO_PREGRID = 503;
 	const SORTEIO_GRID = 504;
 	const SORTEIO_KART = 505;
+	const LIMPAR_SORTEIO_KART = 506;
 	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;

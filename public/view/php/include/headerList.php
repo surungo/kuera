@@ -8,7 +8,7 @@
 		$novo = isset($novo)?$novo:false;
 		if ($novo == true) {
 			?>
-		<td align="Right" style="padding-right: 5px; font-size: 12pt;">
+		<td align="Right" class="hr_novo" style="padding-right: 5px; font-size: 12pt;">
 			Criar novo 
 			<?php
 			echo $button->btNovoImagem ( $idurl );
@@ -20,7 +20,7 @@
 	</tr>
 	<?php if ((isset($atualizar)?$atualizar:true) == true) {?>
 	<tr>
-		<td align="Right" colspan="2"
+		<td align="Right" colspan="2" class="hr_atualizar" 
 			style="padding-right: 5px; font-size: 12pt;">Atualizar tela <?php echo $button->btRefreshLista($idurl); ?></td>
 	</tr>
 	<?php }?>

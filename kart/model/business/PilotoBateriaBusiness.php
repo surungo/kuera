@@ -347,6 +347,37 @@ class PilotoBateriaBusiness {
 		}
 		return $results;
 	}
+	
+	
+	
+	public function mutiplica10pregridlargada($bean) {
+		if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
+			return null;
+			$results = Array ();
+			$con = null;
+			$dsm = new DataSourceManager ();
+			try {
+				$con = $dsm->getConnection ( $bean );
+				$objDAO = new PilotoBateriaDAO ( $con );
+				$results = $objDAO->mutiplica10pregridlargada ( $bean );
+			} catch ( Exception $ex ) {
+				// rollback transaction
+				$con->rollback ();
+				$dsm->close ( $con );
+				throw new Exception ( $ex->getMessage () );
+			}
+			try {
+				if ($con != null) {
+					// commit transaction
+					$con->commit ();
+					$dsm->close ( $con );
+				}
+			} catch ( Exception $ex ) {
+				throw new Exception ( $ex->getMessage () );
+			}
+			return $results;
+	}
+		
 	public function findBateria($bean) {
 		if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
 			return null;
@@ -915,30 +946,33 @@ class PilotoBateriaBusiness {
 		return $saida;
 	}
 	
-	public function sorteioPreGrid($bean) {
+	public function sorteioKart($bean) {
 		$dbg = 0;
 		$results = null;
-		$beanpilotobateria = $bean;
-		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
-		$cltpilotobateria = $this->findBateria($beanpilotobateria);
+		$this->limparSorteioKartBateria($bean);
+		$bean->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$cltpilotobateria = $this->findBateriaPresente($bean);
 		shuffle($cltpilotobateria);
 		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
-			$cltpilotobateria[$i]->setpregridlargada( $i + 1 );
+			$cltpilotobateria[$i]->setposicaokart( $i + 1 );
 			$this->salve($cltpilotobateria[$i]);
 		}
 		return $cltpilotobateria;
 	}
 	
-	public function updatepregridlargada($bean) {
-	    $dbg = 0;
-	    $results = null;
-	    $beanpilotobateria = $bean;
-	    $results = $this->salve($beanpilotobateria);
-	    $this->ajustepregridlargada($beanpilotobateria); 
-	    
-	    return $results;
+	public function sorteioPreGrid($bean) {
+		$dbg = 0;
+		$results = null;
+		$bean->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$cltpilotobateria = $this->findBateria($bean);
+		shuffle($cltpilotobateria);
+		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
+			$cltpilotobateria[$i]->setpregridlargada( $i + 1 );
+			$this->salve($cltpilotobateria[$i]);
+		}
+		$this->ajustegridlargada($bean);
+		return $cltpilotobateria;
 	}
-	
 	
 	public function remover($bean) {
 	    $dbg = 0;
@@ -970,49 +1004,39 @@ class PilotoBateriaBusiness {
 	    $this->ajustegridlargada($bean);
 	    return $retorno;
 	}
-	
-	
+		
 	public function adicionar($bean) {
 	    $dbg = 0;
 	    Util::echobr($dbg,'PilotoBateriaBusiness adicionar ', $bean );
 	    $beanpilotobateria = $bean;
-	    $this->ajustepregridlargada($beanpilotobateria);
-	    
-	    $maxpregridlargada = $this->maxpregridlargada($bean);
-	    $bean->setpregridlargada( $maxpregridlargada + 1 );
+	    $bean->setpregridlargada("9999" );
 	    $retorno = $this->salve($bean);
+	    $this->ajustepregridlargada($beanpilotobateria);
 	    return $retorno;
 	}
 	
+	public function updatepregridlargada($bean) {
+		$dbg = 0;
+		$results = null;
+		$beanpilotobateria = $bean;
+		$this->ajustepregridlargada($beanpilotobateria);
+		return $results;
+	}
+	
 	function ajustepregridlargada($beanpilotobateria){
-    	$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$this->mutiplica10pregridlargada($beanpilotobateria);
+		if( Util::getIdObjeto($beanpilotobateria->getpiloto()) > 0 ){
+			$this->salve($beanpilotobateria);
+		}
+		
+		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
     	$cltpilotobateria = $this->findBateria($beanpilotobateria);
-    	$maxpregridlargada = $this->maxpregridlargada($beanpilotobateria);
     	$pospregridlargada=1;
     	for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
-    	    $pilotoBateriaBean = $cltpilotobateria [$i];
-    	    
-    	    if($pospregridlargada == $pilotoBateriaBean->getgridlargada()){
-    	        $pospregridlargada++;
-    	        continue;
-    	    }
-    	    
-    	    if("" == $pilotoBateriaBean->getgridlargada() || 0 > $pilotoBateriaBean->getgridlargada()){
-    	        $maxpregridlargada++;
-    	        $pilotoBateriaBean->setpregridlargada( $maxpregridlargada );
-    	        $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
-    	        continue;
-    	    }
-    	    
-    	    for($out = $pospregridlargada; $out <= $maxpregridlargada+1; $out ++){
-    	        if($out >= $pilotoBateriaBean->getpregridlargada()){
-    	            $pilotoBateriaBean->setpregridlargada( $pospregridlargada );
-    	            $pilotoBateriaBean = $this->salve($pilotoBateriaBean);
-    	            $pospregridlargada++;
-    	            break;
-    	            
-    	        }
-    	    }
+    		$beanpilotobateria = $cltpilotobateria [$i];
+    		$beanpilotobateria->setpregridlargada($pospregridlargada);
+    		$beanpilotobateria = $this->salve($beanpilotobateria);
+    		$pospregridlargada++;
     	}
 	}
 	
@@ -1040,6 +1064,84 @@ class PilotoBateriaBusiness {
             throw new Exception ( $ex->getMessage () );
         }
         return $results;
+	}	
+	
+	public function limparSorteioKartBateria($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->limparSorteioKartBateria( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
+	
+	public function todosPresenteBateria($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->todosPresenteBateria( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
+	
+	public function todosAusenteBateria($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->todosAusenteBateria( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
 	}
 	
 	
@@ -1055,16 +1157,14 @@ class PilotoBateriaBusiness {
 	
 	function ajustegridlargada($beanpilotobateria){
 		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
-		$cltpilotobateria = $this->findBateria($beanpilotobateria);
+		$cltpilotobateria = $this->findBateriaPresente($beanpilotobateria);
 		
 		$posgridlargada=1;
 		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
 			$pilotoBateriaBean = $cltpilotobateria [$i];
-			if("S" == $pilotoBateriaBean->getpresente()){
-				$pilotoBateriaBean->setgridlargada($posgridlargada);
-				$pilotoBateriaBean = $this->salve($pilotoBateriaBean);
-				$posgridlargada++;
-			}
+			$pilotoBateriaBean->setgridlargada($posgridlargada);
+			$pilotoBateriaBean = $this->salve($pilotoBateriaBean);
+			$posgridlargada++;
 		}
 	}
 	
@@ -1205,33 +1305,6 @@ class PilotoBateriaBusiness {
 			$con = $dsm->getConn (get_class($this));
 			$objDAO = new PilotoBateriaDAO ( $con );
 			$results = $objDAO->deleteetapa ( $idetapa );
-		} catch ( Exception $ex ) {
-			// rollback transaction
-			$con->rollback ();
-			$dsm->close ( $con );
-			throw new Exception ( $ex->getMessage () );
-		}
-		try {
-			if ($con != null) {
-				// commit transaction
-				$con->commit ();
-				$dsm->close ( $con );
-			}
-		} catch ( Exception $ex ) {
-			throw new Exception ( $ex->getMessage () );
-		}
-		return $results;
-	}
-	
-	
-	public function ausentarTodosBateria($bateria) {
-		$results = Array ();
-		$con = null;
-		$dsm = new DataSourceManager ();
-		try {
-			$con = $dsm->getConn (get_class($this));
-			$objDAO = new PilotoBateriaDAO ( $con );
-			$results = $objDAO->ausentarTodosBateria($bateria);
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();

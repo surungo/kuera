@@ -103,6 +103,7 @@ $urlresultados =   (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados
 
 $consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : Choice::PBA_OCULTAR ;
 $compacto =   (isset ( $_POST ['compacto'] )) ? $_POST ['compacto'] : true ;
+$verausentes = (isset ( $_POST ['verausentes'] )) ? $_POST ['verausentes'] : "S";
 
 $collection = $pilotoBateriaBusiness->findBateria ( $bean );
 $urlC = LISTAR;
@@ -111,6 +112,36 @@ $umpresente=0;
 
 // PRIMEIRA ESCOLHA
 switch ($choice) {
+	case Choice::PRESENTE_TODOS :
+		$collection = $pilotoBateriaBusiness->todosPresenteBateria($bean);
+		$mensagem = "Todos presentes.";
+		$choice = Choice::LISTAR;
+		break;
+	
+	case Choice::AUSENTE_TODOS :
+		$collection = $pilotoBateriaBusiness->todosAusenteBateria($bean);
+		$mensagem = "Todos ausentes.";
+		$choice = Choice::LISTAR;
+		break;
+
+	case Choice::SORTEIO_PREGRID :
+		$collection = $pilotoBateriaBusiness->sorteioPreGrid($bean);
+		$mensagem = "Sorteio realizado.";
+		$choice = Choice::LISTAR;
+		break;
+		
+	case Choice::SORTEIO_KART :
+		$collection = $pilotoBateriaBusiness->sorteioKart($bean);
+		$mensagem = "Sorteio posicao do kart na fila.";
+		$choice = Choice::LISTAR;
+		break;
+		
+	case Choice::LIMPAR_SORTEIO_KART :
+		$collection = $pilotoBateriaBusiness->limparSorteioKartBateria($bean);
+		$mensagem = "Limpo posicao do kart na fila.";
+		$choice = Choice::LISTAR;
+		break;
+		
 	case Choice::ATUALIZAR_PESO:
 		$pesoidobj  = (isset ( $_POST ["peso_$idobj"] )) ? $_POST ["peso_$idobj"] : null ;
 		$pilotoBateriaBean = $pilotoBateriaBusiness->findById($idobj);
@@ -122,8 +153,29 @@ switch ($choice) {
 		$pilotoBusiness->salve($pilotobean);
 		$choice = Choice::LISTAR;
 		break;
+		
+	case Choice::ATUALIZAR_PESOEXTRA:
+		$pesoidobj  = (isset ( $_POST ["pesoextra_$idobj"] )) ? $_POST ["pesoextra_$idobj"] : null ;
+		$pilotoBateriaBean = $pilotoBateriaBusiness->findById($idobj);
+		$pilotobean = $pilotoBateriaBean->getpiloto();
+		$pilotobean->setpeso ( $pesoidobj );
+		$pilotoBateriaBean->setpesoextra ( $pesoidobj );
+		$pilotoBateriaBean->setpiloto($pilotobean);
+		$pilotoBateriaBusiness->salve($pilotoBateriaBean);
+		$pilotoBusiness->salve($pilotobean);
+		$choice = Choice::LISTAR;
+		break;
 	
-    case Choice::ADICIONAR_NOVO:
+	case Choice::ATUALIZAR_KART:
+		$kartidobj  = (isset ( $_POST ["kart_$idobj"] )) ? $_POST ["kart_$idobj"] : null ;
+		$pilotoBateriaBean = $pilotoBateriaBusiness->findById($idobj);
+		$pilotoBateriaBean->setkart ( $kartidobj );
+		$pilotoBateriaBusiness->salve($pilotoBateriaBean);
+		$choice = Choice::LISTAR;
+		break;
+		
+		
+	case Choice::ADICIONAR_NOVO:
         $campovazio=false;
         $nome = (isset ( $_POST ['nome'] )) ? $_POST ['nome'] : null ;
         $cpf = (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null ;
@@ -172,11 +224,6 @@ switch ($choice) {
             $choice = Choice::ADICIONAR;
         }
         break;
-        
-    case Choice::SORTEIO_PREGRID :
-		$collection = $pilotoBateriaBusiness->sorteioPreGrid($bean);
-		$choice = Choice::LISTAR;
-		break;
     		
 }
 
@@ -295,6 +342,8 @@ switch ($choice) {
         break;
 	        
 	case Choice::VOLTAR :
+		$selbateria=0;
+		$selbateriabean = new BateriaBean();
 		$choice = Choice::LISTAR;
 		break;
 	
@@ -324,6 +373,27 @@ switch ($choice) {
 		}
 		$choice = Choice::LISTAR;
 		break;
+		
+	case Choice::AJUSTAPREGRID :
+		// reposicionamento do grid
+		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+		for($i = 0; $i < count ( $collection ); $i ++) {
+			$beanpilotobateria = $collection [$i];
+			$idpilotobateria = $beanpilotobateria->getid ();
+			$beanpilotobateria = $pilotoBateriaBusiness->findById($idpilotobateria);
+			$pregridlargada = $beanpilotobateria->getpregridlargada ();
+			$newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
+			if ( $newpregridlargada != $pregridlargada ) {
+				$newpregridlargada= ($newpregridlargada>$pregridlargada)?($newpregridlargada*10)+2:($newpregridlargada*10);
+				$beanpilotobateria->setpregridlargada($newpregridlargada);
+				$pilotoBateriaBusiness->updatepregridlargada($beanpilotobateria);
+				break;
+			}
+		}
+		$bean = $beanpilotobateria;
+		$choice = Choice::LISTAR;
+		break;
+		
 
 }
 
@@ -331,21 +401,6 @@ switch ($choice) {
 switch ($choice) {
 		
 	
-    case Choice::ATUALIZAR :
-	    // reposicionamento do grid
-	    $collection = $pilotoBateriaBusiness->findBateria ( $bean );
-	    for($i = 0; $i < count ( $collection ); $i ++) {
-	        $pilotoBateriaBeanList = $collection [$i];
-	        $idpilotobateria = $pilotoBateriaBeanList->getid ();
-	        $bean = $pilotoBateriaBusiness->findById($idpilotobateria);
-	        $pregridlargada = $pilotoBateriaBeanList->getgridlargada ();
-	        $newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
-	        if ( $newpregridlargada != $pregridlargada ) {
-	            $bean->setpregridlargada($newpregridlargada);
-	            $pilotoBateriaBusiness->updatepregridlargada($bean);
-	            break;
-	        }
-	    }
 	    
 	case Choice::VALIDAR:
 		$entrada = isset ( $_POST ['entrada'] ) ? $_POST ['entrada'] : null ;
@@ -429,7 +484,7 @@ switch ($choice) {
 		$posicao=1;
 		if($entrada != null && $entrada != ''){
 			$saidatemp = $pilotoBateriaBusiness->validaResultado($entrada, $selcampeonato, $seletapa, $selbateria );
-			$pilotoBateriaBusiness->ausentarTodosBateria($selbateria);
+			$pilotoBateriaBusiness->todosAusenteBateria($bean);
 			$saida = array();
 			foreach ($saidatemp as &$lin){
 						
@@ -474,14 +529,14 @@ switch ($choice) {
 		break;
 }
 
-
-switch ($choice){
-	case Choice::LISTAR :
-		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
-		$urlC = LISTAR;
-		break;
+// ATUALIZAR LISTA
+if($verausentes == 'S'){
+	$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+}else{
+	$collection = $pilotoBateriaBusiness->findBateriaPresente( $bean );
+}
 	
-}	
+	
 
 $bean->getpostlog ();
 $editar = true;
@@ -492,12 +547,16 @@ $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria 
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
 
 $listaOpcoesMostrar = array();
-$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Cancelar Adição";
+$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Voltar";
 $listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Piloto Campeonato";
 $listaOpcoesMostrar[Choice::PBA_INSCRITOCAMPEONATO] = "Inscrito Campeonato";
 $listaOpcoesMostrar[Choice::PBA_PILOTO] = "Piloto Geral";
 $listaOpcoesMostrar[Choice::PBA_PESSOA] = "Pessoa";
 $listaOpcoesMostrar[Choice::PBA_FORM_ADD] = "Adicionar Novo";
+$listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS] = "Ajuste de pesos";
+$listaOpcoesMostrar[Choice::PBA_AJUSTEDEKART] = "Ajuste de karts";
+$listaOpcoesMostrar[Choice::PBA_CHAMADA] = "Ajuste de presenças";
+$listaOpcoesMostrar[Choice::PBA_AJUSTEPREGRID] = "Ajuste de grid";
 
 $divLargura = "100%";
 switch ($choice) {
@@ -522,15 +581,40 @@ switch ($choice) {
         break;
     
     case Choice::PBA_FORM_ADD :
-        $consulta_adicao = Choice::PBA_FORM_ADD;
-        break;
-        
+    	$consulta_adicao = Choice::PBA_FORM_ADD;
+    	break;
+    	
+    case Choice::PBA_AJUSTEDEPESOS :
+    	$consulta_adicao = Choice::PBA_AJUSTEDEPESOS;
+    	break;
+    
+    case Choice::PBA_AJUSTEDEKART :
+    	$consulta_adicao = Choice::PBA_AJUSTEDEKART;
+    	break;
+    	
+    case Choice::PBA_CHAMADA :
+    	$consulta_adicao = Choice::PBA_CHAMADA;
+    	break;
+    	
+    case Choice::PBA_AJUSTEPREGRID :
+    	$consulta_adicao = Choice::PBA_AJUSTEPREGRID;
+    	break;
+    	   	
 }
 
 if($selbateria!=null){
     $cltPilotosBateriaPresentes = $pilotoBateriaBusiness->findBateriaPresente( $bean );
     $umpresente = count($cltPilotosBateriaPresentes);
+    
+    $count_sorteioposicaokart=0;
+    for($i = 0; $i < count ( $cltPilotosBateriaPresentes ); $i ++) {
+    	$pilotoBateriaBeanList = $cltPilotosBateriaPresentes[$i];
+    	if($pilotoBateriaBeanList->getposicaokart() > 0){
+    		$count_sorteioposicaokart++;
+    	}
+    }
 }
+
 
 switch ($consulta_adicao) {
     case Choice::PBA_OCULTAR :
@@ -560,7 +644,16 @@ switch ($consulta_adicao) {
 //     case Choice::PBA_FORM_ADD :
 //         $cltPessoaCollection = $pessoabusiness->findAllValidos();
 //         break;
-        
+ 
+	
+}
+
+$step = "Montar Bateria";
+if($umpresente > 0){
+	$step = "Chamada";
+}
+if($consulta_adicao != Choice::PBA_OCULTAR){
+	$step = $listaOpcoesMostrar[$consulta_adicao];
 }
 
 

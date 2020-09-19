@@ -43,6 +43,34 @@
 
 <script>
 var tableGlobal;
+var tableOptions = {
+		  
+	     "columnDefs": [ { "targets": 0, "orderable": false } ],
+	     "order": [[ 1, "asc" ]],
+	     "stateSave": true ,
+	     "oLanguage": {
+	                "sLengthMenu": "Linhas: _MENU_",
+	                "sZeroRecords": "Nenhum item encontrado",
+	                "sInfo": " Mostrando _START_ - _END_ de _TOTAL_ itens",
+	                "sInfoEmtpy": " Mostrando 0 - 0 de 0 itens",
+	                "sInfoFiltered": " ( pesquisado entre _MAX_ itens )",
+	                "sSearch": "Pesquisa: ",
+	                "oPaginate": {
+	                       "sFirst": " < ",
+	                       "sLast": " > ",
+	                       "sPrevious": "<< ",
+	                       "sNext": " >> "
+	                }
+	          },
+	     "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "Todos"]]
+	     //,dom: 'Bfrtip'
+	     //,buttons: [
+	     //   'excel'
+	     //]
+	     
+	   };
+
+
 $(document).ready(function() {
   /*
    var table = 
@@ -75,35 +103,7 @@ $(document).ready(function() {
      
    });
    */
-   var table = 
-   $('.listTable').DataTable(
-   {
-  
-     "columnDefs": [ { "targets": 0, "orderable": false } ],
-     "order": [[ 1, "asc" ]],
-     "stateSave": true ,
-     "oLanguage": {
-                "sLengthMenu": "Linhas: _MENU_",
-                "sZeroRecords": "Nenhum item encontrado",
-                "sInfo": " Mostrando _START_ - _END_ de _TOTAL_ itens",
-                "sInfoEmtpy": " Mostrando 0 - 0 de 0 itens",
-                "sInfoFiltered": " ( pesquisado entre _MAX_ itens )",
-                "sSearch": "Pesquisa: ",
-                "oPaginate": {
-                       "sFirst": " < ",
-                       "sLast": " > ",
-                       "sPrevious": "<< ",
-                       "sNext": " >> "
-                }
-          },
-     "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "Todos"]]
-     //,dom: 'Bfrtip'
-     //,buttons: [
-     //   'excel'
-     //]
-     
-   });
-   
+   var table = $('.listTable').DataTable(tableOptions);  
    
    tableGlobal = table;
   

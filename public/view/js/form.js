@@ -157,7 +157,17 @@ window.history.forward();
 		   $("#Menu").show("slow");
 	   }
    });
-   
+
+   $('#btn_submenu').click(function (){
+	  
+	   if($('#subMenu').is(':visible')){
+		   $("#subMenu").hide("slow");
+	   }else{
+		   $("#subMenu").show("slow");
+	   }
+   });   
+
+
    $('#btn_log').click(function (){
 		  
 	   if($('#log').is(':visible')){
