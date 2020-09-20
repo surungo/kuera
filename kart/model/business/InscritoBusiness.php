@@ -1337,10 +1337,24 @@ class InscritoBusiness {
 				$isupdate=true;
 			} else {
 				$inscbean = $this->findByCPFCampeonato($bean->getcpf(), $bean->getcampeonato);
-				if($inscbean==null){
+				if(Util::getIdObjeto($inscbean)<1){
 					//Util::echobr ( $dbg, 'InscritoBusiness salve insert $bean->getnome()', $bean->getnome () );
-					$results = $objDAO->insert ( $bean );
-					$bean = $results->getresposta();
+					if($bean->getcpf()==null ||$bean->getcpf()=="" ){
+						$results->setmensagem("<span class='erro'>CPF é campo obrigatório</span>");
+						$erro = true;
+					}
+					if($bean->getnome()==null ||$bean->getnome()=="" ){
+						$results->setmensagem("<span class='erro'>CPF é campo obrigatório</span>");
+						$erro = true;
+					}
+					
+					if($erro){
+						$results->setresposta($bean);
+						$results->setsucesso(false);
+					}else{
+						$results = $objDAO->insert ( $bean );
+						$bean = $results->getresposta();
+					}
 				}else{
 					$results->setmensagem("<span class='erro'>Inscrito existe</span>");
 					$results->setresposta($bean);
@@ -1365,26 +1379,34 @@ class InscritoBusiness {
 		}
 
 		if(!$erro){
-
 			$pessoaBean = new PessoaBean();
 			$pessoaBusiness = new PessoaBusiness();
-			if($isupdate){
-				$pessoaBean->setcpf($bean->getcpf());
-				$pessoaBean->setapelido($bean->getapelido());
-				$pessoaBean->setnome($bean->getnome());
+			
+			if( Util::getIdObjeto($bean->getpessoa())>0 ){
+				$pessoaBean->setid( Util::getIdObjeto($bean->getpessoa()) );
+			}else{
+				$pessoaBean = $pessoaBusiness->findByCPF($bean->getcpf());
 			}
-			$pessoaBean->setdtnascimento($bean->getdtnascimento());
-			$pessoaBean->setpeso($bean->getpeso());
-			$pessoaBean->setemail($bean->getemail());
-			$pessoaBean->settelefone($bean->gettelefone());
-			$pessoaBean->settamanhocamisa($bean->gettamanhocamisa());
-			$pessoaBean->setdtvalidaemail($bean->getdtvalidaemail());
-	//		$pessoaBean->setsenha($bean->getsenha());
-			$pessoaBusiness->salveNotNull($pessoaBean);
-			if(count($categoriainscritoClt)>0){
-				$bean->setcategoriainscrito($categoriainscritoClt);
-				$categoriaInscritoBusiness = new CategoriaInscritoBusiness();
-				$categoriaInscritoBusiness->salveInscrito($bean);
+			
+			if( Util::getIdObjeto($bean->getpessoa())>0 ){
+				if($isupdate){
+					$pessoaBean->setcpf($bean->getcpf());
+					$pessoaBean->setapelido($bean->getapelido());
+					$pessoaBean->setnome($bean->getnome());
+				}
+				$pessoaBean->setdtnascimento($bean->getdtnascimento());
+				$pessoaBean->setpeso($bean->getpeso());
+				$pessoaBean->setemail($bean->getemail());
+				$pessoaBean->settelefone($bean->gettelefone());
+				$pessoaBean->settamanhocamisa($bean->gettamanhocamisa());
+				$pessoaBean->setdtvalidaemail($bean->getdtvalidaemail());
+		//		$pessoaBean->setsenha($bean->getsenha());
+				$pessoaBusiness->salveNotNull($pessoaBean);
+				if(count($categoriainscritoClt)>0){
+					$bean->setcategoriainscrito($categoriainscritoClt);
+					$categoriaInscritoBusiness = new CategoriaInscritoBusiness();
+					$categoriaInscritoBusiness->salveInscrito($bean);
+				}
 			}
 		}
 		return $results;

@@ -44,7 +44,15 @@ if(count ( $cltPilotos ) < 1 ){
         $beanteste = new PilotoBateriaBean();
         $beanteste->setbateria($selbateria);
         $beanteste->setpiloto($pilotoBeanList);
-        $pilotoTesteBean = $pilotoBateriaBusiness->findPilotoBateria($beanteste) ;
+        switch($testeExiste){
+    		case Choice::TESTE_EXISTE_PILOTO_BATERIA;        
+        	$pilotoTesteBean = $pilotoBateriaBusiness->findPilotoBateria($beanteste) ;
+        	break;
+    		
+        	case Choice::TESTE_EXISTE_INSCRITO;
+        	$pilotoTesteBean = $inscritoBusiness->findByCPFCampeonato($pilotoBeanList->getcpf(),$selcampeonato) ;
+    		break;
+        }
         if(Util::getIdObjeto($pilotoTesteBean)==0){
         
             Util::echobr ($dbg, 'PilotoBateriaAdicionarControl $pilotoBeanList', $pilotoBeanList);
@@ -70,7 +78,11 @@ if(count ( $cltPilotos ) < 1 ){
     				$catBean = $catInscBean->getCategoria();
     				$categoria = $categoria . ( ($izc>0)?"<br>":"" ) . Util::getNomeObjeto ( $catBean );
     				$idcategoria = Util::getIdObjeto( $catBean );
-    				$selidcategoria = Util::getIdObjeto( $selbateriabean->getcategoria());
+    				if($selbateriabean!=null){
+    					$selidcategoria = Util::getIdObjeto( $selbateriabean->getcategoria());
+    				}else{
+    					$selidcategoria = 0;
+    				}
     				$dbg = 0;
     				Util::echobr ( $dbg, 'PilotoBateriaAdicionarList $selidcategoria ', $selidcategoria );
     

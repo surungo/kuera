@@ -545,7 +545,7 @@ $adicionarPilotoCampeonato = $selcampeonato > 0 && $seletapa > 0 && $selbateria 
 
 
 $maxpregridlargada = $pilotoBateriaBusiness->maxpregridlargada($bean);
-
+$testeExiste=TESTE_EXISTE_PILOTO_BATERIA;
 $listaOpcoesMostrar = array();
 $listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Voltar";
 $listaOpcoesMostrar[Choice::PBA_PILOTOCAMPEONATO] = "Piloto Campeonato";
