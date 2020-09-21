@@ -188,6 +188,7 @@ if ($adicionarPilotoCampeonato) {
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_CHAMADA],$target,Choice::PBA_CHAMADA, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS],$target,Choice::PBA_AJUSTEDEPESOS, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEKART],$target,Choice::PBA_AJUSTEDEKART, "subMenuItem"); ?>
+		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPOSICAO],$target,Choice::PBA_AJUSTEDEPOSICAO, "subMenuItem"); ?>
 		
 	</div>
 
@@ -216,6 +217,10 @@ if ($adicionarPilotoCampeonato) {
 	if($consulta_adicao==Choice::PBA_AJUSTEDEKART){
 		echo $button->btCustomCss($idurl,$idobj,"Sorteio posicao dos karts",$target,Choice::SORTEIO_KART,"certeza subMenuItem");
 		echo $button->btCustomCss($idurl,$idobj,"Limpar posicao dos karts",$target,Choice::LIMPAR_SORTEIO_KART,"certeza subMenuItem");
+	}
+	
+	if($consulta_adicao==Choice::PBA_AJUSTEDEPOSICAO){
+		echo $button->btCustomCss($idurl,$idobj,"Limpar posicoes de chegada",$target,Choice::LIMPAR_POSICAO,"certeza subMenuItem");
 	}
 
 	if($consulta_adicao==Choice::PBA_PILOTOCAMPEONATO || $consulta_adicao==Choice::PBA_PILOTO){

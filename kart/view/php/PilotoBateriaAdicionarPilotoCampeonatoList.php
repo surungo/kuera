@@ -20,8 +20,8 @@ if(count ( $cltPilotos ) < 1 ){
 	?>    
 		 <th class="header">&nbsp;</th>
 	<?php } ?>
-				<th class="header">N&uacute;mero</th>
 				<th class="header">Piloto</th>
+				<th class="header">N&uacute;mero</th>
 				<th class="header">Categoria</th>
 			</tr>
 		</thead>
@@ -123,20 +123,22 @@ if(count ( $cltPilotos ) < 1 ){
     			</td>
     			<?php }?>
     			<td>
-    				<small><?php echo $pilotoBeanList->getnrpiloto();?></small>
-    			
-    			</td>
-    			<td>
     				<?php echo $pilotoBeanList->getnome();?>
     			
     			</td>
-    			<td> 
+    			
+    			<td>
+    				<small><?php echo $pilotoBeanList->getnrpiloto();?></small>
+    			
+    			</td>
+    			<td>&nbsp;
     			<?php
     				if($containCategoria){
     					echo $categoria;
     				}
     			?>
     			</td>
+    			
     		</tr>
     		<?php 
     			}

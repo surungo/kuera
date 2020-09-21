@@ -56,8 +56,13 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 	</TR>
 	<TR>
 		<TD>CPF</TD>
-		<TD><INPUT id="cpf" name="cpf" size="14" type="text" class="btn_change"
-		<?php echo $button->atributos( $idurl, $idobj, Choice::ATUALIZAR_CPF, $target, Choice::ATUALIZAR_CPF );?>
+		<TD><INPUT id="cpf" name="cpf" size="14" type="text" 
+		<?php 
+		if(Util::getIdObjeto($bean)<1){
+			echo " class='btn_change' ";
+			echo $button->atributos( $idurl, $idobj, Choice::ATUALIZAR_CPF, $target, Choice::ATUALIZAR_CPF );
+		}
+		?>
 		
 			value="<?php echo $bean->getcpf();?>"></TD>
 	</TR>

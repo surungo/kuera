@@ -348,8 +348,6 @@ class PilotoBateriaBusiness {
 		return $results;
 	}
 	
-	
-	
 	public function mutiplica10pregridlargada($bean) {
 		if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
 			return null;
@@ -377,7 +375,35 @@ class PilotoBateriaBusiness {
 			}
 			return $results;
 	}
-		
+	
+	public function mutiplica10posicao($bean) {
+		if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
+			return null;
+			$results = Array ();
+			$con = null;
+			$dsm = new DataSourceManager ();
+			try {
+				$con = $dsm->getConnection ( $bean );
+				$objDAO = new PilotoBateriaDAO ( $con );
+				$results = $objDAO->mutiplica10posicao ( $bean );
+			} catch ( Exception $ex ) {
+				// rollback transaction
+				$con->rollback ();
+				$dsm->close ( $con );
+				throw new Exception ( $ex->getMessage () );
+			}
+			try {
+				if ($con != null) {
+					// commit transaction
+					$con->commit ();
+					$dsm->close ( $con );
+				}
+			} catch ( Exception $ex ) {
+				throw new Exception ( $ex->getMessage () );
+			}
+			return $results;
+	}
+	
 	public function findBateria($bean) {
 		if (Util::getIdObjeto ( $bean->getbateria () ) == 0)
 			return null;
@@ -990,6 +1016,8 @@ class PilotoBateriaBusiness {
 	    $bean = $this->findById($bean);
 	    $bean->setgridlargada($bean->getpregridlargada());
 	    $bean->setpresente ("S");
+	    $maxposicaokart = $this->maxposicaokart($bean);
+	    $bean->setposicaokart($maxposicaokart+1);
 	    $retorno = $this->salve($bean);
 	    $this->ajustegridlargada($bean);
 	    return $retorno;
@@ -1000,6 +1028,8 @@ class PilotoBateriaBusiness {
 	    $bean = $this->findById($bean);
 	    $bean->setgridlargada(null);
 	    $bean->setpresente ("N");
+	    $bean->setposicaokart(null);
+	    $bean->setkart(null);
 	    $retorno = $this->salve($bean);
 	    $this->ajustegridlargada($bean);
 	    return $retorno;
@@ -1014,6 +1044,37 @@ class PilotoBateriaBusiness {
 	    $this->ajustepregridlargada($beanpilotobateria);
 	    return $retorno;
 	}
+	
+	public function updateposicao($bean) {
+		$dbg = 0;
+		$results = null;
+		$beanpilotobateria = $bean;
+		$this->ajusteposicao($beanpilotobateria);
+		return $results;
+	}
+	
+	function ajusteposicao($beanpilotobateria){
+		$this->mutiplica10posicao($beanpilotobateria);
+		if( Util::getIdObjeto($beanpilotobateria->getpiloto()) > 0 ){
+			$this->salve($beanpilotobateria);
+		}
+		
+		$beanpilotobateria->setsort("pilotobateria.idposicao asc, pilotobateria.dtmodificacao desc ");
+		$cltpilotobateria = $this->findBateriaPresente($beanpilotobateria);
+		$poschegada=1;
+		for($i = 0; $i < count ( $cltpilotobateria ); $i ++) {
+			$beanpilotobateria = $cltpilotobateria [$i];
+			if(Util::getIdObjeto( $beanpilotobateria->getposicao()) >9){
+				$beanpilotobateria->setposicao($poschegada);
+				$beanpilotobateria = $this->salve($beanpilotobateria);
+				$poschegada++;
+			}else{
+				$beanpilotobateria->setposicao(null);
+				$beanpilotobateria = $this->salve($beanpilotobateria);
+			}
+		}
+	}
+	
 	
 	public function updatepregridlargada($bean) {
 		$dbg = 0;
@@ -1065,6 +1126,32 @@ class PilotoBateriaBusiness {
         }
         return $results;
 	}	
+		
+	public function limparPosicoes($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->limparPosicoes( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
 	
 	public function limparSorteioKartBateria($bean) {
 		$results = 0;
@@ -1194,6 +1281,31 @@ class PilotoBateriaBusiness {
 		return $results;
 	}
 	
+	public function maxposicaokart($bean) {
+		$results = 0;
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new PilotoBateriaDAO ( $con );
+			$results = $objDAO->maxposicaokart( $bean);
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
 	
 	      
 	public function salve($bean) {

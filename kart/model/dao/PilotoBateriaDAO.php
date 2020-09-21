@@ -295,6 +295,32 @@ $this->idtabela() . //
     	return $retorno;
     }
     
+    public function mutiplica10posicao($bean)
+    {
+    	$dbg = 0;
+    	$retorno = false;
+    	try {
+    		$query = " update " . $this->dbprexis . $this->tabela() .
+    		" set idposicao = (idposicao*10)+1 " .
+    		" where  idbateria = ? ";
+    		
+    		$this->con->clearlistparametros();
+    		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+    		
+    		$this->con->setsql($query);
+    		Util::echobr($dbg, "PilotoBateriaDAO mutiplica10posicao", $this->con->getsql());
+    		$result = $this->con->execute();
+    		
+    		if ($array = $result->fetch_assoc()) {
+    			$retorno = true;
+    		}
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	
+    	return $retorno;
+    }
+    
     
     public function atualizaPosicoes($bean)
     {
@@ -1316,6 +1342,28 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
         return $this->result;
     }
     
+    public function maxposicaokart($bean)
+    {
+    	$this->result = 0;
+    	try {
+    		$query = " SELECT " . // sql
+      		" max(" . $this->getalias() . ".posicaokart) maxposicaokart " . //sql
+      		" FROM " . // sql
+      		$this->dbprexis . $this->tabelaAlias() . " " . // sql
+      		" WHERE " . "   " . $this->alias . ".idbateria = ? " ; // sql
+      		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+      		$this->con->setsql($query);
+      		Util::echobr(0, "PilotoBateriaDAO maxposicaokart", $this->con->getsql());
+      		$result = $this->con->execute();
+      		while ($array = $result->fetch_assoc()) {
+      			$this->result = $array["maxposicaokart"];
+      		}
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	return $this->result;
+    }
+    
     public function findPilotoCPF( $cpf, $selbateria ){
         $this->results = new PilotoBateriaBean();
         try {
@@ -1482,6 +1530,31 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
       		
       		$this->con->setsql($query);
       		Util::echobr($dbg, "limparSorteioKartBateria", $this->con->getsql());
+      		$this->con->execute();
+      		
+      		$this->returnDataBaseBean->setmensagem("<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>");
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	return $this->returnDataBaseBean;
+    }
+    
+    public function limparPosicoes($bean)
+    {
+    	$dbg = 0;
+    	$this->results = new PilotoBateriaBean();
+    	try {
+    		$usuarioLoginBean = $this->setoperador();
+    		$query = " UPDATE " .
+      		$this->dbprexis . $this->tabela() .
+      		" SET " .
+      		" idposicao = null  " .
+      		" WHERE  idbateria = ? ";
+      		
+      		$this->con->setNumero(1, Util::getIdObjeto($bean->getbateria()));
+      		
+      		$this->con->setsql($query);
+      		Util::echobr($dbg, "limparPosicoes", $this->con->getsql());
       		$this->con->execute();
       		
       		$this->returnDataBaseBean->setmensagem("<span class='azul'>Total de " . $this->con->affected_rows() . " foram afetados.</span>");

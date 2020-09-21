@@ -19,8 +19,9 @@ $(document).ready(function() {
 <TABLE>
 	<TR>
 		<TD>CPF</TD>
-		<TD><INPUT id="cpf" name="cpf" size="14" type="text" class="btn_change"
-<?php if($consulta_adicao==Choice::PBA_FORM_ADD){		
+		<TD><INPUT id="cpf" name="cpf" size="14" type="text" 
+<?php if($consulta_adicao==Choice::PBA_FORM_ADD || Util::getIdObjeto($bean)<1){		
+	echo " class='btn_change' ";
     echo $button->atributos( $idurl, $idobj, Choice::ATUALIZAR_CPF, $target, Choice::ATUALIZAR_CPF );
 }?>
 			value="<?php echo $pilotobean->getcpf();?>"></TD>

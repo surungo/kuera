@@ -156,7 +156,7 @@ if($consulta_adicao!=Choice::PBA_PILOTO){
 }	
 
 	if( $consulta_adicao==Choice::PBA_PILOTO){
-		
+		$foto=false;
 	   include PATHAPPVER."/".$sistemaCodigo."/view/php/"."PilotoBateriaAdicionarPilotoCampeonatoList.php";
     }
     ?>

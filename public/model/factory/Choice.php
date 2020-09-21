@@ -44,17 +44,19 @@ class Choice {
 	const PBA_AJUSTEDEKART = 406;
 	const PBA_CHAMADA = 407;
 	const PBA_AJUSTEPREGRID = 408;
-	
-	const AJUSTAPREGRID = 501;
+	const PBA_AJUSTEDEPOSICAO = 409;
 	
 	const SORTEIO_PREGRID = 503;
 	const SORTEIO_GRID = 504;
 	const SORTEIO_KART = 505;
 	const LIMPAR_SORTEIO_KART = 506;
-	
+	const LIMPAR_POSICAO = 507;
 	
 	const TESTE_EXISTE_PILOTO_BATERIA = 656;
 	const TESTE_EXISTE_INSCRITO = 657;
+	
+	const AJUSTAPREGRID = 701;
+	const AJUSTAPOSICAO = 702;
 	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
@@ -66,4 +68,4 @@ class Choice {
 	
 	
 }
-?>
+?>7

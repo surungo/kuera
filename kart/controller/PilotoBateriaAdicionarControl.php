@@ -142,6 +142,12 @@ switch ($choice) {
 		$choice = Choice::LISTAR;
 		break;
 		
+	case Choice::LIMPAR_POSICAO :
+		$collection = $pilotoBateriaBusiness->limparPosicoes($bean);
+		$mensagem = "Limpo posições de chegada.";
+		$choice = Choice::LISTAR;
+		break;
+				
 	case Choice::ATUALIZAR_PESO:
 		$pesoidobj  = (isset ( $_POST ["peso_$idobj"] )) ? $_POST ["peso_$idobj"] : null ;
 		$pilotoBateriaBean = $pilotoBateriaBusiness->findById($idobj);
@@ -225,6 +231,47 @@ switch ($choice) {
         }
         break;
     		
+	case Choice::AJUSTAPREGRID :
+		// reposicionamento do grid
+		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+		for($i = 0; $i < count ( $collection ); $i ++) {
+			$beanpilotobateria = $collection [$i];
+			$idpilotobateria = $beanpilotobateria->getid ();
+			$beanpilotobateria = $pilotoBateriaBusiness->findById($idpilotobateria);
+			$pregridlargada = $beanpilotobateria->getpregridlargada ();
+			$newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
+			if ( $newpregridlargada != $pregridlargada ) {
+				$newpregridlargada= ($newpregridlargada>$pregridlargada)?($newpregridlargada*10)+2:($newpregridlargada*10);
+				$beanpilotobateria->setpregridlargada($newpregridlargada);
+				$pilotoBateriaBusiness->updatepregridlargada($beanpilotobateria);
+				break;
+			}
+		}
+		$bean = $beanpilotobateria;
+		$choice = Choice::LISTAR;
+		break;
+		
+	case Choice::AJUSTAPOSICAO :
+		// ajuste posicao chegada
+		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
+		for($i = 0; $i < count ( $collection ); $i ++) {
+			$beanpilotobateria = $collection [$i];
+			$idpilotobateria = $beanpilotobateria->getid ();
+			$beanpilotobateria = $pilotoBateriaBusiness->findById($idpilotobateria);
+			$posicao = Util::getIdObjeto($beanpilotobateria->getposicao ());
+			$newposicao =   (isset ( $_POST ['posicao_'.$idpilotobateria] )) ? $_POST ['posicao_'.$idpilotobateria] : 0 ;
+			$newposicao = $newposicao==""?0:$newposicao;
+			if ( $newposicao != $posicao ) {
+				$posicao = ($posicao==0)?999:$posicao;
+				$newposicao= ($newposicao>$posicao)?($newposicao*10)+2:($newposicao*10);
+				$beanpilotobateria->setposicao($newposicao);
+				$pilotoBateriaBusiness->updateposicao($beanpilotobateria);
+				break;
+			}
+		}
+		$bean = $beanpilotobateria;
+		$choice = Choice::LISTAR;
+		break;
 }
 
 switch ($choice) {
@@ -374,25 +421,7 @@ switch ($choice) {
 		$choice = Choice::LISTAR;
 		break;
 		
-	case Choice::AJUSTAPREGRID :
-		// reposicionamento do grid
-		$collection = $pilotoBateriaBusiness->findBateria ( $bean );
-		for($i = 0; $i < count ( $collection ); $i ++) {
-			$beanpilotobateria = $collection [$i];
-			$idpilotobateria = $beanpilotobateria->getid ();
-			$beanpilotobateria = $pilotoBateriaBusiness->findById($idpilotobateria);
-			$pregridlargada = $beanpilotobateria->getpregridlargada ();
-			$newpregridlargada =   (isset ( $_POST ['pregridlargada_'.$idpilotobateria] )) ? $_POST ['pregridlargada_'.$idpilotobateria] : null ;
-			if ( $newpregridlargada != $pregridlargada ) {
-				$newpregridlargada= ($newpregridlargada>$pregridlargada)?($newpregridlargada*10)+2:($newpregridlargada*10);
-				$beanpilotobateria->setpregridlargada($newpregridlargada);
-				$pilotoBateriaBusiness->updatepregridlargada($beanpilotobateria);
-				break;
-			}
-		}
-		$bean = $beanpilotobateria;
-		$choice = Choice::LISTAR;
-		break;
+	
 		
 
 }
@@ -557,6 +586,7 @@ $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS] = "Ajuste de pesos";
 $listaOpcoesMostrar[Choice::PBA_AJUSTEDEKART] = "Ajuste de karts";
 $listaOpcoesMostrar[Choice::PBA_CHAMADA] = "Ajuste de presenças";
 $listaOpcoesMostrar[Choice::PBA_AJUSTEPREGRID] = "Ajuste de grid";
+$listaOpcoesMostrar[Choice::PBA_AJUSTEDEPOSICAO] = "Ajuste de posicao de chegada";
 
 $divLargura = "100%";
 switch ($choice) {
@@ -599,7 +629,11 @@ switch ($choice) {
     case Choice::PBA_AJUSTEPREGRID :
     	$consulta_adicao = Choice::PBA_AJUSTEPREGRID;
     	break;
-    	   	
+    
+    case Choice::PBA_AJUSTEDEPOSICAO :
+    	$consulta_adicao = Choice::PBA_AJUSTEDEPOSICAO;
+    	break;
+    	
 }
 
 if($selbateria!=null){
@@ -650,7 +684,7 @@ switch ($consulta_adicao) {
 
 $step = "Montar Bateria";
 if($umpresente > 0){
-	$step = "Chamada";
+	$step = "Geral";
 }
 if($consulta_adicao != Choice::PBA_OCULTAR){
 	$step = $listaOpcoesMostrar[$consulta_adicao];
