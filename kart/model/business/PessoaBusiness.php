@@ -107,14 +107,19 @@ class PessoaBusiness {
 			throw new Exception ( $ex->getMessage () );
 		}
 		return $results;
-	}	public function findById($id) {
+	}	
+	public function findById($bean) {
+	
+		if(Util::getIdObjeto($bean)<1)
+			return null;
+		
 		$results = null;
 		$con = null;
 		$dsm = new DataSourceManager ();
 		try {
 			$con = $dsm->getConn (get_class($this));
 			$objDAO = new PessoaDAO ( $con );
-			$results = $objDAO->findById ( $id );
+			$results = $objDAO->findById ( $bean );
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();
@@ -165,8 +170,9 @@ class PessoaBusiness {
 		try {
 			$con = $dsm->getConn (get_class($this));
 			$objDAO = new PessoaDAO ( $con );
-			
-			$existeBean = $this->findByCPF($bean->getcpf());
+			$existeBean =  $this->findById( Util::getIdObjeto($bean) );
+			if (Util::getIdObjeto($existeBean) < 1) 
+				$existeBean = $this->findByCPF($bean->getcpf());
 			if ( Util::getIdObjeto($existeBean) > 0 ) {
 				$bean->setid(Util::getIdObjeto($existeBean));
 				$dbg=0;

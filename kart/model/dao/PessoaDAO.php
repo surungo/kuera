@@ -437,9 +437,9 @@ class PessoaDAO extends AbstractDAO {
 		return $this->results;
 	}
 	
-	public function findById($id) {
+	public function findById($bean) {
 		$this->results = new PessoaBean ();
-		Util::echobr ( 0, "PessoaDAO findById id", $id );
+		Util::echobr ( 0, "PessoaDAO findById id",  Util::getIdObjeto($bean) );
 		
 		try {
 			$query = " SELECT " .//sql 
@@ -457,7 +457,7 @@ class PessoaDAO extends AbstractDAO {
 					" ".$this->getalias () .".idpessoa ".$this->getalias () ."_idpessoa " .//sql 
 			" FROM " . $this->dbprexis . $this->tabelaAlias () .//sql 
 			" where " . $this->idtabelaAlias () . " = ? ";
-			$this->con->setNumero ( 1, $id );
+			$this->con->setNumero ( 1, Util::getIdObjeto($bean) );
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "PessoaDAO findById", $this->con->getsql () );
 			$result = $this->con->execute ();

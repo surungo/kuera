@@ -55,6 +55,13 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 				</TD>
 	</TR>
 	<TR>
+		<TD>CPF</TD>
+		<TD><INPUT id="cpf" name="cpf" size="14" type="text" class="btn_change"
+		<?php echo $button->atributos( $idurl, $idobj, Choice::ATUALIZAR_CPF, $target, Choice::ATUALIZAR_CPF );?>
+		
+			value="<?php echo $bean->getcpf();?>"></TD>
+	</TR>
+	<TR>
 		<TD>Apelido</TD>
 		<TD><INPUT id="apelido" name="apelido" size="30" type="text"
 			value="<?php echo $bean->getapelido();?>"></TD>
@@ -68,11 +75,6 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 		<TD>Nome</TD>
 		<TD><INPUT id="nome" name="nome" size="30" type="text"
 			value="<?php echo $bean->getnome();?>"></TD>
-	</TR>
-	<TR>
-		<TD>CPF</TD>
-		<TD><INPUT id="cpf" name="cpf" size="30" type="tel"
-			value="<?php echo $bean->getcpf();?>"></TD>
 	</TR>
 	<TR>
 		<TD>Peso</TD>

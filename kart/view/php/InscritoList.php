@@ -138,12 +138,28 @@ $colunas =  array (
 ?>
 
 <br>
+<DIV><?php echo $mensagem;?></DIV>
 <!-- EventCombo -->
 <?php 
 $var = PATHAPPVER."/$sistemaCodigo/view/php/parts/EventCombo.php";
 include $var;
 ?>
+<br>
+<INPUT id="consulta_adicao" name="consulta_adicao" type="hidden" value="<?php echo $consulta_adicao;?>">
+<?php 
+$textoAcao="Adicionar ";
+$adicionarPilotoCampeonato=true;
+if($consulta_adicao!=Choice::PBA_PILOTO){
+	echo $button->btCustomCss($idurl,$idobj, $textoAcao.$listaOpcoesMostrar[Choice::PBA_PILOTO],$target,Choice::PBA_PILOTO, "subMenuItem"); 
+} else{
+	echo $button->btCustomCss($idurl,$idobj,$listaOpcoesMostrar[Choice::PBA_OCULTAR],$target,Choice::PBA_OCULTAR,"subMenuItem vermelho");
+}	
 
+	if( $consulta_adicao==Choice::PBA_PILOTO){
+		
+	   include PATHAPPVER."/".$sistemaCodigo."/view/php/"."PilotoBateriaAdicionarPilotoCampeonatoList.php";
+    }
+    ?>
 <table class="littleTable" style="float: right;" cellspacing="0"
 	cellpadding="0" border="0">
 	<thead>

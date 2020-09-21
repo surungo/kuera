@@ -15,6 +15,8 @@ include_once PATHAPP . '/mvc/kart/model/bean/CategoriaInscritoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/CategoriaInscritoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/PessoaBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/PessoaBusiness.php';
+include_once PATHAPP . '/mvc/kart/model/bean/PilotoBean.php';
+include_once PATHAPP . '/mvc/kart/model/business/PilotoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/GrupoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/GrupoBusiness.php';
 include_once PATHPUBBEAN . '/ParametroBean.php';
@@ -22,6 +24,8 @@ include_once PATHPUBBUS . '/ParametroBusiness.php';
 $parametroBusiness = new ParametroBusiness ();
 $parametroBean = new ParametroBean ();
 $dbg = 0;
+$pilotoBusiness = new PilotoBusiness ();
+$pilotobean = new PilotoBean();
 $campeonatoBean = new CampeonatoBean ();
 $campeonatoBusiness = new CampeonatoBusiness ();
 $cltCampeonatoCollection = $campeonatoBusiness->findAllAtivo();
@@ -118,6 +122,58 @@ Util::echobr($dbg,'bean>getvalor() ', $bean->getvalor() );
 $bean->getpostlog ();
 $editar = true;
 $novo = true;
+
+$consulta_adicao =   (isset ( $_POST ['consulta_adicao'] )) ? $_POST ['consulta_adicao'] : Choice::PBA_OCULTAR ;
+
+$testeExiste=Choice::TESTE_EXISTE_INSCRITO;
+$listaOpcoesMostrar = array();
+$listaOpcoesMostrar[Choice::PBA_OCULTAR] = "Voltar";
+$listaOpcoesMostrar[Choice::PBA_PILOTO] = "Piloto Geral";
+switch ($choice) {
+	case Choice::PBA_OCULTAR :
+		$consulta_adicao = Choice::PBA_OCULTAR;
+		$choice=Choice::LISTAR;
+		break;
+	case Choice::PBA_PILOTO :
+		$consulta_adicao = Choice::PBA_PILOTO;
+		$choice=Choice::LISTAR;
+		break;
+	case Choice::ADICIONAR:
+		$bean->setid(0);
+		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idpiloto ', $idobj );
+		if ($idobj > 0) {
+			$pilotoBean = $pilotoBusiness->findById ( $idobj );
+			if(Util::getIdObjeto($pilotoBean) > 0  ){
+				$bean->setpilotoatualiza($pilotoBean);
+				$retorno = $inscritoBusiness->salve( $bean );
+				$bean = $retorno->getresposta ();
+				$idobj = $bean->getid ();
+				$mensagem = $retorno->getmensagem ();
+				
+			}
+		}
+		$choice=Choice::LISTAR;
+		break;
+		
+	case Choice::ATUALIZAR_CPF :
+		$pessoabean = new PessoaBean();
+		$pessoabean = $pessoaBusiness->findByCPF($bean->getcpf());
+		if(Util::getIdObjeto($pessoabean)>0){
+			$bean->setpessoaatualiza($pessoabean);
+			
+		}
+		$choice=Choice::ABRIR;
+}
+switch ($consulta_adicao) {
+	case Choice::PBA_OCULTAR :
+		break;
+	case Choice::PBA_PILOTO :
+		$cltPilotos = $pilotoBusiness->findAllAtivo() ;
+		Util::echobr ( 0, 'PilotoBateriaAdicionarControl cltPilotos', $cltPilotos);
+		break;
+}
+
+
 switch ($choice) {
 	
 	case Choice::EXCLUIR :
@@ -155,6 +211,7 @@ switch ($choice) {
 		$urlC = EDITAR;
 		break;
 }
+
 
 $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();

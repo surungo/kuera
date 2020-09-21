@@ -52,6 +52,10 @@ class Choice {
 	const SORTEIO_KART = 505;
 	const LIMPAR_SORTEIO_KART = 506;
 	
+	
+	const TESTE_EXISTE_PILOTO_BATERIA = 656;
+	const TESTE_EXISTE_INSCRITO = 657;
+	
 	const PASSO_1 = 1001;
 	const PASSO_2 = 1002;
 	const PASSO_3 = 1003;

@@ -322,5 +322,44 @@ class InscritoBean extends AbstractBean {
 	public function setdtenvio($dtenvio) {
 		$this->dtenvio = $dtenvio;
 	}
+	
+	public function setpessoaatualiza($pessoa) {
+		$this->pessoa = $pessoa;
+		
+		$this->setapelido(		$pessoa->getapelido());
+		$this->setbairro(		$pessoa->getbairro());
+		$this->setcep(		$pessoa->getcep());
+		$this->setcidade(		$pessoa->getcidade());
+		$this->setcomplemento(		$pessoa->getcomplemento());
+		$this->setcpf(		$pessoa->getcpf());
+		$this->setdtnascimento(		$pessoa->getdtnascimento());
+		$this->setdtvalidaemail(		$pessoa->getdtvalidaemail());
+		$this->setemail(		$pessoa->getemail());
+		$this->setendereco(		$pessoa->getendereco());
+		$this->setnome(		$pessoa->getnome());
+		$this->setnumero(		$pessoa->getnumero());
+		$this->setpeso(		$pessoa->getpeso());
+		$this->setpesoextra(		$pessoa->getpesoextra());
+		$this->settamanhocamisa(		$pessoa->gettamanhocamisa());
+		$this->settelefone(		$pessoa->gettelefone());
+		$this->setuf(		$pessoa->getuf());		
+		
+	}
+	
+	
+	public function setpilotoatualiza($piloto) {
+		
+		$this->setapelido(		$piloto->getapelido());
+		$this->setcpf(		$piloto->getcpf());
+		$this->setdtnascimento(		$piloto->getdtnascimento());
+		$this->setemail(		$piloto->getemail());
+		$this->setnome(		$piloto->getnome());
+		$this->setpeso(		$piloto->getpeso());
+		$this->setpesoextra(		$piloto->getpesoextra());
+		$this->settelefone(		$piloto->gettelefone());
+		$this->setpessoa(		$piloto->getpessoa());
+				
+	}
+	
 }
 ?>
