@@ -323,13 +323,13 @@ class PilotoBateriaBusiness {
 		return $results;
 	}
 	public function findPilotoBateria($bean) {
-		$results = Array ();
+		$this->results = new PilotoBateriaBean ();
 		$con = null;
 		$dsm = new DataSourceManager ();
 		try {
 			$con = $dsm->getConnection ( $bean );
 			$objDAO = new PilotoBateriaDAO ( $con );
-			$results = $objDAO->findPilotoBateria ($bean);
+			$this->results = $objDAO->findPilotoBateria ($bean);
 		} catch ( Exception $ex ) {
 			// rollback transaction
 			$con->rollback ();
@@ -345,7 +345,7 @@ class PilotoBateriaBusiness {
 		} catch ( Exception $ex ) {
 			throw new Exception ( $ex->getMessage () );
 		}
-		return $results;
+		return $this->results;
 	}
 	
 	public function mutiplica10pregridlargada($bean) {
@@ -1334,6 +1334,15 @@ class PilotoBateriaBusiness {
 				$etapaBean = $etapaBusiness->findByBateria ( $bean->getbateria () );
 				if (! $etapaBusiness->isPiloto ( $etapaBean, $bean->getpiloto () )) {
 				*/	
+				$beanaux = $this->findPilotoBateria($bean);
+				
+				if(Util::getIdObjeto($beanaux) > 0 ){
+					$results->setresposta ( $bean );
+					$results->setmensagem ( "<span class='vermelho'>J&aacute; esta cadastado nesta bateria:" . Util::getNomeObjeto($bean->getpiloto () ). ".</span>" );
+					return $results;
+				}
+				
+				
 				$results = $objDAO->insert ( $bean );
 				/*} else {
 					$results->setresposta ( $id );

@@ -342,32 +342,32 @@ switch ($choice) {
 	        $inscritoBean = $inscritoBusiness->findById ( $idobj );
 	    }
 	    $idpessoa = Util::getIdObjeto($inscritoBean->getpessoa());
-	    $pilotoBean = $pilotoBusiness->findByPessoa($idpessoa);
-	    $idpessoa = Util::getIdObjeto($pilotoBean);
+	    $pilotobean = $pilotoBusiness->findByPessoa($idpessoa);
+	    $idpessoa = Util::getIdObjeto($pilotobean);
 	    if($idpessoa==0){
 	        $results = $pilotoBusiness->inscritoToPilotoSemAdicionarAoCampeonato($bean);
-	        $pilotoBean = $results->getresposta();
+	        $pilotobean = $results->getresposta();
 	    }
 	    
 	    
 	case Choice::ADICIONAR :
 		$dbg = 0;
-		if(Util::getIdObjeto($pilotoBean) < 1 ){
-    		$pilotoBean = new PilotoBean();
+		if(Util::getIdObjeto($pilotobean) < 1 ){
+    		$pilotobean = new PilotoBean();
     		$pilotoBusiness = new PilotoBusiness();
     		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria idpiloto ', $idobj );
     		if ($idobj > 0) {
-    			$pilotoBean = $pilotoBusiness->findById ( $idobj );
+    			$pilotobean = $pilotoBusiness->findById ( $idobj );
     		}
 		}
     	
-		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria Util::getIdObjeto($pilotoBean) ', Util::getIdObjeto($pilotoBean) );
+		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria Util::getIdObjeto($pilotobean) ', Util::getIdObjeto($pilotobean) );
 		
 		$pilotoBateriaBusiness = new PilotoBateriaBusiness();
 		$pilotoBateriaBean = new PilotoBateriaBean();
-		$pilotoBateriaBean->setpiloto($pilotoBean);
-		$pilotoBateriaBean->setpeso($pilotoBean->getpeso());
-		$pilotoBateriaBean->setpesoextra($pilotoBean->getpesoextra());
+		$pilotoBateriaBean->setpiloto($pilotobean);
+		$pilotoBateriaBean->setpeso($pilotobean->getpeso());
+		$pilotoBateriaBean->setpesoextra($pilotobean->getpesoextra());
 		
 		$pilotoBateriaBean->setbateria($selbateriabean);
 		Util::echobr($dbg,'PilotoBateriaAdicionarControl adicionar bateria pilotoBateriaBean', $pilotoBateriaBean);

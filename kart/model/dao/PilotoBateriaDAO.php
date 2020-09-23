@@ -516,7 +516,7 @@ $this->idtabela() . //
 
     public function findPilotoBateria($bean)
     {
-        $this->clt = array();
+    	$this->results = new PilotoBateriaBean ();
         try {
             $query = " SELECT " . $this->camposSelect() . 
             " FROM " . $this->dbprexis . $this->tabelaAlias() . 
@@ -530,14 +530,14 @@ $this->idtabela() . //
             
             $result = $this->con->execute();
             
-            while ($array = $result->fetch_assoc()) {
-                $this->clt[] = $this->getBeans($array);
+            if ($array = $result->fetch_assoc ()) {
+            	$this->results = $this->getBeans ( $array );
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
         
-        return $this->clt;
+        return $this->results;
     }
 
     public function pilotoVolta()

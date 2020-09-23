@@ -145,7 +145,7 @@ switch ($choice) {
 			$pilotoBean = $pilotoBusiness->findById ( $idobj );
 			if(Util::getIdObjeto($pilotoBean) > 0  ){
 				$bean->setpilotoatualiza($pilotoBean);
-				$retorno = $inscritoBusiness->salve( $bean );
+				$retorno = $inscritoBusiness->inscrever( $bean );
 				$bean = $retorno->getresposta ();
 				$idobj = $bean->getid ();
 				$mensagem = $retorno->getmensagem ();
