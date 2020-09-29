@@ -90,5 +90,9 @@ echo $GLOBALS['maxDate'];
 <?php
 }
 ?>
+<span style="position: absolute; bottom: 1px;font-size: 6pt;">
+BUILDNUMBER:
+<?php include PATHAPP."/release.id";?>
+</span>
 </body>
 </html>
