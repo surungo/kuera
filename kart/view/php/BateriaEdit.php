@@ -122,6 +122,15 @@ include_once PATHPUBPHPINCLUDE . '/headerEdit.php';
 		</TD>
 	</TR>
 	<TR>
+		<TD>Grid Fechado</TD>
+		<TD>		
+		<select id="gridfechado" name="gridfechado">
+			<option value="N" <?php echo ($bean->getgridfechado()=="N")?"selected":"";?> >Não</option>
+			<option value="S" <?php echo ($bean->getgridfechado()=="S")?"selected":"";?> >Sim</option>
+		</select>	
+		</TD>
+	</TR>
+	<TR>
 		<TD>Bateria Precedente</TD>
 		<TD>		
 		<?php

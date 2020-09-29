@@ -47,15 +47,13 @@ class PilotoBean extends AbstractBean {
 	public function setsigla($sigla) {
 		$this->sigla= $sigla;
 	}
-	public function getcpfmascara() {
-		return str_replace ( "-", "", str_replace ( ".", "", $this->cpf ) );
-	}
+	
 	public function getcpf() {
 		$vowels = array(".", "-");
 		return str_replace($vowels, "",$this->cpf);
 	}
 	public function gettxcpf() {
-		return $this->cpf;
+		return Util::mask($this->cpf,'###.###.###-##');
 	}
 	public function setcpf($cpf) {
 		$this->cpf = $cpf;

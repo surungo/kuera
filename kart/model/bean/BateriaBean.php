@@ -10,6 +10,7 @@ class BateriaBean extends AbstractBean {
 	private $pontuacaoesquema;
 	private $dtbateria;
 	private $pista;
+	private $gridfechado;
 	private $pilotoclt;
 	private $urlresultados;
 	
@@ -63,6 +64,7 @@ class BateriaBean extends AbstractBean {
 	public function setpista($pista) {
 		$this->pista = $pista;
 	}
+	
 	public function getcategoria() {
 		return $this->categoria;
 	}
@@ -81,7 +83,13 @@ class BateriaBean extends AbstractBean {
 	public function seturlresultados($urlresultados) {
 		$this->urlresultados= $urlresultados;
 	}
+	public function getgridfechado() {
+		return $this->gridfechado;
+	}
 	
+	public function setgridfechado($gridfechado) {
+		$this->gridfechado = $gridfechado;
+	}
 	
 	
 }

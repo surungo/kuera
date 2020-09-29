@@ -4,7 +4,12 @@
 <?php /*
 Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto($selbateriabean)."[".$selbateriabean->getdtbateria()."]";?>
 */?>
-
+<style>
+.boldinho
+{
+	font-weight: bolder;
+}
+</style>
 	<table class="listTable_pilotoBateria" id="tb001" cellspacing="0" cellpadding="0" border="0">
 		<thead>
 			<tr>
@@ -49,11 +54,12 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			</td>
             <td>
 				<?php
-				$displaypre = ( ($umpresente < 1)?"none":"block" );
-					$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
+				//$displaypre = ( ($umpresente < 1)?"none":"block" );
+				$displaypre = "none";
+				$idpregridlargada = gettype ( $pilotoBateriaBeanList->getpregridlargada () ) == "object" ? $pilotoBateriaBeanList->getpregridlargada ()->getid () : $pilotoBateriaBeanList->getpregridlargada ();
 					echo "<span style='display:".$displaypre.";'>".Util::lpad( $idpregridlargada , 3 , "0")."</span>";
     				
-    				if($umpresente < 1){
+    				//if($umpresente < 1){
             		?>
     			
     				<select id="pregridlargada_<?php echo $idpilotobateria;?>" name="pregridlargada_<?php echo $idpilotobateria;?>"
@@ -62,7 +68,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
             			echo $button->atributos ( $idurl, $idobj, $action, $target, Choice::AJUSTAPREGRID );
             			?>>
     					<?php
-    					for($posidpregridlargada = 1; $posidpregridlargada <= $countcolletion; $posidpregridlargada ++) {
+    					for($posidpregridlargada = 1; $posidpregridlargada <= $maxpregridlargada; $posidpregridlargada ++) {
     				    ?>
     			    	<option value="<?php echo $posidpregridlargada;?>"
     			    	<?php echo ($idpregridlargada==$posidpregridlargada)?"selected='selected'":""; ?>>
@@ -72,7 +78,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     					}
     					?>
     				</select>
-    				<?php }?>
+    				<?php //}?>
     		</td>
     		<td>
 				<?php
@@ -87,13 +93,15 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				
 			</td>
 			<td> 
-				<?php echo $pilotoBeanList->getapelido (); ?>
+				<span class="<?php echo ($presente)?"boldinho":""; ?> {">
+					<?php echo $pilotoBeanList->getapelido (); ?>
+				</span>
 			</td>
 			<td>
 				<span id="span_peso_<?php echo $idpilotobateria;?>">
 					<?php echo "<span style='display:none;'>".Util::lpad( $pilotoBateriaBeanList->getpeso() , 10 , "0")."</span>"; ?>
 					<input id="peso_<?php echo $idpilotobateria;?>" name="peso_<?php echo $idpilotobateria;?>"
-					 type="text" class="btn_change"
+					 type="text" class="btn_change selectFocus"
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESO, $target, Choice::ATUALIZAR_PESO );?>
 					size="1"
 					value="<?php echo  $pilotoBateriaBeanList->getpeso();?>"/>
@@ -105,7 +113,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 				<?php echo "<span style='display:none;'>".Util::lpad( $pilotoBateriaBeanList->getpeso() , 10 , "0")."</span>"; ?>	
 				<span id="span_pesoextra_<?php echo $idpilotobateria;?>">
 					<input id="pesoextra_<?php echo $idpilotobateria;?>" name="pesoextra_<?php echo $idpilotobateria;?>"
-					 type="text" class="btn_change"
+					 type="text" class="btn_change selectFocus"
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESOEXTRA, $target, Choice::ATUALIZAR_PESOEXTRA );?>
 					size="1"
 					value="<?php echo  $pilotoBateriaBeanList->getpesoextra();?>"/>
@@ -141,8 +149,8 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 						
 						if($consulta_adicao==Choice::PBA_AJUSTEDEKART && $presente){
 						?>
-					<input id="kart_<?php echo $idpilotobateria;?>" name="kart_<?php echo $idpilotobateria;?>"
-					 type="text" class="btn_change"
+					<input id="kart_<?php echo $idpilotobateria;?>" name="kart_<?php echo $idpilotobateria;?>" 
+					 type="text" class="btn_change selectFocus" 
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_KART, $target, Choice::ATUALIZAR_KART );?>
 					size="1"
 					value="<?php echo  $kart;?>"/>
@@ -172,7 +180,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
     							
     					</option>
     					<?php
-    					for($poschegada = 1; $poschegada <= $countcolletion; $poschegada ++) {
+    					for($poschegada = 1; $poschegada <= $maxpregridlargada; $poschegada ++) {
     				    ?>
     			    	<option value="<?php echo $poschegada;?>"
     			    	<?php echo ($posicao==$poschegada)?"selected='selected'":""; ?>>
@@ -216,7 +224,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 		$arrayMostrarColunas = $arrayColunas;
 		
 		
-		if ($editar == true && $umpresente < 1 ) {
+		if(!$gridfechado){
 			$arrayOcultarColunas = array(
 					$arrayColunas["grid"],
 					$arrayColunas["peso"],
@@ -242,6 +250,19 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			$arrayMostrarColunas = array_diff($arrayColunas, $arrayOcultarColunas) ;
 		}	
 		
+		
+		$arrayPresenca = array(
+				$arrayColunas["grid"]
+		);
+		//  MOSTRA GRID
+		if($umpresente){
+			$arrayOcultarColunas = array_diff($arrayOcultarColunas,  $arrayPresenca) ;
+			$arrayMostrarColunas = array_merge($arrayMostrarColunas, $arrayPresenca) ;
+		}else{
+			$arrayOcultarColunas = array_merge($arrayOcultarColunas,$arrayPresenca)	;
+			$arrayMostrarColunas = array_diff($arrayMostrarColunas,	$arrayPresenca) ;
+			
+		}
 		
 		$arrayPresenca = array(
 				$arrayColunas["presenca"]

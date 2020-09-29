@@ -28,6 +28,7 @@ class BateriaDAO extends AbstractDAO
         "idcategoria",
         "idbateriaprecedente",
         "urlresultados",
+    	"gridfechado",
         "idbateria"
     );
 
@@ -55,22 +56,24 @@ class BateriaDAO extends AbstractDAO
 " idpista = ?, " . // 9
 " idcategoria = ?,  " . // 10
 " idbateriaprecedente = ? ," . // 11
-" urlresultados = ? " . // 12
-" WHERE " . $this->idtabela() . " =  ? "; // 13
+" urlresultados = ? , " . // 12
+" gridfechado = ? " . // 13
+" WHERE " . $this->idtabela() . " =  ? "; // 14
             
             $this->con->setTexto(1, $usuarioLoginBean->getusuario());
             $this->con->setData(2, $bean->getdtvalidade());
             $this->con->setData(3, $bean->getdtinicio());
-            $this->con->setNumero(4, $bean->getetapa());
+            $this->con->setNumero(4, Util::getIdObjeto($bean->getetapa()));
             $this->con->setTexto(5, $bean->getsigla());
             $this->con->setTexto(6, $bean->getnome());
-            $this->con->setNumero(7, $bean->getpontuacaoesquema());
+            $this->con->setNumero(7, Util::getIdObjeto($bean->getpontuacaoesquema()));
             $this->con->setData(8, $bean->getdtbateria());
-            $this->con->setNumero(9, $bean->getpista());
-            $this->con->setNumero(10, $bean->getcategoria());
-            $this->con->setNumero(11, $bean->getbateriaprecedente());
+            $this->con->setNumero(9, Util::getIdObjeto($bean->getpista()));
+            $this->con->setNumero(10, Util::getIdObjeto($bean->getcategoria()));
+            $this->con->setNumero(11, Util::getIdObjeto($bean->getbateriaprecedente()));
             $this->con->setTexto(12, $bean->geturlresultados());
-            $this->con->setNumero(13, $bean->getid());
+            $this->con->setTexto(13, $bean->getgridfechado());
+            $this->con->setNumero(14, $bean->getid());
             $this->con->setsql($query);
             // echo $this->con->getsql();
             $this->con->execute();
@@ -90,7 +93,23 @@ class BateriaDAO extends AbstractDAO
             $bean->setid($this->getid($this->dbprexis));
             
             $query = " insert into " . $this->dbprexis . $this->tabela() . "
-			 ( " . " dtcriacao, " . " criador, " . " dtvalidade, " . " dtinicio, " . " idetapa , " . " sigla, " . " nome, " . " idpontuacaoesquema, " . " dtbateria," . " idpista, " . " idcategoria, " . " idbateriaprecedente, " . " urlresultados, " . $this->idtabela() . " )values ( " . " now(), " . // dtcriacao,
+			 ( " . " dtcriacao, " . //sql
+			 " criador, " .  //sql
+			 " dtvalidade, " .  //sql
+			 " dtinicio, " .  //sql
+			 " idetapa , " .  //sql
+			 " sigla, " .  //sql
+			 " nome, " .  //sql
+			 " idpontuacaoesquema, " .  //sql
+			 " dtbateria," .  //sql
+			 " idpista, " .  //sql
+			 " idcategoria, " .  //sql
+			 " idbateriaprecedente, " .  //sql
+			 " urlresultados, " .  //sql
+			 " gridfechado, " .  //sql
+			 $this->idtabela() .  //sql
+			 " )values ( " .  //sql
+			 " now(), " . // dtcriacao,
 " ?, " . // criador,
 " ?, " . // dtvalidade,
 " ?, " . // dtinicio,
@@ -103,21 +122,23 @@ class BateriaDAO extends AbstractDAO
 " ? , " . // categoria
 " ? , " . // idbateriaprecedente
 " ? , " . // urlresultados
+" ? , " . // gridfechado
 " ? )"; // id;
             
             $this->con->setTexto(1, $usuarioLoginBean->getusuario());
             $this->con->setData(2, $bean->getdtvalidade());
             $this->con->setData(3, $bean->getdtinicio());
-            $this->con->setNumero(4, $bean->getetapa());
+            $this->con->setNumero(4, Util::getIdObjeto($bean->getetapa()));
             $this->con->setTexto(5, $bean->getsigla());
             $this->con->setTexto(6, $bean->getnome());
-            $this->con->setNumero(7, $bean->getpontuacaoesquema());
+            $this->con->setNumero(7, Util::getIdObjeto($bean->getpontuacaoesquema()));
             $this->con->setData(8, $bean->getdtbateria());
-            $this->con->setNumero(9, $bean->getpista());
-            $this->con->setNumero(10, $bean->getcategoria());
-            $this->con->setNumero(11, $bean->getbateriaprecedente());
+            $this->con->setNumero(9, Util::getIdObjeto($bean->getpista()));
+            $this->con->setNumero(10, Util::getIdObjeto($bean->getcategoria()));
+            $this->con->setNumero(11, Util::getIdObjeto($bean->getbateriaprecedente()));
             $this->con->setTexto(12, $bean->geturlresultados());
-            $this->con->setNumero(13, $bean->getid());
+            $this->con->setTexto(13, $bean->getgridfechado());
+            $this->con->setNumero(14, $bean->getid());
             $this->con->setsql($query);
             $this->con->execute();
             
@@ -138,6 +159,7 @@ class BateriaDAO extends AbstractDAO
         $this->bean->setnome($this->getValorArray($array, "nome", null));
         $this->bean->setdtbateria($this->getValorArray($array, "dtbateria", null));
         $this->bean->seturlresultados($this->getValorArray($array, "urlresultados", null));
+        $this->bean->setgridfechado($this->getValorArray($array, "gridfechado", null));
         
         $this->bean->setetapa($this->getValorArray($array, "idetapa", new EtapaDAO($this->con)));
         $this->bean->setpista($this->getValorArray($array, "idpista", new PistaDAO($this->con)));

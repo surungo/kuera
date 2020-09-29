@@ -29,7 +29,7 @@ $pilotoCampenonatoBean = new PilotoCampeonatoBean ();
 $pilotoCampeonatoBusiness = new PilotoCampeonatoBusiness ();
 $pilotoBusiness = new PilotoBusiness ();
 $pilotobean = new PilotoBean();
-$bateriaBusiness = new BateriaBusiness ();
+$bateriabusiness = new BateriaBusiness ();
 $posicaoBusiness = new PosicaoBusiness ();
 $pessoabusiness = new PessoaBusiness();
 
@@ -112,6 +112,11 @@ $umpresente=0;
 
 // PRIMEIRA ESCOLHA
 switch ($choice) {
+	case Choice::PBA_CHAMADA :
+		$verausentes='S';
+		$consulta_adicao = Choice::PBA_CHAMADA;
+		break;
+	
 	case Choice::PRESENTE_TODOS :
 		$collection = $pilotoBateriaBusiness->todosPresenteBateria($bean);
 		$mensagem = "Todos presentes.";
@@ -127,6 +132,21 @@ switch ($choice) {
 	case Choice::SORTEIO_PREGRID :
 		$collection = $pilotoBateriaBusiness->sorteioPreGrid($bean);
 		$mensagem = "Sorteio realizado.";
+		$choice = Choice::LISTAR;
+		break;
+		
+	case Choice::FECHARGRID :
+		$verausentes='N';
+		$selbateriabean->setgridfechado("S");
+		$bateriabusiness->salve($selbateriabean);
+		$mensagem = "Grid fechado.";
+		$choice = Choice::LISTAR;
+		break;
+	
+	case Choice::ABRIRGRID :
+		$selbateriabean->setgridfechado("N");
+		$bateriabusiness->salve($selbateriabean);
+		$mensagem = "Grid Aberto.";
 		$choice = Choice::LISTAR;
 		break;
 		
@@ -186,11 +206,12 @@ switch ($choice) {
         $nome = (isset ( $_POST ['nome'] )) ? $_POST ['nome'] : null ;
         $cpf = (isset ( $_POST ['cpf'] )) ? $_POST ['cpf'] : null ;
         $peso = (isset ( $_POST ['peso'] )) ? $_POST ['peso'] : null ;
-        
+        $obrigarcpf=false;
         if($cpf==null || $cpf==""){
-            $mensagem="<span class='vermelho'>Preencha CPF.</span>";
-            $campovazio=true;
+        	$mensagem="<span class='vermelho'>"+( ($obrigarcpf)?"Preencha":"Atenção" )+" CPF.</span>";
+            $campovazio=$obrigarcpf;
         }
+        
         if(!$campovazio &&($nome==null || $nome=="")){
             $mensagem="<span class='vermelho'>Preencha Nome.</span>";
             $campovazio=true;
@@ -206,25 +227,23 @@ switch ($choice) {
         $pilotobean->setpeso ( $peso );
         
         if(!$campovazio){
-            $pilotobean = $pilotoBusiness->findByCPF($cpf);
-            $pessoabean = $pessoabusiness->findByCPF($cpf);
+        	$pessoabean = $pessoabusiness->findByCPF($cpf);
+        	$pilotobean = $pilotoBusiness->findByCPF($cpf);
+          
+            $pessoabean->setnome ( $nome );
+            $pessoabean->setcpf ( $cpf );
+            $pessoabean->setpeso ( $peso );
+            $results = $pessoabusiness->salve($pessoabean);
+            $pessoabean = $results->getresposta();
+            
             $pilotobean->setpessoa($pessoabean);
-            if(Util::getIdObjeto($pessoabean) < 1 ){
-                $pessoabean->setnome ( $nome );
-                $pessoabean->setcpf ( $cpf );
-                $pessoabean->setpeso ( $peso );
-                $results = $pessoabusiness->salve($pessoabean);
-                $pessoabean = $results->getresposta();
-            }
-            if(Util::getIdObjeto($pilotobean) < 1 ){
-                $pilotobean = new PilotoBean();
-                $pilotobean->setnome ( $nome );
-                $pilotobean->setcpf ( $cpf );
-                $pilotobean->setpeso ( $peso );
-                $pilotobean->setpessoa ( $pessoabean );
-                $results = $pilotoBusiness->salve($pilotobean);
-                $pilotobean = $results->getresposta();
-            }
+            $pilotobean->setnome ( $nome );
+            $pilotobean->setcpf ( $cpf );
+            $pilotobean->setpeso ( $peso );
+            $pilotobean->setpessoa ( $pessoabean );
+            $results = $pilotoBusiness->salve($pilotobean);
+            $pilotobean = $results->getresposta();
+            
             $idobj=Util::getIdObjeto($pilotobean);
             $consulta_adicao = Choice::PBA_OCULTAR; 
             $choice = Choice::ADICIONAR;
@@ -623,6 +642,7 @@ switch ($choice) {
     	break;
     	
     case Choice::PBA_CHAMADA :
+    	$verausentes='S';
     	$consulta_adicao = Choice::PBA_CHAMADA;
     	break;
     	
@@ -639,16 +659,10 @@ switch ($choice) {
 if($selbateria!=null){
     $cltPilotosBateriaPresentes = $pilotoBateriaBusiness->findBateriaPresente( $bean );
     $umpresente = count($cltPilotosBateriaPresentes);
+    	
+   	$gridfechado = $selbateriabean->getgridfechado()=='S';
     
-    $count_sorteioposicaokart=0;
-    for($i = 0; $i < count ( $cltPilotosBateriaPresentes ); $i ++) {
-    	$pilotoBateriaBeanList = $cltPilotosBateriaPresentes[$i];
-    	if($pilotoBateriaBeanList->getposicaokart() > 0){
-    		$count_sorteioposicaokart++;
-    	}
-    }
 }
-
 
 switch ($consulta_adicao) {
     case Choice::PBA_OCULTAR :
@@ -695,4 +709,7 @@ $phpAtual = $beanPaginaAtual->geturl ();
 $sistemaCodigo = $sistemaBean->getcodigo ();
 $siteUrl = PATHAPPVER."/$sistemaCodigo/view/php/$phpAtual$urlC.php";
 include ($siteUrl);
+
+
+
 ?>

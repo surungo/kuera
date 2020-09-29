@@ -13,7 +13,12 @@ $( document ).ready(function(){
 	$("#etapa").change(function(){
 		$("#bateria").hide();
 	});
-	
+
+
+	$(".selectFocus").focus(function() {
+		   $(this).select();
+	});
+
 }); 
 </script>
 <style>
@@ -21,7 +26,16 @@ $( document ).ready(function(){
 		font-size: 20px;
 		padding: 3px 30px 3px 30px;
 	}
+	
+.fundinho{
+	border: 1px solid white;margin: 4px;padding: 4px; background-color: #ffffff33
+}
+
+.fundinhoescuro{
+	border: 1px solid white;margin: 4px;padding: 4px; background-color: #00000033
+}
 </style>
+
 <?php
 if ($adicionarPilotoCampeonato) {
 ?>
@@ -100,14 +114,14 @@ if ($adicionarPilotoCampeonato) {
 			</select></td>
 	</tr>
 </table>
+
 <?php } ?>
 <DIV><?php echo $mensagem;?></DIV>
 <?php
 if ($adicionarPilotoCampeonato) {
 	?>
 <div style="clear:both;height: 25px;">
-<span style="float: left; font-size: 18px;width:200px;
-  border: 1px solid white;margin: 4px;padding: 4px; background-color: #ffffff33">
+<span style="float: left; font-size: 18px;width:200px;" class="fundinho">
   <?php echo $step;?></span>
 
 <input style="float: right;" id='btn_submenu' name='btn_submenu' value='Opções' title='Opções' 
@@ -143,16 +157,23 @@ if ($adicionarPilotoCampeonato) {
 </style>
 <INPUT id="consulta_adicao" name="consulta_adicao" type="hidden" value="<?php echo $consulta_adicao;?>">
 
-<small>
-<div class="smalltotal">Mostrar ausentes:
+
+<div class="smalltotal">
+	<small><small>Mostrar ausentes:
 	<input type="radio" id="verausentes" name="verausentes" class="btn_select"
 		<?php echo $button->atributos ( $idurl, $idobj, Choice::LISTAR, $target, $choice ); ?>
 		<?php echo ("S"==$verausentes)?" checked ":" ";?> value="S">Sim&nbsp;&nbsp;&nbsp;
 	<input type="radio" id="verausentes" name="verausentes" class="btn_select"
 		<?php echo $button->atributos ( $idurl, $idobj, Choice::LISTAR, $target, $choice ); ?>
 		<?php echo ("N"==$verausentes)?" checked ":" ";?> value="N">N&atilde;o
+	<?php if($umpresente > 0){?>		
+	<span  class="<?php echo ($gridfechado)?"fundinhoescuro vermelho":" fundinho azul"?>" style="background-color:; float: right;padding:5px;">
+	Grid esta <?php echo ($gridfechado)?"Fechado":"Aberto"?>
+	<span>	
+	<?php }?>
+	</small></small>	
 </div>
-</small>
+
 
 <div id="subMenu" >
 <div id="adicionar" class="options1">
@@ -180,11 +201,7 @@ if ($adicionarPilotoCampeonato) {
 ?>
 	<div class="options1">
 		<div class="subgrp">Opções de Processos</div>
-		<?php
-			if($count_sorteioposicaokart<1){
-				echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEPREGRID],$target,Choice::PBA_AJUSTEPREGRID, "subMenuItem");
-			}
-		?>
+		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEPREGRID],$target,Choice::PBA_AJUSTEPREGRID, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_CHAMADA],$target,Choice::PBA_CHAMADA, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS],$target,Choice::PBA_AJUSTEDEPESOS, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEKART],$target,Choice::PBA_AJUSTEDEKART, "subMenuItem"); ?>
@@ -204,9 +221,14 @@ if ($adicionarPilotoCampeonato) {
 		echo $button->btCustomCss($idurl,$idobj,$listaOpcoesMostrar[Choice::PBA_OCULTAR],$target,Choice::PBA_OCULTAR,"subMenuItem vermelho"); 
 	}
 	
-	
 	if($consulta_adicao==Choice::PBA_AJUSTEPREGRID){
 		echo $button->btCustomCss($idurl,$idobj,"Sorteio grid",$target,Choice::SORTEIO_PREGRID,"certeza subMenuItem");
+		
+		if($gridfechado){
+			echo $button->btCustomCss($idurl,$idobj, "Abrir grid",$target,Choice::ABRIRGRID, "certeza subMenuItem");
+		}else{
+			echo $button->btCustomCss($idurl,$idobj, "Fechar grid",$target,Choice::FECHARGRID, "certeza subMenuItem");
+		}
 	}
 	
 	if($consulta_adicao==Choice::PBA_CHAMADA){

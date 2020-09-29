@@ -51,6 +51,7 @@ $bean->setnome ( (isset ( $_POST ['nome'] )) ? $_POST ['nome'] : null );
 $bean->setdtbateria ( (isset ( $_POST ['dtbateria'] ) && $_POST ['dtbateria'] != "") ? Util::strtotimestamp ( $_POST ['dtbateria'] ) : "" );
 
 $bean->seturlresultados ( (isset ( $_POST ['urlresultados'] )) ? $_POST ['urlresultados'] : null );
+$bean->setgridfechado ( (isset ( $_POST ['gridfechado'] )) ? $_POST ['gridfechado'] : 'N' );
 $bean->setetapa ( (isset ( $_POST ['etapa'] )) ? $_POST ['etapa'] : null );
 $bean->setpista ( (isset ( $_POST ['pista'] )) ? $_POST ['pista'] : null );
 $bean->setcategoria ( (isset ( $_POST ['categoria'] )) ? $_POST ['categoria'] : null );

@@ -165,8 +165,8 @@ class PilotoBusiness {
 	}
 	public function findByCPF($cpf) {
 		if ($cpf == 0 || $cpf == null || $cpf == '')
-			return null;
-		$results = null;
+			return new PilotoBean();
+		$results = new PilotoBean();
 		$con = null;
 		$dsm = new DataSourceManager ();
 		try {

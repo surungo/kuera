@@ -90,7 +90,7 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 7, $bean->getpeso () );
 			$this->con->setData (	 8, $bean->getdtnascimento () );
 			$this->con->setTexto (	 9, $bean->getemail () );
-			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	10, $bean->getcpf () );
 			$this->con->setTexto ( 	11, $bean->gettelefone () );
 			$this->con->setTexto ( 	12, $bean->getrg () );
 			$this->con->setTexto ( 	13, $bean->getendereco () );
@@ -172,7 +172,7 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 7, $bean->getpesoextra () );
 			$this->con->setData (	 8, $bean->getdtnascimento () );
 			$this->con->setTexto (	 9, $bean->getemail () );
-			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	10, $bean->getcpf () );
 			$this->con->setTexto ( 	11, $bean->gettelefone () );
 			$this->con->setTexto ( 	12, $bean->getrg () );
 			$this->con->setTexto ( 	13, $bean->getendereco () );
@@ -281,7 +281,7 @@ class PessoaDAO extends AbstractDAO {
 			$this->con->setTexto (	 7, $bean->getpesoextra () );
 			$this->con->setData (	 8, $bean->getdtnascimento () );
 			$this->con->setTexto (	 9, $bean->getemail () );
-			$this->con->setTexto ( 	10, $bean->getcpfmascara () );
+			$this->con->setTexto ( 	10, $bean->getcpf () );
 			$this->con->setTexto ( 	11, $bean->gettelefone () );
 			$this->con->setTexto ( 	12, $bean->getrg () );
 			$this->con->setTexto ( 	13, $bean->getendereco () );

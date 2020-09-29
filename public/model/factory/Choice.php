@@ -45,7 +45,10 @@ class Choice {
 	const PBA_CHAMADA = 407;
 	const PBA_AJUSTEPREGRID = 408;
 	const PBA_AJUSTEDEPOSICAO = 409;
+
 	
+	const FECHARGRID = 501;
+	const ABRIRGRID = 502;
 	const SORTEIO_PREGRID = 503;
 	const SORTEIO_GRID = 504;
 	const SORTEIO_KART = 505;

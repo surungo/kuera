@@ -138,7 +138,9 @@ class PessoaBusiness {
 		return $results;
 	}
 	public function findByCPF($cpf) {
-		$results = null;
+		if ($cpf == 0 || $cpf == null || $cpf == '')
+			return new PessoaBean();
+		$results = new PessoaBean();
 		$con = null;
 		$dsm = new DataSourceManager ();
 		try {
