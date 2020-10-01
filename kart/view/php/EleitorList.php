@@ -42,8 +42,8 @@ Campeonato:
 for($i = 0; $i < count ( $collection ); $i ++) {
 		$eleitorBeanItem = new EleitorBean();
 		$eleitorBeanItem = $collection [$i];
-		$pessoaBeanItem = new PessoaBean();
-		$pessoaBeanItem = $eleitorBeanItem->getpessoa();
+		$painelBeanItem = new PessoaBean();
+		$painelBeanItem = $eleitorBeanItem->getpessoa();
 		$corlinha = ($i % 2 == 0) ? "par" : "impar";
 		?>
 	<tr class="<?php echo $corlinha;?>">
@@ -59,9 +59,9 @@ for($i = 0; $i < count ( $collection ); $i ++) {
 		<?php
 		}
 		?>    
-		<td><nobr><?php echo $pessoaBeanItem->getcpf();?></nobr></td>
+		<td><nobr><?php echo $painelBeanItem->getcpf();?></nobr></td>
 			<td>
-			<?php echo $pessoaBeanItem->getnome();?>
+			<?php echo $painelBeanItem->getnome();?>
 		</td>
 		<td>
 			<?php 

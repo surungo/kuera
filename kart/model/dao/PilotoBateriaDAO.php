@@ -1083,7 +1083,32 @@ $this->getdbprexis() . $etapaDAO->tabelaAlias() . " " . // sql
             
             $pontuacaoDAO = new PontuacaoDAO($this->con);
             
-            $query = " SELECT " . $this->camposSelect() . ", " . $campeonatoDAO->camposSelect() . ", " . $posicaoDAO->camposSelect() . ", " . $etapaDAO->camposSelect() . ", " . $pilotoDAO->camposSelect() . ", " . $pontuacaoDAO->camposSelect() . ", " . $bateriaDAO->camposSelect() . " FROM " . $this->dbprexis . $this->tabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $pilotoDAO->tabelaAlias() . " ON " . $this->getalias() . ".idpiloto =  " . $pilotoDAO->idtabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $bateriaDAO->tabelaAlias() . " ON  " . $this->getalias() . ".idbateria =  " . $bateriaDAO->idtabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $etapaDAO->tabelaAlias() . " ON  " . $bateriaDAO->getalias() . ".idetapa =  " . $etapaDAO->idtabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $campeonatoDAO->tabelaAlias() . " ON  " . $etapaDAO->getalias() . ".idcampeonato =  " . $campeonatoDAO->idtabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $posicaoDAO->tabelaAlias() . " ON  " . $this->getalias() . ".idposicao =  " . $posicaoDAO->idtabelaAlias() . " LEFT JOIN " . $this->getdbprexis() . $pontuacaoDAO->tabelaAlias() . " ON  " . $this->getalias() . ".idposicao =  " . $pontuacaoDAO->getalias() . ".idposicao " . " and " . $bateriaDAO->getalias() . ".idpontuacaoesquema =  " . $pontuacaoDAO->getalias() . ".idpontuacaoesquema " . " where " . $campeonatoDAO->idtabelaAlias() . " = IFNULL( ? ," . $campeonatoDAO->idtabelaAlias() . " ) " . " and " . $etapaDAO->idtabelaAlias() . " =   IFNULL( ? ," . $etapaDAO->idtabelaAlias() . " )  " . " and " . $bateriaDAO->idtabelaAlias() . " =   IFNULL( ? ," . $bateriaDAO->idtabelaAlias() . " )  " . " ORDER BY " . $this->ordernome . " desc";
+            $query = " SELECT " . //sql
+              $this->camposSelect() . ", " . //sql
+              $campeonatoDAO->camposSelect() . ", " . //sql
+              $posicaoDAO->camposSelect() . ", " . //sql
+              $etapaDAO->camposSelect() . ", " . //sql
+              $pilotoDAO->camposSelect() . ", " . //sql
+              $pontuacaoDAO->camposSelect() . ", " . //sql
+              $bateriaDAO->camposSelect() . //sql
+              " FROM " . $this->dbprexis . $this->tabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $pilotoDAO->tabelaAlias() . //sql
+              " ON " . $this->getalias() . ".idpiloto =  " . $pilotoDAO->idtabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $bateriaDAO->tabelaAlias() . //sql
+              " ON  " . $this->getalias() . ".idbateria =  " . $bateriaDAO->idtabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $etapaDAO->tabelaAlias() . //sql
+              " ON  " . $bateriaDAO->getalias() . ".idetapa =  " . $etapaDAO->idtabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $campeonatoDAO->tabelaAlias() . //sql
+              " ON  " . $etapaDAO->getalias() . ".idcampeonato =  " . $campeonatoDAO->idtabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $posicaoDAO->tabelaAlias() . //sql
+              " ON  " . $this->getalias() . ".idposicao =  " . $posicaoDAO->idtabelaAlias() . //sql
+              " LEFT JOIN " . $this->getdbprexis() . $pontuacaoDAO->tabelaAlias() . //sql
+              " ON  " . $this->getalias() . ".idposicao =  " . $pontuacaoDAO->getalias() . ".idposicao " . //sql
+              " and " . $bateriaDAO->getalias() . ".idpontuacaoesquema =  " . $pontuacaoDAO->getalias() . ".idpontuacaoesquema " . //sql
+              " where " . $campeonatoDAO->idtabelaAlias() . " = IFNULL( ? ," . $campeonatoDAO->idtabelaAlias() . " ) " . //sql
+              " and " . $etapaDAO->idtabelaAlias() . " =   IFNULL( ? ," . $etapaDAO->idtabelaAlias() . " )  " . //sql
+              " and " . $bateriaDAO->idtabelaAlias() . " =   IFNULL( ? ," . $bateriaDAO->idtabelaAlias() . " )  " . //sql
+              " ORDER BY " . $this->ordernome . " desc";
             
             $this->con->setNumero(1, $idcampeonato);
             $this->con->setNumero(2, $idetapa);

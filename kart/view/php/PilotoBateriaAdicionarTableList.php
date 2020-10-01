@@ -9,6 +9,14 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 {
 	font-weight: bolder;
 }
+
+.listTable_pilotoBateria tr.odd {
+	background-color: #f6f6e0;
+}
+
+.listTable_pilotoBateria tr.even {
+	background-color: #e0f6f6;
+}
 </style>
 	<table class="listTable_pilotoBateria" id="tb001" cellspacing="0" cellpadding="0" border="0">
 		<thead>
@@ -251,10 +259,23 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 		}	
 		
 		
+		//  MOSTRA PREGRID
+		$arrayPresenca = array(
+		$arrayColunas["pregrid"]
+		);
+		if((!$umpresente || $consulta_adicao==Choice::PBA_AJUSTEPREGRID) && $selbateriabean->getgridfechado()=='N'){
+			$arrayOcultarColunas = array_diff($arrayOcultarColunas,  $arrayPresenca) ;
+			$arrayMostrarColunas = array_merge($arrayMostrarColunas, $arrayPresenca) ;
+		}else{
+			$arrayOcultarColunas = array_merge($arrayOcultarColunas,$arrayPresenca)	;
+			$arrayMostrarColunas = array_diff($arrayMostrarColunas,	$arrayPresenca) ;
+			
+		}
+		
+		//  MOSTRA GRID
 		$arrayPresenca = array(
 				$arrayColunas["grid"]
 		);
-		//  MOSTRA GRID
 		if($umpresente){
 			$arrayOcultarColunas = array_diff($arrayOcultarColunas,  $arrayPresenca) ;
 			$arrayMostrarColunas = array_merge($arrayMostrarColunas, $arrayPresenca) ;
@@ -291,12 +312,12 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			
 		}
 		
-		// AJUSTE DE KART
+		// AJUSTE DE POS KART E NR KART
 		$arrayKart = array(
-		$arrayColunas["poskart"]
-		//,$arrayColunas["nrkart"]
+			$arrayColunas["poskart"]
+			,$arrayColunas["nrkart"]
 		);
-		if($consulta_adicao==Choice::PBA_AJUSTEDEKART){
+		if($maxposicaokart>0){ //$consulta_adicao==Choice::PBA_AJUSTEDEKART){
 			$arrayOcultarColunas = array_diff($arrayOcultarColunas,  $arrayKart)	;
 			$arrayMostrarColunas = array_merge($arrayMostrarColunas, $arrayKart) ;
 		}else{
@@ -304,7 +325,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 			$arrayMostrarColunas = array_diff($arrayMostrarColunas,	$arrayKart) ;
 			
 		}
-		
+			
 		// AJUSTE DE POSIÇÃO
 		$arrayPosicao = array(
 		$arrayColunas["posicao"]

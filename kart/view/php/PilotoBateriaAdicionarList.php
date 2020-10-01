@@ -176,6 +176,7 @@ if ($adicionarPilotoCampeonato) {
 
 
 <div id="subMenu" >
+<?php if(!$gridfechado){?>
 <div id="adicionar" class="options1">
 <div class="subgrp">Opções de cadastro</div>
 <?php $textoAcao = "Adicionar "; ?>
@@ -198,12 +199,18 @@ if ($adicionarPilotoCampeonato) {
 	</div>
 <?php 
 	}
+}
 ?>
 	<div class="options1">
 		<div class="subgrp">Opções de Processos</div>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEPREGRID],$target,Choice::PBA_AJUSTEPREGRID, "subMenuItem"); ?>
-		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_CHAMADA],$target,Choice::PBA_CHAMADA, "subMenuItem"); ?>
-		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS],$target,Choice::PBA_AJUSTEDEPESOS, "subMenuItem"); ?>
+		<?php
+		if(!$gridfechado){
+			echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_CHAMADA],$target,Choice::PBA_CHAMADA, "subMenuItem"); 
+		?>
+		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPESOS],$target,Choice::PBA_AJUSTEDEPESOS, "subMenuItem"); 
+		}
+		?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEKART],$target,Choice::PBA_AJUSTEDEKART, "subMenuItem"); ?>
 		<?php echo $button->btCustomCss($idurl,$idobj, $listaOpcoesMostrar[Choice::PBA_AJUSTEDEPOSICAO],$target,Choice::PBA_AJUSTEDEPOSICAO, "subMenuItem"); ?>
 		
@@ -222,26 +229,27 @@ if ($adicionarPilotoCampeonato) {
 	}
 	
 	if($consulta_adicao==Choice::PBA_AJUSTEPREGRID){
-		echo $button->btCustomCss($idurl,$idobj,"Sorteio grid",$target,Choice::SORTEIO_PREGRID,"certeza subMenuItem");
+		
 		
 		if($gridfechado){
 			echo $button->btCustomCss($idurl,$idobj, "Abrir grid",$target,Choice::ABRIRGRID, "certeza subMenuItem");
 		}else{
+			echo $button->btCustomCss($idurl,$idobj,"Sorteio grid",$target,Choice::SORTEIO_PREGRID,"certeza subMenuItem");
 			echo $button->btCustomCss($idurl,$idobj, "Fechar grid",$target,Choice::FECHARGRID, "certeza subMenuItem");
 		}
 	}
 	
-	if($consulta_adicao==Choice::PBA_CHAMADA){
+	if($consulta_adicao==Choice::PBA_CHAMADA && !$gridfechado ){
 		echo $button->btCustomCss($idurl,$idobj,"Todos presentes",$target,Choice::PRESENTE_TODOS,"certeza subMenuItem");
 		echo $button->btCustomCss($idurl,$idobj,"Todos ausentes",$target,Choice::AUSENTE_TODOS,"certeza subMenuItem");
 	}		
 	
-	if($consulta_adicao==Choice::PBA_AJUSTEDEKART){
+	if($consulta_adicao==Choice::PBA_AJUSTEDEKART && !$gridfechado){
 		echo $button->btCustomCss($idurl,$idobj,"Sorteio posicao dos karts",$target,Choice::SORTEIO_KART,"certeza subMenuItem");
 		echo $button->btCustomCss($idurl,$idobj,"Limpar posicao dos karts",$target,Choice::LIMPAR_SORTEIO_KART,"certeza subMenuItem");
 	}
 	
-	if($consulta_adicao==Choice::PBA_AJUSTEDEPOSICAO){
+	if($consulta_adicao==Choice::PBA_AJUSTEDEPOSICAO && !$gridfechado){
 		echo $button->btCustomCss($idurl,$idobj,"Limpar posicoes de chegada",$target,Choice::LIMPAR_POSICAO,"certeza subMenuItem");
 	}
 

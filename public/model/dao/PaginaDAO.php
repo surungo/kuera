@@ -73,9 +73,21 @@ class PaginaDAO extends AbstractDAO {
 		return $clt;
 	}
 	public function verificaUsuarioPagina($idusuario, $idpagina) {
-		$results = new PaginaBean ();
+		$results = null;
 		try {
-			$query = " SELECT " . $this->camposSelect () . " , " . "   pp.nome pnome, " . "   u.usuario usuario " . " FROM " . DBPREFIXPUB . $this->tabelaAlias () . "   inner join " . DBPREFIXPUB . "pagina_perfil ppp on " . "     ppp.idpagina = " . $this->alias . ".idpagina " . "   inner join " . DBPREFIXPUB . "perfil pp on " . "     ppp.idperfil = pp.idperfil " . "   inner join " . DBPREFIXPUB . "usuario u on " . "     u.idperfil = pp.idperfil " . " where u.idusuario =  ? " . "   and " . $this->idtabelaAlias () . " = ? " . " 	or " . $this->alias . ".url = 'Logoff' " . " ORDER BY " . $this->ordernome . " DESC ";
+			$query = " SELECT " . $this->camposSelect () . " , " . //sql
+					"   pp.nome pnome, " . //sql
+					"   u.usuario usuario " . //sql
+					" FROM " . DBPREFIXPUB . $this->tabelaAlias () . //sql
+					"   inner join " . DBPREFIXPUB . "pagina_perfil ppp " . //sql
+					" 		on ppp.idpagina = " . $this->alias . ".idpagina " .//sql
+					" 	inner join " . DBPREFIXPUB . "perfil pp " .//sql
+					" 		on ppp.idperfil = pp.idperfil " .
+					"   inner join " . DBPREFIXPUB . "usuario u " . //sql
+					"		on u.idperfil = pp.idperfil " . //sql
+					" where u.idusuario =  ? " .//sql
+					"   and " . $this->idtabelaAlias () . " = ? " .//sql
+					" ORDER BY " . $this->ordernome . " DESC ";
 			$this->con->setNumero ( 1, $idusuario );
 			$this->con->setNumero ( 2, $idpagina );
 			$this->con->setsql ( $query );

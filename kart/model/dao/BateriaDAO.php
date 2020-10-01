@@ -186,6 +186,7 @@ class BateriaDAO extends AbstractDAO
         // echo $query;
         return $query;
     }
+    
 
     public function findBateriaByEtapa($bean)
     {
@@ -472,19 +473,47 @@ $etapaDAO->camposSelect() . "  "; // sql
 
     public function findAllAtivo()
     {
-        $this->clt = array();
-        try {
-            $query = " SELECT " . $this->camposSelect() . " FROM " . $this->dbprexis . $this->tabelaAlias() . " " . " where " . $this->whereAtivo() . " ORDER BY " . $this->ordernome;
-            $this->con->setsql($query);
-            Util::echobr(0, "BateriaDAO findAllAtivo", $this->con->getsql());
-            $result = $this->con->execute();
-            while ($array = $result->fetch_assoc()) {
-                $this->clt[] = $this->getBeans($array);
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-        return $this->clt;
+    	$this->clt = array();
+    	$categoriaDAO = new CategoriaDAO($this->con);
+    	$campeonatoDAO = new CampeonatoDAO($this->con);
+    	$etapaDAO = new EtapaDAO($this->con);
+    	$pistaDAO = new PistaDAO($this->con);
+    	$pontuacaoesquemaDAO = new PontuacaoEsquemaDAO($this->con);
+    	
+    	try {
+    		$query = " SELECT " . //sql 
+      		$this->camposSelect() . ", " . //sql
+      		$pistaDAO->camposSelect() . ", " . //sql
+      		$etapaDAO->camposSelect() . ", " . //sql
+      		$campeonatoDAO->camposSelect() . ", " . //sql
+      		$categoriaDAO->camposSelect() . ", " . //sql
+      		$pontuacaoesquemaDAO->camposSelect() . " " . //sql
+      		" FROM " . $this->getdbprexis() . $this->tabelaAlias() . //sql
+      		" left outer join " . $this->getdbprexis() . $etapaDAO->tabelaAlias() . //sql
+      		" on " . $this->getalias() . ".idetapa =  " . $etapaDAO->idtabelaAlias() . //sql
+      		" left outer join " . $this->getdbprexis() . $pistaDAO->tabelaAlias() . //sql
+      		" on " . $this->getalias() . ".idpista =  " . $pistaDAO->idtabelaAlias() . //sql
+      		" left outer join " . $this->getdbprexis() . $campeonatoDAO->tabelaAlias() . //sql
+      		" on " . $etapaDAO->getalias() . ".idcampeonato =  " . $campeonatoDAO->idtabelaAlias() . //sql
+      		" left outer join " . $this->getdbprexis() . $pontuacaoesquemaDAO->tabelaAlias() . //sql
+      		" on " . $this->getalias() . ".idpontuacaoesquema =  " . $pontuacaoesquemaDAO->idtabelaAlias() . //sql
+      		" left outer join " . $this->getdbprexis() . $categoriaDAO->tabelaAlias() . " on " . $this->getalias() . ".idcategoria =  " . $categoriaDAO->idtabelaAlias() .
+      		" where " .
+    		" " . $this->whereAtivo().
+    		" and " . $etapaDAO->whereAtivo() .
+    		" and " . $campeonatoDAO->whereAtivo() .
+    		" ORDER BY " . $etapaDAO->getordernome() . ", " . $this->getordernome();
+    		$this->con->setsql($query);
+    		$result = $this->con->execute();
+    		
+    		while ($array = $result->fetch_assoc()) {
+    			$this->clt[] = $this->getBeans($array);
+    		}
+    	} catch (Exception $e) {
+    		throw new Exception($e->getMessage());
+    	}
+    	
+    	return $this->clt;
     }
 
     public function findAllSort($bean)

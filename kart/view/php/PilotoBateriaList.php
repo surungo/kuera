@@ -93,7 +93,7 @@ include_once PATHPUBPHPINCLUDE . '/headerList.php';
 	
 for($i = 0; $i < count ( $collection ); $i ++) {
 		$pilotoBateriaBeanList = $collection [$i];
-		$pilotoBeanList = new PilotoBateriaBean();
+		$pilotoBeanList = new PilotoBean();
 		$pilotoBeanList = $pilotoBateriaBeanList->getpiloto ();
 		$bateriaBeanList = $pilotoBateriaBeanList->getbateria ();
 		$etapaBeanList = $bateriaBeanList->getetapa ();

@@ -206,6 +206,31 @@ class BateriaBusiness {
 		}
 		return $results;
 	}
+	public function findAllAtivo() {
+		$results = Array ();
+		$con = null;
+		$dsm = new DataSourceManager ();
+		try {
+			$con = $dsm->getConn (get_class($this));
+			$objDAO = new BateriaDAO ( $con );
+			$results = $objDAO->findAllAtivo ();
+		} catch ( Exception $ex ) {
+			// rollback transaction
+			$con->rollback ();
+			$dsm->close ( $con );
+			throw new Exception ( $ex->getMessage () );
+		}
+		try {
+			if ($con != null) {
+				// commit transaction
+				$con->commit ();
+				$dsm->close ( $con );
+			}
+		} catch ( Exception $ex ) {
+			throw new Exception ( $ex->getMessage () );
+		}
+		return $results;
+	}
 	public function findAllSort($bean) {
 		$results = Array ();
 		$con = null;

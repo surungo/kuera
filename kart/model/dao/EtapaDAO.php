@@ -184,9 +184,18 @@ class EtapaDAO extends AbstractDAO {
 		return $retorno;
 	}
 	public function findAll() {
+		$this->clt = array ();
 		$campeonatoDAO = new CampeonatoDAO ( $this->con );
 		try {
-			$query = " SELECT " . $this->camposSelect () . " FROM " . $this->dbprexis . $campeonatoDAO->tabelaAlias () . ", " . $this->dbprexis . $this->tabelaAlias () . " where " . $this->getalias () . ".idcampeonato = " . $campeonatoDAO->idtabelaAlias () . " ORDER BY " . $this->ordernome;
+			$query = " SELECT " .  //sql
+			$this->camposSelect () . ", ".//sql
+			$campeonatoDAO->camposSelect () . //sql
+			" FROM " . $this->dbprexis . $campeonatoDAO->tabelaAlias () . ", " .  //sql
+			$this->dbprexis . $this->tabelaAlias () .  //sql
+			" where " .  //sql
+			$campeonatoDAO->
+			$this->getalias () . ".idcampeonato = " . $campeonatoDAO->idtabelaAlias () .  //sql
+			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			$result = $this->con->execute ();
 			
@@ -201,8 +210,23 @@ class EtapaDAO extends AbstractDAO {
 	}
 	public function findAllAtivo() {
 		$this->clt = array ();
+		$campeonatoDAO = new CampeonatoDAO ( $this->con );
 		try {
-			$query = " SELECT " . $this->camposSelect () . " FROM " . $this->dbprexis . $this->tabelaAlias () . " " . " where " . $this->whereAtivo () . " ORDER BY " . $this->ordernome;
+			$query = 
+			" SELECT " .  //sql
+			$this->camposSelect () . ", ".//sql
+			$campeonatoDAO->camposSelect () . //sql
+			" FROM " . $this->dbprexis . $campeonatoDAO->tabelaAlias () . ", " .  //sql
+			$this->dbprexis . $this->tabelaAlias () .  //sql
+			" where " .  //sql
+			$this->whereAtivo () . //sql
+			" and " . $campeonatoDAO->whereAtivo () . //sql
+			" and " . $this->getalias () . ".idcampeonato = " . $campeonatoDAO->idtabelaAlias () .  //sql
+			" ORDER BY " . $this->ordernome;
+			
+			
+			" where " . $this->whereAtivo () . 
+			" ORDER BY " . $this->ordernome;
 			$this->con->setsql ( $query );
 			Util::echobr ( 0, "EtapaDAO findAllAtivo", $this->con->getsql () );
 			$result = $this->con->execute ();

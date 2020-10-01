@@ -12,9 +12,9 @@ include_once PATHAPP . '/mvc/kart/model/bean/CampeonatoBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/CampeonatoBusiness.php';
 include_once PATHAPP . '/mvc/kart/model/bean/EtapaBean.php';
 include_once PATHAPP . '/mvc/kart/model/business/EtapaBusiness.php';
-
+require_once PATHPUBFAC . '/ButtonClass.php';
 $dbg = 0;
-
+$button = new ButtonClass ();
 $bean = new PilotoBateriaBean ();
 $pilotoBateriaBusiness = new PilotoBateriaBusiness ();
 $pilotoBusiness = new PilotoBusiness ();
@@ -107,7 +107,7 @@ switch ($choice) {
 		// opcional server como padrao desta pagina
 		$clsort = (isset ( $_POST ['clsort_' . $idurl] )) ? $_POST ['clsort_' . $idurl] : '';
 		$bean->setsort ( $clsort );
-		$collection = $pilotoBateriaBusiness->findBateria ( $bean);
+		$collection = $pilotoBateriaBusiness->findBateria (  $bean );
 		// $collection = $pilotoBateriaBusiness->findAll();
 		$urlC = LISTAR;
 		break;

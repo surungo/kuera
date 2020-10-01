@@ -1,3 +1,7 @@
+<span style="font-size: 6pt;background-color: #ffffff55;">
+BUILDNUMBER:
+<?php include PATHAPP."/release.id";?>
+</span>
 <?php
 require_once (PATHPUBBEAN . '/PaginaBean.php');
 require_once (PATHPUBFAC . '/ButtonClass.php');

@@ -1014,10 +1014,13 @@ class PilotoBateriaBusiness {
 	public function presente($bean) {
 	    $dbg = 0;
 	    $bean = $this->findById($bean);
-	    $bean->setgridlargada($bean->getpregridlargada());
+	    $gridlargada = ($bean->getbateria()->getgridfechado()=='S')?999:$bean->getpregridlargada();
+	    $bean->setgridlargada($gridlargada);
 	    $bean->setpresente ("S");
 	    $maxposicaokart = $this->maxposicaokart($bean);
-	    $bean->setposicaokart($maxposicaokart+1);
+	    if($maxposicaokart>0){
+	    	$bean->setposicaokart($maxposicaokart+1);
+	    }
 	    $retorno = $this->salve($bean);
 	    $this->ajustegridlargada($bean);
 	    return $retorno;
@@ -1243,7 +1246,7 @@ class PilotoBateriaBusiness {
 	}
 	
 	function ajustegridlargada($beanpilotobateria){
-		$beanpilotobateria->setsort("pilotobateria.idpregridlargada asc, pilotobateria.dtmodificacao desc ");
+		$beanpilotobateria->setsort("pilotobateria.idgridlargada asc, pilotobateria.dtmodificacao desc ");
 		$cltpilotobateria = $this->findBateriaPresente($beanpilotobateria);
 		
 		$posgridlargada=1;

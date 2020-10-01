@@ -23,8 +23,8 @@ include_once PATHPUBPHPINCLUDE . '/headerList.php';
 	<?php
 	
 for($i = 0; $i < count ( $collection ); $i ++) {
-		$pessoaBeanItem = new PessoaBean ();
-		$pessoaBeanItem = $collection [$i];
+		$painelBeanItem = new PessoaBean ();
+		$painelBeanItem = $collection [$i];
 		$corlinha = ($i % 2 == 0) ? "par" : "impar";
 		?>
 	<tr class="<?php echo $corlinha;?>">
@@ -33,22 +33,22 @@ for($i = 0; $i < count ( $collection ); $i ++) {
 			?> 
 		<td>
 		<?php
-			echo $button->btEditar ( $pessoaBeanItem->getid (), $idurl );
-			echo $button->btExcluirImagem ( $pessoaBeanItem->getid (), $idurl );
+			echo $button->btEditar ( $painelBeanItem->getid (), $idurl );
+			echo $button->btExcluirImagem ( $painelBeanItem->getid (), $idurl );
 			?>
 		</td>     
 		<?php
 		}
 		?>    
-		<td><nobr><?php echo $pessoaBeanItem->getcpf();?></nobr></td>
+		<td><nobr><?php echo $painelBeanItem->getcpf();?></nobr></td>
 			<td>
-			<?php echo $pessoaBeanItem->getnome();?>
+			<?php echo $painelBeanItem->getnome();?>
 		</td>
 			<td>
-			<?php echo $pessoaBeanItem->getpeso();?>
+			<?php echo $painelBeanItem->getpeso();?>
 		</td>
 			<td>
-			<?php echo $pessoaBeanItem->getidade();?>
+			<?php echo $painelBeanItem->getidade();?>
 		</td>
 	</tr>
 	<?php }?>
