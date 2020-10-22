@@ -103,7 +103,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 					<input id="peso_<?php echo $idpilotobateria;?>" name="peso_<?php echo $idpilotobateria;?>"
 					 type="text" class="btn_change selectFocus"
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESO, $target, Choice::ATUALIZAR_PESO );?>
-					size="1"
+					size="4"
 					value="<?php echo  $pilotoBateriaBeanList->getpeso();?>"/>
 					<img id="timer_peso_<?php echo $idpilotobateria;?>" style="display: none;" src='<?php echo URLAPPVER;?>/public/view/images/5sec.gif?peso<?php echo $idpilotobateria;?>' />
 					
@@ -115,7 +115,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 					<input id="pesoextra_<?php echo $idpilotobateria;?>" name="pesoextra_<?php echo $idpilotobateria;?>"
 					 type="text" class="btn_change selectFocus"
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_PESOEXTRA, $target, Choice::ATUALIZAR_PESOEXTRA );?>
-					size="1"
+					size="4"
 					value="<?php echo  $pilotoBateriaBeanList->getpesoextra();?>"/>
 					<img id="timer_pesoextra_<?php echo $idpilotobateria;?>" style="display: none;" src='<?php echo URLAPPVER;?>/public/view/images/5sec.gif?pesoextra<?php echo $idpilotobateria;?>' />
 				</span>
@@ -152,7 +152,7 @@ Piloto da bateria <?php echo $seletapabean->getsigla()." - ".Util::getNomeObjeto
 					<input id="kart_<?php echo $idpilotobateria;?>" name="kart_<?php echo $idpilotobateria;?>" 
 					 type="text" class="btn_change selectFocus" 
 					 <?php echo $button->atributos( $idurl, $idpilotobateria, Choice::ATUALIZAR_KART, $target, Choice::ATUALIZAR_KART );?>
-					size="1"
+					size="3"
 					value="<?php echo  $kart;?>"/>
 					<img id="timer_kart_<?php echo $idpilotobateria;?>" style="display: none;" 
 					src='<?php echo URLAPPVER;?>/public/view/images/5sec.gif?peso<?php echo $idpilotobateria;?>' />
